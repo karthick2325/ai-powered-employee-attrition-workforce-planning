@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Top 6 KPI Cards -->
+<div class="kpi-grid kpi-grid-6">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Current Headcount</div>
+            <div class="kpi-value" id="kpiWfCurrent">-</div>
+            <div class="kpi-subtitle">Total active employees</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-red">
+            <i class="bi bi-box-arrow-right"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Employees Serving Notice</div>
+            <div class="kpi-value" id="kpiWfNotice">-</div>
+            <div class="kpi-subtitle">Known exits</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-person-exclamation"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Expected Additional Exits</div>
+            <div class="kpi-value" id="kpiWfPredicted">-</div>
+            <div class="kpi-subtitle">From ML prediction</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-bullseye"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Target Headcount</div>
+            <div class="kpi-value" id="kpiWfTarget">-</div>
+            <div class="kpi-subtitle">As per workforce plan</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Open Requisition Positions</div>
+            <div class="kpi-value" id="kpiWfOpenReqs">-</div>
+            <div class="kpi-subtitle">Vacancy records</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-cyan">
+            <i class="bi bi-graph-down-arrow"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Remaining Staffing Gap</div>
+            <div class="kpi-value" id="kpiWfGap">-</div>
+            <div class="kpi-subtitle">After open positions</div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 1: Headcount Analysis, Expected Exits Donut, Monthly Stacked Bar -->
+<div class="dashboard-grid-3">
+    <!-- Headcount Analysis by Department -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span class="card-title">Headcount Analysis by Department</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfHeadcountChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expected Exits (Next 6 Months) -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill"></i>
+                <span class="card-title">Expected Exits (Next 6 Months)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfExpectedExitsDonut"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Expected Exits -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-calendar-range"></i>
+                <span class="card-title">Monthly Expected Exits</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfMonthlyExitsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 2: Department-wise Exit Analysis Table, Workforce Scenario Planner, Open Requisitions -->
+<div class="dashboard-grid-3">
+    <!-- Department-wise Exit Analysis Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-table"></i>
+                <span class="card-title">Department-wise Exit Analysis</span>
+            </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+                <table class="data-table" style="font-size:11.5px;">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Current HC</th>
+                            <th>Notice</th>
+                            <th>Predicted</th>
+                            <th>Total Exits</th>
+                            <th>Target HC</th>
+                            <th>Open Pos</th>
+                            <th>Gap</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wfDeptTableBody">
+                        <tr><td colspan="8" class="text-center p-4">Loading exit analysis...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workforce Scenario Planner -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-sliders2"></i>
+                <span class="card-title">Workforce Scenario Planner</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="scenario-planner-box">
+                <div style="background:var(--primary-light); color:var(--primary-blue); padding:8px 12px; border-radius:6px; font-size:11.5px; display:flex; align-items:center; gap:6px;">
+                    <i class="bi bi-info-circle-fill"></i> Adjust hypothetical levers to project future staffing impact.
+                </div>
+
+                <!-- Current Headcount Lever -->
+                <div class="scenario-control">
+                    <div class="scenario-control-header">
+                        <span>Current Headcount</span>
+                    </div>
+                    <div class="scenario-inputs">
+                        <input type="range" id="spCurrentSlider" min="40000" max="60000" step="100" value="50000">
+                        <input type="number" id="spCurrentInput" class="scenario-num-input" value="50000">
+                    </div>
+                </div>
+
+                <!-- Expected Additional Exits Lever -->
+                <div class="scenario-control">
+                    <div class="scenario-control-header">
+                        <span>Expected Additional Exits</span>
+                    </div>
+                    <div class="scenario-inputs">
+                        <input type="range" id="spExitsSlider" min="1000" max="6000" step="50" value="3412">
+                        <input type="number" id="spExitsInput" class="scenario-num-input" value="3412">
+                    </div>
+                </div>
+
+                <!-- Open Positions to Fill Lever -->
+                <div class="scenario-control">
+                    <div class="scenario-control-header">
+                        <span>Open Positions to be Filled</span>
+                    </div>
+                    <div class="scenario-inputs">
+                        <input type="range" id="spOpenSlider" min="0" max="3000" step="25" value="1200">
+                        <input type="number" id="spOpenInput" class="scenario-num-input" value="1200">
+                    </div>
+                </div>
+
+                <!-- Target Headcount Lever -->
+                <div class="scenario-control">
+                    <div class="scenario-control-header">
+                        <span>Target Headcount</span>
+                    </div>
+                    <div class="scenario-inputs">
+                        <input type="range" id="spTargetSlider" min="45000" max="65000" step="100" value="55000">
+                        <input type="number" id="spTargetInput" class="scenario-num-input" value="55000">
+                    </div>
+                </div>
+
+                <!-- Scenario Result Highlights -->
+                <div class="scenario-result-cards">
+                    <div class="scenario-res-card scenario-res-blue">
+                        <div class="res-title">Projected Available Staff</div>
+                        <div class="res-val" id="spProjectedStaff">46,580</div>
+                    </div>
+                    <div class="scenario-res-card scenario-res-red">
+                        <div class="res-title">New Staffing Gap</div>
+                        <div class="res-val" id="spNewGap">857</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Job Requisitions by Department -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-briefcase-fill"></i>
+                <span class="card-title">Open Job Requisitions by Department</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfOpenReqsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 3: Notice Period Table, Notice Distribution Bar, Quick Planning Insights -->
+<div class="dashboard-grid-3">
+    <!-- Employees Serving Notice Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-clock-history"></i>
+                <span class="card-title">Employees Serving Notice</span>
+            </div>
+            <div style="position:relative; width:180px;">
+                <input type="text" id="noticeSearchInput" class="form-input" placeholder="Search Notice..." style="height:28px; font-size:11px; padding-left:24px;">
+                <i class="bi bi-search" style="position:absolute; left:7px; top:7px; font-size:11px; color:var(--text-muted);"></i>
+            </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+                <table class="data-table" style="font-size:11px;">
+                    <thead>
+                        <tr>
+                            <th>Emp ID</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Start Date</th>
+                            <th>Last Day</th>
+                            <th>Days Left</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="noticeTableBody">
+                        <tr><td colspan="7" class="text-center p-3">Loading notice list...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-pagination" style="padding:8px 16px;">
+                <div id="noticePaginationInfo" style="font-size:11px;">Page 1 of 1</div>
+                <div class="pagination-controls" id="noticePaginationControls"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notice Period Distribution (Days Remaining) -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-steps"></i>
+                <span class="card-title">Notice Period Distribution</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfNoticeDistChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Planning Insights -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-lightbulb-fill" style="color:var(--warning-amber);"></i>
+                <span class="card-title">Quick Insights</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="insights-list" id="wfInsightsList">
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <span>Loading planning insights...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/workforce.js') }}"></script>
+{% endblock %}

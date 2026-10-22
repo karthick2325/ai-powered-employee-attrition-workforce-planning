@@ -1,0 +1,82 @@
+/* ===================================================================
+   Workforce Intelligence — Responsive Layout Styles
+   =================================================================== */
+
+@media (max-width: 1400px) {
+    .kpi-grid-7 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .kpi-grid-6 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .kpi-grid-5 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .dashboard-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-grid-split,
+    .dashboard-grid-split-rev {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+    }
+    .app-sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+    .app-main {
+        margin-left: 0;
+    }
+    .sidebar-toggle-btn {
+        display: block;
+    }
+    .kpi-grid-6, .kpi-grid-7, .kpi-grid-5, .kpi-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .app-header {
+        padding: 0 16px;
+    }
+    .page-content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .kpi-grid-6, .kpi-grid-7, .kpi-grid-5, .kpi-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    .header-title-block p {
+        display: none;
+    }
+    .snapshot-pill {
+        display: none;
+    }
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-group {
+        width: 100%;
+    }
+    .filter-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+    .filter-actions button {
+        flex: 1;
+    }
+}

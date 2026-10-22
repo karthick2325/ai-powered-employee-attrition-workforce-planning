@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Top 6 KPI Cards -->
+<div class="kpi-grid kpi-grid-6">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Total Employees</div>
+            <div class="kpi-value" id="kpiTotalEmployees">-</div>
+            <div class="kpi-subtitle">All active employees</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-red">
+            <i class="bi bi-box-arrow-right"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Historical Attrition (6M)</div>
+            <div class="kpi-value" id="kpiHistoricalAttrition">-</div>
+            <div class="kpi-subtitle" id="kpiHistoricalAttritionPct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Employees Serving Notice</div>
+            <div class="kpi-value" id="kpiServingNotice">-</div>
+            <div class="kpi-subtitle">Known exits</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-cpu-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Predicted High-Risk</div>
+            <div class="kpi-value" id="kpiPredictedHighRisk">-</div>
+            <div class="kpi-subtitle" id="kpiPredictedHighRiskPct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Open Job Requisitions</div>
+            <div class="kpi-value" id="kpiOpenRequisitions">-</div>
+            <div class="kpi-subtitle">Vacancy records</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-cyan">
+            <i class="bi bi-bullseye"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Estimated Staffing Gap</div>
+            <div class="kpi-value" id="kpiStaffingGap">-</div>
+            <div class="kpi-subtitle">After open positions</div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 1: Headcount, Outcome Distribution, Dept Attrition Rate -->
+<div class="dashboard-grid-3">
+    <!-- Department-wise Headcount -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span class="card-title">Department-wise Headcount</span>
+            </div>
+            <span class="card-badge" id="headcountTotalBadge">Total: -</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="headcountChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attrition Outcome Distribution -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill"></i>
+                <span class="card-title">Attrition Outcome Distribution</span>
+            </div>
+            <span class="card-badge" id="attritionCohortBadge">From 47,972 records</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="attritionOutcomeChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department-wise Attrition Rate -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-percent"></i>
+                <span class="card-title">Department-wise Attrition Rate (6 Months)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="deptAttritionRateChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 2: Risk Distribution, Notice Exits, Current vs Target Headcount -->
+<div class="dashboard-grid-3">
+    <!-- Employee Risk Distribution -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-shield-exclamation"></i>
+                <span class="card-title">Employee Risk Distribution (ML Prediction)</span>
+            </div>
+            <span class="card-badge">Total Active</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="employeeRiskChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notice Period - Expected Exits by Month -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-calendar-event"></i>
+                <span class="card-title">Notice Period — Expected Exits by Month</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="noticeExitsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workforce Planning Current vs Target -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-people-fill"></i>
+                <span class="card-title">Workforce Planning — Current vs Target Headcount</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="wfTargetComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 3: Recruitment Funnel, Costs Breakdown, Quick Insights -->
+<div class="dashboard-grid-3">
+    <!-- Recruitment Pipeline Funnel -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-funnel-fill"></i>
+                <span class="card-title">Recruitment Pipeline — Candidate Funnel</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="recruitmentFunnelChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recruitment Costs (INR) -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-currency-rupee"></i>
+                <span class="card-title">Recruitment Costs (INR)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <div style="flex:1; background:#F8FAFD; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:12px;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Total Recruitment Cost</div>
+                    <div style="font-size:18px; font-weight:800; color:var(--navy-text);" id="totalRecruitmentCost">-</div>
+                </div>
+                <div style="flex:1; background:#F8FAFD; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:12px;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Avg. Cost per Requisition</div>
+                    <div style="font-size:18px; font-weight:800; color:var(--navy-text);" id="avgCostPerRequisition">-</div>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="background:#F8FAFC; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px; display:flex; align-items:center; gap:8px;">
+                    <div style="width:28px; height:28px; border-radius:6px; background:var(--primary-light); color:var(--primary-blue); display:flex; align-items:center; justify-content:center; font-size:12px;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:10px; color:var(--text-muted);">Recruiter Cost</div>
+                        <div style="font-size:12px; font-weight:700; color:var(--navy-text);" id="costRecruiter">-</div>
+                    </div>
+                </div>
+
+                <div style="background:#F8FAFC; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px; display:flex; align-items:center; gap:8px;">
+                    <div style="width:28px; height:28px; border-radius:6px; background:var(--warning-light); color:var(--warning-amber); display:flex; align-items:center; justify-content:center; font-size:12px;">
+                        <i class="bi bi-megaphone-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:10px; color:var(--text-muted);">Advertising Cost</div>
+                        <div style="font-size:12px; font-weight:700; color:var(--navy-text);" id="costAdvertising">-</div>
+                    </div>
+                </div>
+
+                <div style="background:#F8FAFC; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px; display:flex; align-items:center; gap:8px;">
+                    <div style="width:28px; height:28px; border-radius:6px; background:var(--success-light); color:var(--success-green); display:flex; align-items:center; justify-content:center; font-size:12px;">
+                        <i class="bi bi-buildings-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:10px; color:var(--text-muted);">Agency Cost</div>
+                        <div style="font-size:12px; font-weight:700; color:var(--navy-text);" id="costAgency">-</div>
+                    </div>
+                </div>
+
+                <div style="background:#F8FAFC; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px; display:flex; align-items:center; gap:8px;">
+                    <div style="width:28px; height:28px; border-radius:6px; background:var(--accent-purple-light); color:var(--accent-purple); display:flex; align-items:center; justify-content:center; font-size:12px;">
+                        <i class="bi bi-file-earmark-check-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:10px; color:var(--text-muted);">Assessment Cost</div>
+                        <div style="font-size:12px; font-weight:700; color:var(--navy-text);" id="costAssessment">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Insights -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-lightbulb-fill" style="color:var(--warning-amber);"></i>
+                <span class="card-title">Quick Insights</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="insights-list" id="quickInsightsList">
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <span>Computing analytics insights...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

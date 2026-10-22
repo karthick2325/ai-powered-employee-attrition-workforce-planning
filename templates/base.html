@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} | Workforce Intelligence — AI-Powered HR Analytics</title>
+    
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Core & Responsive Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Chart.js 4.4.2 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon">
+                    <i class="bi bi-diagram-3-fill"></i>
+                </div>
+                <div class="sidebar-brand">
+                    <h1>Workforce Intelligence</h1>
+                    <p>AI-Powered HR Analytics</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard Overview</span>
+                </a>
+                <a href="/analytics" class="nav-item {% if active_page == 'analytics' %}active{% endif %}">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Employee &amp; Department Analytics</span>
+                </a>
+                <a href="/prediction" class="nav-item {% if active_page == 'prediction' %}active{% endif %}">
+                    <i class="bi bi-cpu-fill"></i>
+                    <span>AI Attrition Prediction</span>
+                </a>
+                <a href="/workforce" class="nav-item {% if active_page == 'workforce' %}active{% endif %}">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <span>Workforce Planning &amp; Exit Analysis</span>
+                </a>
+                <a href="/model-quality" class="nav-item {% if active_page == 'model_quality' %}active{% endif %}">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Model Performance &amp; Data Quality</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="data-source-card">
+                    <div class="ds-header">
+                        <div class="ds-icon">
+                            <i class="bi bi-file-earmark-excel-fill"></i>
+                        </div>
+                        <div class="ds-info">
+                            <div class="ds-title">Employee_Attrition_Workforce_Planning.xlsx</div>
+                            <div class="ds-subtitle">Last Updated: {{ snapshot_date or '01 Jan 2026' }}</div>
+                        </div>
+                    </div>
+                    <div class="ds-disclaimer">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <div>This is a synthetic dataset for academic and demonstration purposes only.</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            <!-- Global Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle Sidebar">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div class="header-title-block">
+                        <h2>{{ page_title }}</h2>
+                        <p>{{ page_subtitle }}</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    {% block header_actions %}{% endblock %}
+
+                    <div class="snapshot-pill">
+                        <i class="bi bi-calendar3"></i>
+                        <div>
+                            <span class="pill-label">Data Snapshot Date</span>
+                            <span class="pill-value">{{ snapshot_date or '01 Jan 2026' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="user-profile-badge" title="Active HR Executive Session">
+                        <div class="user-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span class="user-name">HR Manager</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Body Content -->
+            <div class="page-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Reusable Employee Detail Modal -->
+    <div class="modal-overlay" id="employeeDetailModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="card-title-wrap">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <h3 class="card-title" id="modalEmployeeTitle">Employee Profile</h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body" id="modalEmployeeBody">
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <span>Loading employee details...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Application Scripts -->
+    <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

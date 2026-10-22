@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Top 7 KPI Cards -->
+<div class="kpi-grid kpi-grid-7">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Total Employees</div>
+            <div class="kpi-value" id="kpiTotalEmp">-</div>
+            <div class="kpi-subtitle">All active employees</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-cyan">
+            <i class="bi bi-diagram-3-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Total Departments</div>
+            <div class="kpi-value" id="kpiTotalDepts">-</div>
+            <div class="kpi-subtitle">Departments</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Unique Job Roles</div>
+            <div class="kpi-value" id="kpiJobRoles">-</div>
+            <div class="kpi-subtitle">Job roles</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Average Tenure</div>
+            <div class="kpi-value" id="kpiAvgTenure">-</div>
+            <div class="kpi-subtitle">Across cohort</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Avg. Job Satisfaction</div>
+            <div class="kpi-value" id="kpiAvgSatisfaction">-</div>
+            <div class="kpi-subtitle">Across cohort</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Avg. Training Hours</div>
+            <div class="kpi-value" id="kpiAvgTraining">-</div>
+            <div class="kpi-subtitle">Last 12 months</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-red">
+            <i class="bi bi-speedometer2"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Avg. Overtime Hours</div>
+            <div class="kpi-value" id="kpiAvgOvertime">-</div>
+            <div class="kpi-subtitle">Per month</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+    <div class="filter-group">
+        <label for="filterDept">Department</label>
+        <select id="filterDept" class="form-select">
+            <option value="All">All Departments</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterRole">Job Role</label>
+        <select id="filterRole" class="form-select">
+            <option value="All">All Job Roles</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterLevel">Job Level</label>
+        <select id="filterLevel" class="form-select">
+            <option value="All">All Levels</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterLocation">Location</label>
+        <select id="filterLocation" class="form-select">
+            <option value="All">All Locations</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterEmpType">Employment Type</label>
+        <select id="filterEmpType" class="form-select">
+            <option value="All">All Types</option>
+        </select>
+    </div>
+
+    <div class="filter-group" style="min-width: 170px;">
+        <label>Tenure: <span id="tenureValDisplay">0 - 300</span> mos</label>
+        <div class="range-slider-wrap">
+            <span class="range-val" id="tenureMinVal">0</span>
+            <input type="range" id="filterTenure" min="0" max="300" value="300">
+            <span class="range-val" id="tenureMaxVal">300</span>
+        </div>
+    </div>
+
+    <div class="filter-actions">
+        <button id="applyFiltersBtn" class="btn btn-primary">
+            <i class="bi bi-funnel-fill"></i> Apply Filters
+        </button>
+        <button id="resetFiltersBtn" class="btn btn-outline">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+        </button>
+    </div>
+</div>
+
+<!-- 6 Department Charts (2 rows x 3 cols) -->
+<div class="dashboard-grid-3">
+    <!-- Headcount -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span class="card-title">Department-wise Headcount</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptHeadcount"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attrition Rate -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-percent"></i>
+                <span class="card-title">Department-wise Attrition Rate (6 Months)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptAttrition"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tenure -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-clock-history"></i>
+                <span class="card-title">Average Tenure by Department</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptTenure"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid-3">
+    <!-- Satisfaction -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-star-fill" style="color:var(--warning-amber);"></i>
+                <span class="card-title">Job Satisfaction by Department</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptSatisfaction"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overtime -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-speedometer2" style="color:var(--accent-purple);"></i>
+                <span class="card-title">Average Overtime Hours (Per Month)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptOvertime"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span class="card-title">Training Hours by Department (Last 12M)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDeptTraining"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Section: Employee Details Table (col-8) & Department Comparison (col-4) -->
+<div class="dashboard-grid-split">
+    <!-- Employee Details Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-table"></i>
+                <span class="card-title">Employee Details</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <span class="text-muted" style="font-size:12px;" id="employeeCountDisplay">Showing 0 of 0</span>
+                <div style="position:relative; width:220px;">
+                    <input type="text" id="employeeSearchInput" class="form-input" placeholder="Search by Employee ID..." style="height:32px; font-size:11.5px; padding-left:28px;">
+                    <i class="bi bi-search" style="position:absolute; left:9px; top:8px; font-size:11px; color:var(--text-muted);"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Emp ID</th>
+                            <th>Department</th>
+                            <th>Job Role</th>
+                            <th>Level</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Tenure</th>
+                            <th>OT Hrs</th>
+                            <th>Sat</th>
+                            <th>WLB</th>
+                            <th>Train</th>
+                            <th>Risk</th>
+                            <th>Notice</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        <tr>
+                            <td colspan="14" class="text-center p-4">Loading employee records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-pagination">
+                <div id="paginationInfo">Page 1 of 1</div>
+                <div class="pagination-controls" id="paginationControls"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Comparison Card -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-arrow-left-right"></i>
+                <span class="card-title">Department Comparison</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+                <div>
+                    <label style="font-size:11px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:4px;">Select Department 1</label>
+                    <select id="compareDept1" class="form-select">
+                        <option value="Technology">Technology</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:11px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:4px;">Select Department 2</label>
+                    <select id="compareDept2" class="form-select">
+                        <option value="Sales">Sales</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="data-table" style="font-size:12px;">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th id="compareCol1Title">Technology</th>
+                        <th id="compareCol2Title">Sales</th>
+                    </tr>
+                </thead>
+                <tbody id="compareTableBody">
+                    <tr><td>Headcount</td><td id="compHeadcount1">-</td><td id="compHeadcount2">-</td></tr>
+                    <tr><td>Attrition Rate (6M)</td><td id="compAttrition1">-</td><td id="compAttrition2">-</td></tr>
+                    <tr><td>Average Tenure</td><td id="compTenure1">-</td><td id="compTenure2">-</td></tr>
+                    <tr><td>Average Overtime</td><td id="compOvertime1">-</td><td id="compOvertime2">-</td></tr>
+                    <tr><td>Job Satisfaction</td><td id="compSatisfaction1">-</td><td id="compSatisfaction2">-</td></tr>
+                    <tr><td>Training Hours</td><td id="compTraining1">-</td><td id="compTraining2">-</td></tr>
+                    <tr><td>High Risk Employees</td><td id="compHighRisk1">-</td><td id="compHighRisk2">-</td></tr>
+                    <tr><td>Serving Notice</td><td id="compNotice1">-</td><td id="compNotice2">-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

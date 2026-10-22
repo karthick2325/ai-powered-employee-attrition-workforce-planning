@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Top 5 KPI Cards -->
+<div class="kpi-grid kpi-grid-5">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Eligible Employees</div>
+            <div class="kpi-value" id="kpiEligibleEmployees">-</div>
+            <div class="kpi-subtitle">Used for prediction model</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-red">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Predicted High Risk</div>
+            <div class="kpi-value" id="kpiHighRiskCount">-</div>
+            <div class="kpi-subtitle" id="kpiHighRiskPct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Predicted Medium Risk</div>
+            <div class="kpi-value" id="kpiMedRiskCount">-</div>
+            <div class="kpi-subtitle" id="kpiMedRiskPct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Predicted Low Risk</div>
+            <div class="kpi-value" id="kpiLowRiskCount">-</div>
+            <div class="kpi-subtitle" id="kpiLowRiskPct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-cpu-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Model Used</div>
+            <div class="kpi-value" style="font-size:18px;" id="kpiModelUsed">Random Forest</div>
+            <div class="kpi-subtitle">Best performing model</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+    <div class="filter-group">
+        <label for="filterPredDept">Department</label>
+        <select id="filterPredDept" class="form-select">
+            <option value="All">All Departments</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterPredRole">Job Role</label>
+        <select id="filterPredRole" class="form-select">
+            <option value="All">All Job Roles</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterPredLevel">Job Level</label>
+        <select id="filterPredLevel" class="form-select">
+            <option value="All">All Levels</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterPredLocation">Location</label>
+        <select id="filterPredLocation" class="form-select">
+            <option value="All">All Locations</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterPredRisk">Risk Level</label>
+        <select id="filterPredRisk" class="form-select">
+            <option value="All">All Risk Levels</option>
+            <option value="High">High Risk</option>
+            <option value="Medium">Medium Risk</option>
+            <option value="Low">Low Risk</option>
+        </select>
+    </div>
+
+    <div class="filter-group" style="min-width:200px;">
+        <label for="filterPredSearch">Search Employee</label>
+        <div style="position:relative;">
+            <input type="text" id="filterPredSearch" class="form-input" placeholder="Search by ID or Name..." style="padding-left:28px;">
+            <i class="bi bi-search" style="position:absolute; left:9px; top:10px; font-size:11px; color:var(--text-muted);"></i>
+        </div>
+    </div>
+
+    <div class="filter-actions">
+        <button id="applyPredFiltersBtn" class="btn btn-primary">
+            <i class="bi bi-funnel-fill"></i> Apply Filters
+        </button>
+        <button id="resetPredFiltersBtn" class="btn btn-outline">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+        </button>
+    </div>
+</div>
+
+<!-- Middle Section: Employee Risk Table (col-8) & Selected Employee Prediction Panel (col-4) -->
+<div class="dashboard-grid-split">
+    <!-- Risk Predictions Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-shield-shaded"></i>
+                <span class="card-title">Employee Risk Predictions</span>
+            </div>
+            <span class="text-muted" style="font-size:12px;" id="predTableCountDisplay">Showing 0 of 0</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Emp ID</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Job Role</th>
+                            <th>Tenure</th>
+                            <th>OT Hrs</th>
+                            <th>Sat</th>
+                            <th>WLB</th>
+                            <th>Train</th>
+                            <th>Risk Prob</th>
+                            <th>Risk Level</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predTableBody">
+                        <tr>
+                            <td colspan="12" class="text-center p-4">Loading prediction scores...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-pagination">
+                <div id="predPaginationInfo">Page 1 of 1</div>
+                <div class="pagination-controls" id="predPaginationControls"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selected Employee Prediction Card -->
+    <div class="card" id="selectedEmployeeCard">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-person-fill-gear"></i>
+                <span class="card-title">Selected Employee Prediction</span>
+            </div>
+            <span class="card-badge" id="selectedEmpRiskBadge">High Risk</span>
+        </div>
+        <div class="card-body" id="selectedEmpPanelBody">
+            <div class="loading-placeholder">
+                <div class="spinner"></div>
+                <span>Loading selected employee details...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Row: 3 Risk Analytics Charts -->
+<div class="dashboard-grid-3">
+    <!-- Risk Level Distribution -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill"></i>
+                <span class="card-title">Risk Level Distribution</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="predRiskDistChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Average Risk Probability by Department -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span class="card-title">Average Risk Probability by Department</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="predDeptRiskChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Feature Importance (Model) -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-sliders"></i>
+                <span class="card-title">Top Feature Importance (Model)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="predFeatureImportanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block header_actions %}
+<button id="retrainModelBtn" class="btn btn-primary" title="Trigger full model retraining pipeline">
+    <i class="bi bi-arrow-repeat" id="retrainIcon"></i>
+    <span id="retrainText">Retrain Model</span>
+</button>
+{% endblock %}
+
+{% block content %}
+<!-- Top 4 KPI Cards -->
+<div class="kpi-grid kpi-grid-4">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-database-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Training Records</div>
+            <div class="kpi-value" id="kpiTrainRecords">-</div>
+            <div class="kpi-subtitle">Used for model training</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-check2-circle"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Test Records</div>
+            <div class="kpi-value" id="kpiTestRecords">-</div>
+            <div class="kpi-subtitle">(20% holdout set)</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-red">
+            <i class="bi bi-bullseye"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Positive Class (Attrition)</div>
+            <div class="kpi-value" id="kpiPositiveClass">-</div>
+            <div class="kpi-subtitle" id="kpiPositivePct">-</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-shield-check"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Negative Class (Stayed)</div>
+            <div class="kpi-value" id="kpiNegativeClass">-</div>
+            <div class="kpi-subtitle" id="kpiNegativePct">-</div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 1: Model Comparison (col-6), Confusion Matrix (col-3), ROC Curve (col-3) -->
+<div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:20px;">
+    <!-- Model Comparison Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <span class="card-title">Model Comparison</span>
+            </div>
+            <span class="card-badge" id="bestModelBadge">Random Forest (Selected)</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>ROC-AUC</th>
+                            <th>PR-AUC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modelComparisonTableBody">
+                        <tr><td colspan="7" class="text-center p-4">Loading model comparison metrics...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confusion Matrix -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-grid-3x3"></i>
+                <span class="card-title">Confusion Matrix</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="confusion-matrix-grid">
+                <div></div>
+                <div class="cm-label">Pred: Stay</div>
+                <div class="cm-label">Pred: Leave</div>
+
+                <div class="cm-label">Act: Stay</div>
+                <div class="cm-cell cm-cell-green">
+                    <div class="cm-num" id="cmTN">-</div>
+                    <div class="cm-sub">(True Negative)</div>
+                </div>
+                <div class="cm-cell cm-cell-red">
+                    <div class="cm-num" id="cmFP">-</div>
+                    <div class="cm-sub">(False Positive)</div>
+                </div>
+
+                <div class="cm-label">Act: Leave</div>
+                <div class="cm-cell cm-cell-red">
+                    <div class="cm-num" id="cmFN">-</div>
+                    <div class="cm-sub">(False Negative)</div>
+                </div>
+                <div class="cm-cell cm-cell-green">
+                    <div class="cm-num" id="cmTP">-</div>
+                    <div class="cm-sub">(True Positive)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROC Curve -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-graph-up"></i>
+                <span class="card-title">ROC Curve</span>
+            </div>
+            <span class="card-badge" id="rocAucBadge">AUC = -</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="rocCurveChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 2: Precision-Recall Curve (col-4), Feature Importance (col-4), Risk Score Dist (col-4) -->
+<div class="dashboard-grid-3">
+    <!-- PR Curve -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bezier2"></i>
+                <span class="card-title">Precision-Recall Curve</span>
+            </div>
+            <span class="card-badge" id="prAucBadge">PR-AUC = -</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="prCurveChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Importance -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-sliders"></i>
+                <span class="card-title">Feature Importance (Random Forest)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="featureImportanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Score Distribution -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span class="card-title">Risk Score Distribution (Probabilities)</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="riskScoreDistChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 3: Dataset Summary (col-4), Data Quality Checks (col-4), Model Information (col-4) -->
+<div class="dashboard-grid-3">
+    <!-- Dataset Summary -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-file-earmark-spreadsheet-fill" style="color:var(--success-green);"></i>
+                <span class="card-title">Dataset Summary</span>
+            </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive" style="max-height:360px; overflow-y:auto;">
+                <table class="data-table" style="font-size:11.5px;">
+                    <thead>
+                        <tr>
+                            <th>Sheet Name</th>
+                            <th>Records</th>
+                            <th>Cols</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="datasetSummaryTableBody">
+                        <tr><td colspan="4" class="text-center p-3">Loading sheets...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Quality Checks -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-shield-check" style="color:var(--primary-blue);"></i>
+                <span class="card-title">Data Quality Checks</span>
+            </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <div class="table-responsive" style="max-height:360px; overflow-y:auto;">
+                <table class="data-table" style="font-size:11.5px;">
+                    <thead>
+                        <tr>
+                            <th>Check Type</th>
+                            <th>Result</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="qualityChecksTableBody">
+                        <tr><td colspan="3" class="text-center p-3">Running audits...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Information -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-info-circle-fill" style="color:var(--primary-blue);"></i>
+                <span class="card-title">Model Information</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:12px;">
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Selected Model</span>
+                    <strong id="infoSelectedModel">Random Forest Classifier</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Target Column</span>
+                    <span style="font-family:monospace; font-weight:600;" id="infoTarget">Attrition_Within_6M</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Prediction Horizon</span>
+                    <strong id="infoHorizon">6 Months</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Training Records</span>
+                    <strong id="infoTrainCount">-</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Holdout Test Records</span>
+                    <strong id="infoTestCount">-</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Snapshot Date</span>
+                    <strong id="infoSnapshotDate">01 Jan 2026</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <span style="color:var(--text-muted);">Model Version</span>
+                    <span class="badge badge-active" id="infoVersion">v1.0</span>
+                </div>
+                <div style="margin-top:6px; font-size:11px; color:var(--text-muted); line-height:1.4; background:#F8FAFD; border:1px solid var(--border-color); border-radius:6px; padding:10px;">
+                    <i class="bi bi-shield-exclamation text-primary"></i> <strong>Governance Note:</strong> Age and Gender strictly excluded as fairness-audit features. Features validated against data leakage.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/model_quality.js') }}"></script>
+{% endblock %}
