@@ -21,7 +21,19 @@ def prediction_page():
 
 @prediction_bp.route("/api/prediction/kpis")
 def get_prediction_kpis():
-    kpis = PredictionService.get_prediction_kpis()
+    department = request.args.get("department")
+    job_role = request.args.get("job_role")
+    job_level = request.args.get("job_level")
+    location = request.args.get("location")
+    risk_level = request.args.get("risk_level")
+
+    kpis = PredictionService.get_prediction_kpis(
+        department=department,
+        job_role=job_role,
+        job_level=job_level,
+        location=location,
+        risk_level=risk_level
+    )
     return jsonify({"success": True, "kpis": kpis})
 
 @prediction_bp.route("/api/prediction/employees")
@@ -62,12 +74,36 @@ def get_employee_prediction_detail(emp_id):
 
 @prediction_bp.route("/api/prediction/risk-distribution")
 def get_risk_distribution():
-    dist = PredictionService.get_risk_distribution()
+    department = request.args.get("department")
+    job_role = request.args.get("job_role")
+    job_level = request.args.get("job_level")
+    location = request.args.get("location")
+    risk_level = request.args.get("risk_level")
+
+    dist = PredictionService.get_risk_distribution(
+        department=department,
+        job_role=job_role,
+        job_level=job_level,
+        location=location,
+        risk_level=risk_level
+    )
     return jsonify({"success": True, "risk_distribution": dist})
 
 @prediction_bp.route("/api/prediction/department-risk")
 def get_department_risk():
-    dept_risk = PredictionService.get_department_average_risk()
+    department = request.args.get("department")
+    job_role = request.args.get("job_role")
+    job_level = request.args.get("job_level")
+    location = request.args.get("location")
+    risk_level = request.args.get("risk_level")
+
+    dept_risk = PredictionService.get_department_average_risk(
+        department=department,
+        job_role=job_role,
+        job_level=job_level,
+        location=location,
+        risk_level=risk_level
+    )
     return jsonify({"success": True, "department_risk": dept_risk})
 
 @prediction_bp.route("/api/prediction/feature-importance")

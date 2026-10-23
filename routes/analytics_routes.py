@@ -20,13 +20,44 @@ def analytics_page():
 
 @analytics_bp.route("/api/analytics/kpis")
 def get_analytics_kpis():
-    dept = request.args.get("department")
-    kpis = AnalyticsService.get_kpis(dept)
+    department = request.args.get("department")
+    job_role = request.args.get("job_role")
+    job_level = request.args.get("job_level")
+    location = request.args.get("location")
+    employment_type = request.args.get("employment_type")
+    min_tenure = request.args.get("min_tenure", type=int)
+    max_tenure = request.args.get("max_tenure", type=int)
+
+    kpis = AnalyticsService.get_kpis(
+        department=department,
+        job_role=job_role,
+        job_level=job_level,
+        location=location,
+        employment_type=employment_type,
+        min_tenure=min_tenure,
+        max_tenure=max_tenure
+    )
     return jsonify({"success": True, "kpis": kpis})
 
 @analytics_bp.route("/api/analytics/charts")
 def get_analytics_charts():
-    charts = AnalyticsService.get_department_charts_data()
+    department = request.args.get("department")
+    job_role = request.args.get("job_role")
+    job_level = request.args.get("job_level")
+    location = request.args.get("location")
+    employment_type = request.args.get("employment_type")
+    min_tenure = request.args.get("min_tenure", type=int)
+    max_tenure = request.args.get("max_tenure", type=int)
+
+    charts = AnalyticsService.get_department_charts_data(
+        department=department,
+        job_role=job_role,
+        job_level=job_level,
+        location=location,
+        employment_type=employment_type,
+        min_tenure=min_tenure,
+        max_tenure=max_tenure
+    )
     return jsonify({"success": True, "charts": charts})
 
 @analytics_bp.route("/api/analytics/filters")

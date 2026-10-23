@@ -61,18 +61,55 @@ class PredictionService:
         return cls._predictions_df
 
     @classmethod
-    def get_prediction_kpis(cls) -> Dict[str, Any]:
-        """Calculates cohort prediction KPIs for Page 3 and Overview."""
+    def get_filtered_predictions(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        risk_level: Optional[str] = None
+    ) -> pd.DataFrame:
+        """Centralized helper to filter predictions DataFrame consistently."""
         df = cls.get_predictions_df()
+        filtered = df
+        if department and department != "All":
+            filtered = filtered[filtered["Department"] == department]
+        if job_role and job_role != "All":
+            filtered = filtered[filtered["Job_Role"] == job_role]
+        if job_level and job_level != "All":
+            filtered = filtered[filtered["Job_Level"] == job_level]
+        if location and location != "All":
+            filtered = filtered[filtered["Location"] == location]
+        if risk_level and risk_level != "All":
+            filtered = filtered[filtered["Risk_Level"] == risk_level]
+        return filtered
+
+    @classmethod
+    def get_prediction_kpis(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        risk_level: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Calculates cohort prediction KPIs for Page 3 and Overview."""
+        df = cls.get_filtered_predictions(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            risk_level=risk_level
+        )
         total_eligible = len(df)
 
-        high_count = int((df["Risk_Level"] == "High").sum())
-        med_count = int((df["Risk_Level"] == "Medium").sum())
-        low_count = int((df["Risk_Level"] == "Low").sum())
+        high_count = int((df["Risk_Level"] == "High").sum()) if total_eligible > 0 else 0
+        med_count = int((df["Risk_Level"] == "Medium").sum()) if total_eligible > 0 else 0
+        low_count = int((df["Risk_Level"] == "Low").sum()) if total_eligible > 0 else 0
 
-        high_pct = round((high_count / max(1, total_eligible)) * 100, 2)
-        med_pct = round((med_count / max(1, total_eligible)) * 100, 2)
-        low_pct = round((low_count / max(1, total_eligible)) * 100, 2)
+        high_pct = round((high_count / max(1, total_eligible)) * 100, 2) if total_eligible > 0 else 0.0
+        med_pct = round((med_count / max(1, total_eligible)) * 100, 2) if total_eligible > 0 else 0.0
+        low_pct = round((low_count / max(1, total_eligible)) * 100, 2) if total_eligible > 0 else 0.0
 
         return {
             "eligible_employees": total_eligible,
@@ -87,9 +124,22 @@ class PredictionService:
         }
 
     @classmethod
-    def get_risk_distribution(cls) -> Dict[str, Any]:
+    def get_risk_distribution(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        risk_level: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Returns risk distribution for donut chart."""
-        kpis = cls.get_prediction_kpis()
+        kpis = cls.get_prediction_kpis(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            risk_level=risk_level
+        )
         return {
             "total": kpis["eligible_employees"],
             "categories": [
@@ -100,9 +150,24 @@ class PredictionService:
         }
 
     @classmethod
-    def get_department_average_risk(cls) -> List[Dict[str, Any]]:
+    def get_department_average_risk(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        risk_level: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """Calculates average predicted attrition probability by department."""
-        df = cls.get_predictions_df()
+        df = cls.get_filtered_predictions(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            risk_level=risk_level
+        )
+        if len(df) == 0:
+            return []
         dept_risk = df.groupby("Department")["Risk_Probability"].mean().reset_index()
         dept_risk = dept_risk.sort_values(by="Risk_Probability", ascending=False)
         return [
@@ -129,19 +194,13 @@ class PredictionService:
         ascending: bool = False
     ) -> Dict[str, Any]:
         """Filters, sorts, and paginates predicted employee records."""
-        df = cls.get_predictions_df()
-
-        filtered = df
-        if department and department != "All":
-            filtered = filtered[filtered["Department"] == department]
-        if job_role and job_role != "All":
-            filtered = filtered[filtered["Job_Role"] == job_role]
-        if job_level and job_level != "All":
-            filtered = filtered[filtered["Job_Level"] == job_level]
-        if location and location != "All":
-            filtered = filtered[filtered["Location"] == location]
-        if risk_level and risk_level != "All":
-            filtered = filtered[filtered["Risk_Level"] == risk_level]
+        filtered = cls.get_filtered_predictions(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            risk_level=risk_level
+        )
 
         if search_query:
             query = str(search_query).strip().lower()

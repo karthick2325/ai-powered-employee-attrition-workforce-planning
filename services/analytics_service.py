@@ -14,21 +14,72 @@ logger = logging.getLogger(__name__)
 
 class AnalyticsService:
     @classmethod
-    def get_kpis(cls, department: Optional[str] = None) -> Dict[str, Any]:
-        """Calculates top KPI cards for Analytics Page."""
+    def get_filtered_employees(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        employment_type: Optional[str] = None,
+        min_tenure: Optional[int] = None,
+        max_tenure: Optional[int] = None,
+    ) -> pd.DataFrame:
+        """Centralized helper to filter master employee records consistently."""
         emp_df = ExcelService.get_sheet("Employees")
-        
         filtered = emp_df
         if department and department != "All":
             filtered = filtered[filtered["Department"] == department]
+        if job_role and job_role != "All":
+            filtered = filtered[filtered["Job_Role"] == job_role]
+        if job_level and job_level != "All":
+            filtered = filtered[filtered["Job_Level"] == job_level]
+        if location and location != "All":
+            filtered = filtered[filtered["Location"] == location]
+        if employment_type and employment_type != "All":
+            filtered = filtered[filtered["Employment_Type"] == employment_type]
+        if min_tenure is not None:
+            try:
+                min_t = int(min_tenure)
+                filtered = filtered[filtered["Tenure_Months_At_Prediction"] >= min_t]
+            except (ValueError, TypeError):
+                pass
+        if max_tenure is not None:
+            try:
+                max_t = int(max_tenure)
+                filtered = filtered[filtered["Tenure_Months_At_Prediction"] <= max_t]
+            except (ValueError, TypeError):
+                pass
+        return filtered
+
+    @classmethod
+    def get_kpis(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        employment_type: Optional[str] = None,
+        min_tenure: Optional[int] = None,
+        max_tenure: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Calculates top KPI cards for Analytics Page using applied filters."""
+        filtered = cls.get_filtered_employees(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            employment_type=employment_type,
+            min_tenure=min_tenure,
+            max_tenure=max_tenure
+        )
 
         total_emp = len(filtered)
-        depts_count = int(filtered["Department"].nunique())
-        roles_count = int(filtered["Job_Role"].nunique())
-        avg_tenure = round(float(filtered["Tenure_Months_At_Prediction"].mean()), 1) if total_emp > 0 else 0
-        avg_satisfaction = round(float(filtered["Job_Satisfaction_Score_1_5"].mean()), 1) if total_emp > 0 else 0
-        avg_training = round(float(filtered["Training_Hours_Last_12M"].mean()), 1) if total_emp > 0 else 0
-        avg_overtime = round(float(filtered["Overtime_Hours_Monthly"].mean()), 1) if total_emp > 0 else 0
+        depts_count = int(filtered["Department"].nunique()) if total_emp > 0 else 0
+        roles_count = int(filtered["Job_Role"].nunique()) if total_emp > 0 else 0
+        avg_tenure = round(float(filtered["Tenure_Months_At_Prediction"].mean()), 1) if total_emp > 0 else 0.0
+        avg_satisfaction = round(float(filtered["Job_Satisfaction_Score_1_5"].mean()), 1) if total_emp > 0 else 0.0
+        avg_training = round(float(filtered["Training_Hours_Last_12M"].mean()), 1) if total_emp > 0 else 0.0
+        avg_overtime = round(float(filtered["Overtime_Hours_Monthly"].mean()), 1) if total_emp > 0 else 0.0
 
         return {
             "total_employees": total_emp,
@@ -41,22 +92,49 @@ class AnalyticsService:
         }
 
     @classmethod
-    def get_department_charts_data(cls) -> Dict[str, Any]:
+    def get_department_charts_data(
+        cls,
+        department: Optional[str] = None,
+        job_role: Optional[str] = None,
+        job_level: Optional[str] = None,
+        location: Optional[str] = None,
+        employment_type: Optional[str] = None,
+        min_tenure: Optional[int] = None,
+        max_tenure: Optional[int] = None,
+    ) -> Dict[str, Any]:
         """
         Calculates all 6 department-level charts for Analytics & Overview dashboards.
-        Accurately joins eligible outcomes for attrition rates.
+        Accurately joins eligible outcomes for attrition rates using applied filters.
         """
-        emp_df = ExcelService.get_sheet("Employees")
         outcomes_df = ExcelService.get_sheet("Attrition_Outcomes")
+        filtered_emp = cls.get_filtered_employees(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            employment_type=employment_type,
+            min_tenure=min_tenure,
+            max_tenure=max_tenure
+        )
+
+        if len(filtered_emp) == 0:
+            return {
+                "headcount": {"departments": [], "values": [], "total": 0},
+                "attrition_rate": {"departments": [], "rates": []},
+                "tenure": {"departments": [], "values": []},
+                "satisfaction": {"departments": [], "values": []},
+                "overtime": {"departments": [], "values": []},
+                "training": {"departments": [], "values": []}
+            }
 
         # Headcount by department
-        headcount_series = emp_df["Department"].value_counts().sort_values(ascending=False)
+        headcount_series = filtered_emp["Department"].value_counts().sort_values(ascending=False)
         departments = headcount_series.index.tolist()
         headcounts = headcount_series.values.tolist()
 
         # Attrition rate by department
         # Merge eligible employees with outcomes
-        eligible_emp = emp_df[emp_df["Serving_Notice_As_Of_Prediction"] == False]
+        eligible_emp = filtered_emp[filtered_emp["Serving_Notice_As_Of_Prediction"] == False]
         merged_outcomes = eligible_emp.merge(outcomes_df, on="Employee_ID", how="inner")
         
         dept_attr_rates = []
@@ -73,16 +151,20 @@ class AnalyticsService:
         dept_attr_rates_sorted = sorted(dept_attr_rates, key=lambda x: x["attrition_rate"], reverse=True)
 
         # Average tenure by department
-        tenure_df = emp_df.groupby("Department")["Tenure_Months_At_Prediction"].mean().loc[departments].round(1)
+        tenure_series = filtered_emp.groupby("Department")["Tenure_Months_At_Prediction"].mean()
+        tenure_values = [round(float(tenure_series.get(dept, 0.0)), 1) for dept in departments]
 
         # Job satisfaction by department
-        sat_df = emp_df.groupby("Department")["Job_Satisfaction_Score_1_5"].mean().loc[departments].round(1)
+        sat_series = filtered_emp.groupby("Department")["Job_Satisfaction_Score_1_5"].mean()
+        sat_values = [round(float(sat_series.get(dept, 0.0)), 1) for dept in departments]
 
         # Average overtime hours by department
-        overtime_df = emp_df.groupby("Department")["Overtime_Hours_Monthly"].mean().loc[departments].round(1)
+        overtime_series = filtered_emp.groupby("Department")["Overtime_Hours_Monthly"].mean()
+        overtime_values = [round(float(overtime_series.get(dept, 0.0)), 1) for dept in departments]
 
         # Training hours by department
-        training_df = emp_df.groupby("Department")["Training_Hours_Last_12M"].mean().loc[departments].round(1)
+        training_series = filtered_emp.groupby("Department")["Training_Hours_Last_12M"].mean()
+        training_values = [round(float(training_series.get(dept, 0.0)), 1) for dept in departments]
 
         return {
             "headcount": {
@@ -96,19 +178,19 @@ class AnalyticsService:
             },
             "tenure": {
                 "departments": departments,
-                "values": tenure_df.values.tolist()
+                "values": tenure_values
             },
             "satisfaction": {
                 "departments": departments,
-                "values": sat_df.values.tolist()
+                "values": sat_values
             },
             "overtime": {
                 "departments": departments,
-                "values": overtime_df.values.tolist()
+                "values": overtime_values
             },
             "training": {
                 "departments": departments,
-                "values": training_df.values.tolist()
+                "values": training_values
             }
         }
 
@@ -151,21 +233,15 @@ class AnalyticsService:
         # Build risk lookup dict for fast enrichment
         risk_map = dict(zip(pred_df["Employee_ID"], pred_df["Risk_Level"]))
 
-        filtered = emp_df
-        if department and department != "All":
-            filtered = filtered[filtered["Department"] == department]
-        if job_role and job_role != "All":
-            filtered = filtered[filtered["Job_Role"] == job_role]
-        if job_level and job_level != "All":
-            filtered = filtered[filtered["Job_Level"] == job_level]
-        if location and location != "All":
-            filtered = filtered[filtered["Location"] == location]
-        if employment_type and employment_type != "All":
-            filtered = filtered[filtered["Employment_Type"] == employment_type]
-        if min_tenure is not None:
-            filtered = filtered[filtered["Tenure_Months_At_Prediction"] >= min_tenure]
-        if max_tenure is not None:
-            filtered = filtered[filtered["Tenure_Months_At_Prediction"] <= max_tenure]
+        filtered = cls.get_filtered_employees(
+            department=department,
+            job_role=job_role,
+            job_level=job_level,
+            location=location,
+            employment_type=employment_type,
+            min_tenure=min_tenure,
+            max_tenure=max_tenure
+        )
 
         if search_query:
             q = str(search_query).strip().lower()

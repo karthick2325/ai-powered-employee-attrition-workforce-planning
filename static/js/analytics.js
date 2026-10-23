@@ -3,6 +3,20 @@
  */
 let currentEmpPage = 1;
 const EMP_PAGE_SIZE = 10;
+let kpiRequestId = 0;
+let chartsRequestId = 0;
+let empTableRequestId = 0;
+
+function getAnalyticsFilters() {
+    return {
+        department: document.getElementById('filterDept')?.value || 'All',
+        job_role: document.getElementById('filterRole')?.value || 'All',
+        job_level: document.getElementById('filterLevel')?.value || 'All',
+        location: document.getElementById('filterLocation')?.value || 'All',
+        employment_type: document.getElementById('filterEmpType')?.value || 'All',
+        max_tenure: document.getElementById('filterTenure')?.value
+    };
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initFilterOptions();
@@ -68,10 +82,11 @@ async function initFilterOptions() {
 }
 
 async function loadKPIs() {
+    const reqId = ++kpiRequestId;
     try {
-        const dept = document.getElementById('filterDept')?.value;
-        const res = await API.get('/api/analytics/kpis', { department: dept });
-        if (!res.success) return;
+        const filters = getAnalyticsFilters();
+        const res = await API.get('/api/analytics/kpis', filters);
+        if (reqId !== kpiRequestId || !res.success) return;
         const k = res.kpis;
         document.getElementById('kpiTotalEmp').textContent = formatNumber(k.total_employees);
         document.getElementById('kpiTotalDepts').textContent = k.total_departments;
@@ -81,14 +96,16 @@ async function loadKPIs() {
         document.getElementById('kpiAvgTraining').textContent = `${k.average_training_hours} hrs`;
         document.getElementById('kpiAvgOvertime').textContent = `${k.average_overtime_hours} hrs`;
     } catch (err) {
-        console.error('Error loading analytics KPIs:', err);
+        if (reqId === kpiRequestId) console.error('Error loading analytics KPIs:', err);
     }
 }
 
 async function loadDepartmentCharts() {
+    const reqId = ++chartsRequestId;
     try {
-        const res = await API.get('/api/analytics/charts');
-        if (!res.success) return;
+        const filters = getAnalyticsFilters();
+        const res = await API.get('/api/analytics/charts', filters);
+        if (reqId !== chartsRequestId || !res.success) return;
         const c = res.charts;
 
         // 1. Headcount
@@ -223,31 +240,22 @@ async function loadDepartmentCharts() {
 
 async function loadEmployeesTable(page = 1) {
     currentEmpPage = page;
+    const reqId = ++empTableRequestId;
     const tbody = document.getElementById('employeeTableBody');
     tbody.innerHTML = `<tr><td colspan="14" class="text-center p-4"><div class="spinner"></div></td></tr>`;
 
     try {
-        const dept = document.getElementById('filterDept')?.value;
-        const role = document.getElementById('filterRole')?.value;
-        const level = document.getElementById('filterLevel')?.value;
-        const loc = document.getElementById('filterLocation')?.value;
-        const type = document.getElementById('filterEmpType')?.value;
-        const maxTenure = document.getElementById('filterTenure')?.value;
+        const filters = getAnalyticsFilters();
         const search = document.getElementById('employeeSearchInput')?.value;
 
         const res = await API.get('/api/analytics/employees', {
-            department: dept,
-            job_role: role,
-            job_level: level,
-            location: loc,
-            employment_type: type,
-            max_tenure: maxTenure,
+            ...filters,
             search: search,
             page: page,
             page_size: EMP_PAGE_SIZE
         });
 
-        if (!res.success) return;
+        if (reqId !== empTableRequestId || !res.success) return;
 
         document.getElementById('employeeCountDisplay').textContent = 
             `Showing ${(res.page - 1) * res.page_size + 1} - ${Math.min(res.total_records, res.page * res.page_size)} of ${formatNumber(res.total_records)}`;
@@ -358,6 +366,7 @@ async function loadDepartmentComparison() {
 function setupEventHandlers() {
     document.getElementById('applyFiltersBtn')?.addEventListener('click', () => {
         loadKPIs();
+        loadDepartmentCharts();
         loadEmployeesTable(1);
     });
 
@@ -367,10 +376,14 @@ function setupEventHandlers() {
         document.getElementById('filterLevel').value = 'All';
         document.getElementById('filterLocation').value = 'All';
         document.getElementById('filterEmpType').value = 'All';
-        document.getElementById('filterTenure').value = document.getElementById('filterTenure').max;
-        document.getElementById('tenureValDisplay').textContent = `0 - ${document.getElementById('filterTenure').max}`;
+        const slider = document.getElementById('filterTenure');
+        if (slider) {
+            slider.value = slider.max;
+            document.getElementById('tenureValDisplay').textContent = `${slider.min || 0} - ${slider.max}`;
+        }
         document.getElementById('employeeSearchInput').value = '';
         loadKPIs();
+        loadDepartmentCharts();
         loadEmployeesTable(1);
     });
 

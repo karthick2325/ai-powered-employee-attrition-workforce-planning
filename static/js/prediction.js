@@ -4,6 +4,19 @@
 let currentPredPage = 1;
 const PRED_PAGE_SIZE = 10;
 let currentSelectedEmpId = null;
+let predKpiRequestId = 0;
+let predChartsRequestId = 0;
+let predTableRequestId = 0;
+
+function getPredictionFilters() {
+    return {
+        department: document.getElementById('filterPredDept')?.value || 'All',
+        job_role: document.getElementById('filterPredRole')?.value || 'All',
+        job_level: document.getElementById('filterPredLevel')?.value || 'All',
+        location: document.getElementById('filterPredLocation')?.value || 'All',
+        risk_level: document.getElementById('filterPredRisk')?.value || 'All'
+    };
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initFilterOptions();
@@ -40,9 +53,11 @@ async function initFilterOptions() {
 }
 
 async function loadPredictionKPIs() {
+    const reqId = ++predKpiRequestId;
     try {
-        const res = await API.get('/api/prediction/kpis');
-        if (!res.success) return;
+        const filters = getPredictionFilters();
+        const res = await API.get('/api/prediction/kpis', filters);
+        if (reqId !== predKpiRequestId || !res.success) return;
         const k = res.kpis;
         document.getElementById('kpiEligibleEmployees').textContent = formatNumber(k.eligible_employees);
         document.getElementById('kpiHighRiskCount').textContent = formatNumber(k.predicted_high_risk);
@@ -53,15 +68,17 @@ async function loadPredictionKPIs() {
         document.getElementById('kpiLowRiskPct').textContent = `${k.predicted_low_risk_pct}% of eligible`;
         document.getElementById('kpiModelUsed').textContent = k.model_used;
     } catch (err) {
-        console.error('Error loading prediction KPIs:', err);
+        if (reqId === predKpiRequestId) console.error('Error loading prediction KPIs:', err);
     }
 }
 
 async function loadPredictionCharts() {
+    const reqId = ++predChartsRequestId;
     try {
+        const filters = getPredictionFilters();
         // 1. Risk Distribution (Doughnut)
-        const distRes = await API.get('/api/prediction/risk-distribution');
-        if (distRes.success && distRes.risk_distribution) {
+        const distRes = await API.get('/api/prediction/risk-distribution', filters);
+        if (reqId === predChartsRequestId && distRes.success && distRes.risk_distribution) {
             const d = distRes.risk_distribution;
             renderChart('predRiskDistChart', {
                 type: 'doughnut',
@@ -84,8 +101,8 @@ async function loadPredictionCharts() {
         }
 
         // 2. Average Risk Probability by Department (Bar)
-        const deptRes = await API.get('/api/prediction/department-risk');
-        if (deptRes.success && deptRes.department_risk) {
+        const deptRes = await API.get('/api/prediction/department-risk', filters);
+        if (reqId === predChartsRequestId && deptRes.success && deptRes.department_risk) {
             const dr = deptRes.department_risk;
             renderChart('predDeptRiskChart', {
                 type: 'bar',
@@ -144,35 +161,38 @@ async function loadPredictionCharts() {
 
 async function loadPredictionsTable(page = 1) {
     currentPredPage = page;
+    const reqId = ++predTableRequestId;
     const tbody = document.getElementById('predTableBody');
     tbody.innerHTML = `<tr><td colspan="12" class="text-center p-4"><div class="spinner"></div></td></tr>`;
 
     try {
-        const dept = document.getElementById('filterPredDept')?.value;
-        const role = document.getElementById('filterPredRole')?.value;
-        const level = document.getElementById('filterPredLevel')?.value;
-        const loc = document.getElementById('filterPredLocation')?.value;
-        const risk = document.getElementById('filterPredRisk')?.value;
+        const filters = getPredictionFilters();
         const search = document.getElementById('filterPredSearch')?.value;
 
         const res = await API.get('/api/prediction/employees', {
-            department: dept,
-            job_role: role,
-            job_level: level,
-            location: loc,
-            risk_level: risk,
+            ...filters,
             search: search,
             page: page,
             page_size: PRED_PAGE_SIZE
         });
 
-        if (!res.success) return;
+        if (reqId !== predTableRequestId || !res.success) return;
 
         document.getElementById('predTableCountDisplay').textContent = 
             `Showing ${(res.page - 1) * res.page_size + 1} - ${Math.min(res.total_records, res.page * res.page_size)} of ${formatNumber(res.total_records)}`;
 
         if (res.records.length === 0) {
             tbody.innerHTML = `<tr><td colspan="12" class="text-center p-4 text-muted">No predicted employees match the criteria.</td></tr>`;
+            const body = document.getElementById('selectedEmpPanelBody');
+            if (body) {
+                body.innerHTML = `<div class="p-4 text-center text-muted">No employee selected or matching current filter criteria.</div>`;
+            }
+            const badge = document.getElementById('selectedEmpRiskBadge');
+            if (badge) {
+                badge.textContent = 'None';
+                badge.className = 'card-badge';
+            }
+            currentSelectedEmpId = null;
             return;
         }
 
@@ -202,12 +222,13 @@ async function loadPredictionsTable(page = 1) {
 
         renderPredPagination(res.page, res.total_pages);
 
-        // Auto-select first employee if none selected yet
-        if (!currentSelectedEmpId && res.records.length > 0) {
+        // Auto-select first employee if none selected yet or current not in list
+        const ids = res.records.map(r => r.employee_id);
+        if (!currentSelectedEmpId || !ids.includes(currentSelectedEmpId)) {
             selectEmployee(res.records[0].employee_id);
         }
     } catch (err) {
-        console.error('Error loading predictions table:', err);
+        if (reqId === predTableRequestId) console.error('Error loading predictions table:', err);
     }
 }
 
@@ -339,6 +360,8 @@ async function selectEmployee(empId) {
 
 function setupEventHandlers() {
     document.getElementById('applyPredFiltersBtn')?.addEventListener('click', () => {
+        loadPredictionKPIs();
+        loadPredictionCharts();
         loadPredictionsTable(1);
     });
 
@@ -349,6 +372,8 @@ function setupEventHandlers() {
         document.getElementById('filterPredLocation').value = 'All';
         document.getElementById('filterPredRisk').value = 'All';
         document.getElementById('filterPredSearch').value = '';
+        loadPredictionKPIs();
+        loadPredictionCharts();
         loadPredictionsTable(1);
     });
 

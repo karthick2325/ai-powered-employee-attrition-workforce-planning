@@ -3,6 +3,7 @@
  */
 let currentNoticePage = 1;
 const NOTICE_PAGE_SIZE = 8;
+let noticeRequestId = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadWorkforceKPIs();
@@ -208,6 +209,7 @@ async function loadDepartmentExitTable() {
 
 async function loadNoticeEmployeesTable(page = 1) {
     currentNoticePage = page;
+    const reqId = ++noticeRequestId;
     const tbody = document.getElementById('noticeTableBody');
     tbody.innerHTML = `<tr><td colspan="7" class="text-center p-3"><div class="spinner"></div></td></tr>`;
 
@@ -219,7 +221,7 @@ async function loadNoticeEmployeesTable(page = 1) {
             page_size: NOTICE_PAGE_SIZE
         });
 
-        if (!res.success) return;
+        if (reqId !== noticeRequestId || !res.success) return;
 
         if (res.records.length === 0) {
             tbody.innerHTML = `<tr><td colspan="7" class="text-center p-3 text-muted">No notice records match the query.</td></tr>`;
