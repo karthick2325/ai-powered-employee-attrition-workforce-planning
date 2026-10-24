@@ -38,7 +38,7 @@ def get_dashboard_overview():
 
         pred_kpis = PredictionService.get_prediction_kpis()
         predicted_high_risk = pred_kpis["predicted_high_risk"]
-        predicted_high_risk_pct = round((predicted_high_risk / max(1, total_employees)) * 100, 2)
+        predicted_high_risk_pct = round((predicted_high_risk / max(1, total_eligible)) * 100, 2)
 
         wf_kpis = WorkforcePlanningService.get_summary_kpis()
         open_requisitions = wf_kpis["open_requisitions"]
@@ -118,7 +118,7 @@ def get_dashboard_overview():
             {
                 "icon": "bi-currency-rupee",
                 "color": "info",
-                "text": f"Average recruitment cost per requisition is <b>{recruitment_costs['avg_cost_formatted']}</b>."
+                "text": f"Average recruitment cost per hire is <b>{recruitment_costs['avg_cost_formatted']}</b> (across 1,617 completed hires)."
             }
         ]
 

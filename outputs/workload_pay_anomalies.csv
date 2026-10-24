@@ -1,0 +1,961 @@
+Employee_ID,Department,Job_Role,Job_Level,Segment_ID,Compa_Ratio,Annual_Salary_INR,Overtime_Hours_Monthly,Job_Satisfaction_Score_1_5,Work_Life_Balance_Score_1_5,Performance_Rating_1_5,Last_Salary_Hike_Pct,Anomaly_Type,Anomaly_Score
+EMP023882,Finance,Finance Manager,Mid,3,0.6818,510000,1,1,1,4,11.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0944
+EMP027601,Operations,Process Analyst,Mid,3,0.7072,529000,17,1,4,5,14.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.084
+EMP017595,Legal,Compliance Analyst,Junior,3,0.7299,354000,6,5,1,5,13.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0834
+EMP021590,Customer Support,Support Associate,Junior,4,1.0474,508000,20,1,5,2,1.5,Multivariate Workload/Pay Outlier,-0.0727
+EMP045492,Customer Support,Support Analyst,Mid,3,0.8957,670000,1,1,5,5,11.3,Multivariate Workload/Pay Outlier,-0.0727
+EMP038985,Marketing,Marketing Executive,Mid,0,1.3222,989000,18,5,5,4,12.3,Multivariate Workload/Pay Outlier,-0.0705
+EMP012518,Operations,Operations Associate,Senior,3,0.8286,1015000,22,5,4,5,13.6,Multivariate Workload/Pay Outlier,-0.0676
+EMP022585,Sales,Account Manager,Mid,1,0.6725,503000,20,1,4,2,1.4,Multivariate Workload/Pay Outlier,-0.0663
+EMP006448,Finance,Financial Analyst,Mid,4,0.9639,721000,21,1,5,3,2.4,Multivariate Workload/Pay Outlier,-0.0653
+EMP044242,Technology,Data Analyst,Junior,2,0.8186,397000,0,1,5,3,1.7,Multivariate Workload/Pay Outlier,-0.0644
+EMP019904,Finance,Finance Manager,Junior,1,0.7258,352000,0,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.064
+EMP011013,Customer Support,Support Analyst,Junior,2,1.2515,607000,0,1,5,3,2.7,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0633
+EMP026538,Technology,QA Engineer,Junior,2,1.0722,520000,0,1,4,5,13.6,Multivariate Workload/Pay Outlier,-0.0626
+EMP036603,Technology,DevOps Engineer,Junior,3,0.8722,423000,13,2,1,5,17.0,Multivariate Workload/Pay Outlier,-0.0621
+EMP027691,Operations,Operations Manager,Lead,1,0.7965,1354000,24,5,1,3,5.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0603
+EMP005489,Operations,Operations Manager,Junior,4,1.3216,641000,6,1,1,5,2.8,Multivariate Workload/Pay Outlier,-0.0596
+EMP014187,Operations,Operations Associate,Mid,4,1.1404,853000,0,1,1,2,0.0,Multivariate Workload/Pay Outlier,-0.0591
+EMP033174,Technology,IT Support,Mid,3,1.2834,960000,19,5,4,4,13.0,Multivariate Workload/Pay Outlier,-0.0587
+EMP013707,Customer Support,Support Associate,Mid,3,0.7888,590000,18,1,5,5,8.9,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0585
+EMP014632,Customer Support,Support Associate,Mid,3,0.9987,747000,1,1,5,5,11.0,Multivariate Workload/Pay Outlier,-0.0584
+EMP018093,Operations,Process Analyst,Mid,3,1.0495,785000,22,5,1,3,7.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0577
+EMP035584,Operations,Operations Associate,Junior,3,0.7753,376000,13,3,1,5,14.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0576
+EMP002889,Operations,Operations Manager,Senior,3,0.9396,1151000,4,1,2,5,14.9,Multivariate Workload/Pay Outlier,-0.057
+EMP002353,Sales,Sales Executive,Junior,3,1.3299,645000,21,3,1,5,9.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0566
+EMP047078,Sales,Account Manager,Mid,4,1.3155,984000,14,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0558
+EMP034555,Sales,Sales Analyst,Mid,3,1.3275,993000,0,1,2,4,9.4,Multivariate Workload/Pay Outlier,-0.0557
+EMP034722,Operations,Operations Associate,Mid,3,1.2326,922000,17,1,4,5,12.3,Multivariate Workload/Pay Outlier,-0.055
+EMP032123,Finance,Finance Manager,Junior,1,0.6866,333000,14,5,1,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0548
+EMP009869,Operations,Process Analyst,Mid,4,1.3128,982000,15,5,1,2,0.3,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0544
+EMP005482,Technology,QA Engineer,Senior,4,1.2057,1477000,15,1,1,4,2.1,Multivariate Workload/Pay Outlier,-0.0537
+EMP024055,Legal,Legal Manager,Mid,3,1.1751,879000,10,1,1,4,11.0,Multivariate Workload/Pay Outlier,-0.0535
+EMP045662,Sales,Sales Executive,Lead,4,1.2682,2156000,0,5,5,3,0.2,Multivariate Workload/Pay Outlier,-0.0531
+EMP032951,Human Resources,HR Executive,Mid,3,1.0428,780000,4,2,1,5,12.6,Multivariate Workload/Pay Outlier,-0.0515
+EMP025499,Customer Support,Support Analyst,Senior,2,0.7167,878000,1,1,4,2,11.9,Multivariate Workload/Pay Outlier,-0.0513
+EMP000319,Sales,Sales Executive,Senior,3,1.2057,1477000,18,5,5,5,11.2,Multivariate Workload/Pay Outlier,-0.051
+EMP000855,Sales,Account Manager,Lead,0,1.2824,2180000,23,1,3,3,8.5,Multivariate Workload/Pay Outlier,-0.0507
+EMP029646,Customer Support,Support Analyst,Junior,3,1.2928,627000,0,5,5,3,11.1,Multivariate Workload/Pay Outlier,-0.0496
+EMP040005,Marketing,Content Specialist,Mid,3,0.7594,568000,17,5,2,5,13.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0494
+EMP033791,Sales,Account Manager,Mid,3,1.2527,937000,3,2,1,4,12.8,Multivariate Workload/Pay Outlier,-0.0494
+EMP018925,Legal,Legal Associate,Mid,3,1.3369,1000000,20,2,2,5,11.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0493
+EMP027709,Technology,DevOps Engineer,Senior,0,1.2931,1584000,18,1,2,3,8.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.049
+EMP011808,Legal,Legal Associate,Junior,3,1.3381,649000,4,1,2,5,10.6,Multivariate Workload/Pay Outlier,-0.0489
+EMP033963,Operations,Operations Associate,Senior,3,0.7347,900000,20,1,3,4,10.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0484
+EMP017185,Operations,Operations Manager,Senior,4,1.2433,1523000,25,5,2,2,0.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0483
+EMP005193,Human Resources,Recruiter,Mid,3,1.3356,999000,25,3,2,4,11.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0482
+EMP019536,Customer Support,Team Lead,Mid,1,0.9305,696000,28,1,3,3,0.0,Multivariate Workload/Pay Outlier,-0.0481
+EMP028803,Customer Support,Support Analyst,Senior,4,1.3061,1600000,6,1,5,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0476
+EMP017749,Operations,Process Analyst,Junior,4,1.0701,519000,15,1,5,3,0.4,Multivariate Workload/Pay Outlier,-0.0474
+EMP044615,Sales,Account Manager,Junior,1,0.7588,368000,16,5,1,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0471
+EMP035581,Legal,Legal Manager,Senior,1,0.8727,1069000,0,1,5,2,5.2,Multivariate Workload/Pay Outlier,-0.0471
+EMP002259,Technology,IT Support,Lead,3,0.9671,1644000,21,5,3,5,13.7,Multivariate Workload/Pay Outlier,-0.0466
+EMP029160,Legal,Compliance Analyst,Junior,4,1.1175,542000,0,5,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0462
+EMP049984,Operations,Operations Manager,Lead,0,0.88,1496000,20,1,3,4,10.7,Multivariate Workload/Pay Outlier,-0.0462
+EMP008781,Sales,Sales Analyst,Mid,3,0.7019,525000,0,1,3,5,10.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0461
+EMP019713,Technology,Software Engineer,Senior,3,0.8841,1083000,15,1,2,4,11.1,Multivariate Workload/Pay Outlier,-0.0457
+EMP046884,Operations,Process Analyst,Junior,4,1.0433,506000,14,1,5,5,0.0,Multivariate Workload/Pay Outlier,-0.0454
+EMP048475,Customer Support,Support Associate,Mid,3,0.8088,605000,16,1,4,5,12.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0453
+EMP045605,Technology,DevOps Engineer,Junior,2,1.3113,636000,16,1,2,4,8.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.045
+EMP001599,Operations,Operations Manager,Junior,1,0.967,469000,0,5,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0441
+EMP027196,Finance,Accountant,Mid,4,1.2273,918000,18,5,1,3,6.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.044
+EMP011833,Operations,Operations Associate,Senior,3,1.1829,1449000,14,2,1,5,12.7,Multivariate Workload/Pay Outlier,-0.0438
+EMP012033,Customer Support,Support Associate,Mid,4,1.1618,869000,7,1,5,2,0.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0437
+EMP047473,Technology,IT Support,Mid,0,1.242,929000,12,1,1,4,8.6,Multivariate Workload/Pay Outlier,-0.0436
+EMP005698,Finance,Finance Manager,Junior,4,1.2392,601000,14,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0436
+EMP021569,Human Resources,HR Business Partner,Junior,3,1.3196,640000,26,2,2,5,8.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0435
+EMP029355,Human Resources,Recruiter,Senior,4,1.0914,1337000,0,5,5,3,0.2,Multivariate Workload/Pay Outlier,-0.0431
+EMP047631,Finance,Financial Analyst,Mid,3,0.9545,714000,9,1,5,5,11.7,Multivariate Workload/Pay Outlier,-0.0431
+EMP024077,Marketing,Content Specialist,Mid,0,1.1898,890000,23,5,5,5,8.5,Multivariate Workload/Pay Outlier,-0.043
+EMP048300,Legal,Legal Manager,Lead,3,0.9888,1681000,13,1,5,5,10.6,Multivariate Workload/Pay Outlier,-0.0429
+EMP003688,Technology,DevOps Engineer,Senior,3,1.2759,1563000,11,1,5,5,9.6,Multivariate Workload/Pay Outlier,-0.0428
+EMP027295,Technology,DevOps Engineer,Mid,4,1.3021,974000,5,1,5,1,2.5,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0428
+EMP017317,Technology,Software Engineer,Senior,3,1.2816,1570000,13,5,2,3,13.1,Multivariate Workload/Pay Outlier,-0.0426
+EMP014763,Operations,Process Analyst,Mid,0,0.7179,537000,16,5,1,4,6.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0423
+EMP019234,Technology,DevOps Engineer,Mid,0,1.0147,759000,5,1,5,3,11.3,Multivariate Workload/Pay Outlier,-0.0422
+EMP042533,Technology,IT Support,Mid,4,1.0067,753000,25,2,5,3,0.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0421
+EMP001967,Customer Support,Support Associate,Junior,4,1.1608,563000,2,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0419
+EMP025180,Technology,IT Support,Senior,3,1.2914,1582000,15,5,4,5,14.6,Multivariate Workload/Pay Outlier,-0.0419
+EMP028662,Operations,Process Analyst,Junior,3,1.3299,645000,24,2,2,4,8.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0418
+EMP034535,Operations,Operations Manager,Mid,3,1.1444,856000,3,2,5,4,12.8,Multivariate Workload/Pay Outlier,-0.0414
+EMP042561,Customer Support,Support Analyst,Mid,4,1.0735,803000,10,1,5,2,0.9,Multivariate Workload/Pay Outlier,-0.0413
+EMP011852,Marketing,Content Specialist,Mid,3,1.3235,990000,19,5,3,5,11.2,Multivariate Workload/Pay Outlier,-0.0413
+EMP043023,Marketing,Digital Marketing Analyst,Junior,3,1.334,647000,0,1,3,4,9.1,Multivariate Workload/Pay Outlier,-0.0413
+EMP043398,Technology,Data Analyst,Mid,4,1.1858,887000,4,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0412
+EMP033283,Sales,Sales Analyst,Junior,4,1.3278,644000,16,1,2,2,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0411
+EMP007415,Legal,Legal Manager,Mid,3,1.3316,996000,13,5,5,5,10.9,Multivariate Workload/Pay Outlier,-0.0411
+EMP003971,Marketing,Content Specialist,Senior,4,1.0212,1251000,1,1,5,2,2.4,Multivariate Workload/Pay Outlier,-0.041
+EMP000683,Sales,Sales Analyst,Junior,1,0.6701,325000,19,5,2,4,1.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0407
+EMP047277,Operations,Operations Associate,Junior,1,0.7649,371000,21,5,5,2,2.3,Multivariate Workload/Pay Outlier,-0.0407
+EMP033194,Sales,Sales Executive,Senior,2,0.9682,1186000,0,1,4,4,12.3,Multivariate Workload/Pay Outlier,-0.0406
+EMP030938,Operations,Process Analyst,Junior,4,1.2825,622000,23,4,1,3,4.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0406
+EMP028967,Marketing,Digital Marketing Analyst,Senior,1,0.72,882000,0,5,5,3,0.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0405
+EMP007000,Sales,Account Manager,Mid,3,1.3262,992000,0,5,5,4,10.2,Multivariate Workload/Pay Outlier,-0.0403
+EMP011864,Finance,Financial Analyst,Mid,3,1.004,751000,2,1,3,5,13.4,Multivariate Workload/Pay Outlier,-0.0403
+EMP045208,Finance,Accountant,Mid,0,1.2166,910000,1,5,5,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0402
+EMP044882,Human Resources,Recruiter,Mid,4,1.2193,912000,1,5,5,5,0.0,Multivariate Workload/Pay Outlier,-0.0402
+EMP007140,Customer Support,Support Analyst,Lead,4,1.2141,2064000,4,1,1,3,5.6,Multivariate Workload/Pay Outlier,-0.0399
+EMP041539,Human Resources,Recruiter,Junior,4,1.2804,621000,9,5,1,2,1.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0399
+EMP022761,Legal,Legal Associate,Mid,1,0.6925,518000,12,1,1,4,6.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0398
+EMP044460,Technology,Data Analyst,Mid,3,1.3021,974000,7,1,5,5,9.8,Multivariate Workload/Pay Outlier,-0.0397
+EMP043229,Sales,Sales Executive,Mid,3,0.6925,518000,0,4,1,3,11.0,Multivariate Workload/Pay Outlier,-0.0397
+EMP047228,Operations,Process Analyst,Lead,3,1.0847,1844000,8,1,3,3,14.1,Multivariate Workload/Pay Outlier,-0.0397
+EMP023126,Sales,Account Manager,Junior,1,0.6639,322000,25,5,3,3,8.1,Multivariate Workload/Pay Outlier,-0.0394
+EMP011832,Operations,Operations Manager,Mid,4,1.1631,870000,25,1,3,3,3.5,Multivariate Workload/Pay Outlier,-0.0394
+EMP036742,Finance,Finance Manager,Senior,3,1.0171,1246000,8,1,2,3,12.5,Multivariate Workload/Pay Outlier,-0.039
+EMP019446,Customer Support,Support Associate,Senior,3,0.9437,1156000,20,2,2,5,13.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.039
+EMP034897,Finance,Financial Analyst,Junior,2,0.6825,331000,0,4,2,3,12.8,Multivariate Workload/Pay Outlier,-0.039
+EMP045600,Technology,QA Engineer,Mid,3,0.8556,640000,22,1,4,4,8.4,Multivariate Workload/Pay Outlier,-0.0386
+EMP039017,Sales,Sales Analyst,Junior,4,1.2701,616000,1,5,1,3,2.3,Multivariate Workload/Pay Outlier,-0.0384
+EMP033993,Marketing,Marketing Executive,Junior,1,0.9835,477000,15,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0383
+EMP047164,Technology,Data Analyst,Mid,2,1.2326,922000,18,5,1,3,4.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0381
+EMP047652,Sales,Sales Analyst,Lead,3,1.0088,1715000,15,5,5,4,11.3,Multivariate Workload/Pay Outlier,-0.0379
+EMP032764,Customer Support,Support Analyst,Senior,1,0.7731,947000,23,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0378
+EMP033761,Human Resources,Recruiter,Junior,3,0.7608,369000,14,1,4,5,12.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0378
+EMP038837,Operations,Process Analyst,Senior,3,0.929,1138000,2,4,1,5,12.8,Multivariate Workload/Pay Outlier,-0.0378
+EMP013201,Human Resources,HR Executive,Mid,1,0.7727,578000,23,4,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0378
+EMP021926,Operations,Operations Manager,Junior,3,0.6784,329000,18,3,5,5,11.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0377
+EMP045346,Marketing,Content Specialist,Senior,3,0.7853,962000,12,1,2,4,11.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0377
+EMP033343,Operations,Operations Manager,Mid,3,0.6965,521000,1,5,5,5,10.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0369
+EMP033133,Customer Support,Team Lead,Junior,2,0.7938,385000,14,5,5,3,12.3,Multivariate Workload/Pay Outlier,-0.0369
+EMP021198,Finance,Accountant,Lead,3,0.7112,1209000,20,1,4,5,5.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0367
+EMP000393,Customer Support,Support Analyst,Junior,1,0.7794,378000,10,1,1,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0367
+EMP000733,Operations,Process Analyst,Senior,1,0.8433,1033000,18,1,5,2,5.6,Multivariate Workload/Pay Outlier,-0.0365
+EMP002299,Sales,Account Manager,Mid,1,0.9519,712000,0,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0365
+EMP025521,Operations,Operations Associate,Junior,3,0.899,436000,0,2,2,3,14.0,Multivariate Workload/Pay Outlier,-0.0365
+EMP035179,Customer Support,Support Analyst,Mid,1,0.8436,631000,16,5,1,3,2.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0364
+EMP044763,Customer Support,Support Associate,Junior,4,1.2722,617000,10,5,1,1,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0364
+EMP029049,Sales,Sales Executive,Mid,2,0.8543,639000,0,5,5,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0364
+EMP049271,Operations,Operations Manager,Mid,1,1.0414,779000,17,5,1,3,2.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0363
+EMP030087,Customer Support,Team Lead,Mid,1,0.7032,526000,19,2,5,2,1.0,Multivariate Workload/Pay Outlier,-0.0361
+EMP000504,Customer Support,Support Analyst,Junior,3,0.9753,473000,24,4,1,4,6.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0359
+EMP030781,Legal,Legal Associate,Mid,3,1.0147,759000,0,2,2,5,13.8,Multivariate Workload/Pay Outlier,-0.0359
+EMP022317,Marketing,Digital Marketing Analyst,Mid,1,0.9519,712000,10,1,5,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0358
+EMP006350,Sales,Sales Analyst,Senior,4,1.2408,1520000,17,1,5,4,4.9,Multivariate Workload/Pay Outlier,-0.0358
+EMP024940,Operations,Operations Associate,Junior,1,0.6722,326000,0,5,2,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0358
+EMP007919,Marketing,Marketing Executive,Senior,2,1.2327,1510000,2,5,1,3,10.7,Multivariate Workload/Pay Outlier,-0.0358
+EMP033104,Customer Support,Team Lead,Senior,3,0.8367,1025000,23,1,4,3,7.2,Multivariate Workload/Pay Outlier,-0.0358
+EMP047760,Operations,Operations Associate,Junior,3,0.6948,337000,15,4,1,5,11.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0356
+EMP002148,Sales,Sales Executive,Junior,3,1.2474,605000,20,4,2,4,14.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0356
+EMP040065,Sales,Sales Executive,Senior,4,1.3053,1599000,0,1,4,1,0.3,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0354
+EMP010805,Sales,Sales Executive,Mid,3,0.8128,608000,17,2,1,3,10.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0353
+EMP006108,Sales,Sales Executive,Mid,4,1.0134,758000,13,1,1,1,0.1,Multivariate Workload/Pay Outlier,-0.0352
+EMP041422,Technology,Software Engineer,Senior,3,1.2955,1587000,20,5,5,3,8.0,Multivariate Workload/Pay Outlier,-0.035
+EMP021403,Technology,IT Support,Junior,3,1.0928,530000,18,2,2,5,15.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0347
+EMP040368,Technology,QA Engineer,Mid,2,1.1658,872000,0,5,1,4,9.9,Multivariate Workload/Pay Outlier,-0.0346
+EMP039937,Operations,Operations Manager,Mid,3,0.9679,724000,16,5,1,3,8.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0345
+EMP025283,Legal,Legal Associate,Junior,1,0.868,421000,0,5,5,3,0.3,Multivariate Workload/Pay Outlier,-0.0344
+EMP016261,Finance,Finance Manager,Junior,1,0.866,420000,25,3,5,5,1.1,Multivariate Workload/Pay Outlier,-0.0342
+EMP020926,Customer Support,Support Associate,Mid,3,0.7527,563000,9,5,1,5,11.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0339
+EMP002411,Sales,Account Manager,Junior,0,1.0124,491000,2,3,1,3,12.4,Multivariate Workload/Pay Outlier,-0.0339
+EMP013762,Sales,Account Manager,Mid,2,0.9278,694000,16,5,1,2,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0339
+EMP025387,Customer Support,Team Lead,Mid,3,0.8356,625000,19,1,4,3,9.5,Multivariate Workload/Pay Outlier,-0.0339
+EMP031126,Customer Support,Team Lead,Senior,3,1.0555,1293000,24,2,1,4,6.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0337
+EMP048636,Sales,Account Manager,Junior,3,0.9959,483000,14,1,1,4,6.5,Multivariate Workload/Pay Outlier,-0.0335
+EMP036392,Marketing,Digital Marketing Analyst,Lead,4,1.2765,2170000,13,5,1,5,0.1,Multivariate Workload/Pay Outlier,-0.0334
+EMP045261,Sales,Sales Analyst,Mid,3,0.7219,540000,0,5,1,4,8.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0333
+EMP002900,Legal,Legal Associate,Mid,3,1.3369,1000000,5,3,1,4,11.6,Multivariate Workload/Pay Outlier,-0.0333
+EMP004794,Legal,Legal Associate,Mid,1,0.7955,595000,19,5,5,3,2.0,Multivariate Workload/Pay Outlier,-0.0332
+EMP022122,Sales,Account Manager,Senior,4,1.0237,1254000,0,5,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0332
+EMP046730,Technology,DevOps Engineer,Junior,0,1.3381,649000,16,1,2,3,5.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0332
+EMP026578,Finance,Accountant,Lead,0,1.1518,1958000,23,4,5,4,11.0,Multivariate Workload/Pay Outlier,-0.033
+EMP032142,Technology,Data Analyst,Mid,1,0.6818,510000,10,1,5,3,5.0,Multivariate Workload/Pay Outlier,-0.033
+EMP005596,Finance,Accountant,Senior,1,0.8612,1055000,21,5,5,3,2.6,Multivariate Workload/Pay Outlier,-0.033
+EMP020859,Operations,Operations Associate,Mid,3,0.7955,595000,1,1,5,4,6.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0329
+EMP009330,Customer Support,Support Associate,Mid,4,1.0508,786000,21,5,5,3,2.4,Multivariate Workload/Pay Outlier,-0.0328
+EMP023700,Customer Support,Support Associate,Mid,4,1.3369,1000000,17,5,2,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0328
+EMP048576,Technology,IT Support,Senior,1,0.6939,850000,9,2,1,2,11.3,Multivariate Workload/Pay Outlier,-0.0327
+EMP007606,Customer Support,Support Analyst,Senior,3,1.0661,1306000,13,1,1,4,7.8,Multivariate Workload/Pay Outlier,-0.0327
+EMP000676,Sales,Sales Analyst,Mid,3,1.3008,973000,0,2,3,4,13.7,Multivariate Workload/Pay Outlier,-0.0326
+EMP048922,Operations,Process Analyst,Mid,3,1.1537,863000,15,1,2,4,10.7,Multivariate Workload/Pay Outlier,-0.0324
+EMP011701,Sales,Account Manager,Junior,4,1.2041,584000,3,1,5,3,7.1,Multivariate Workload/Pay Outlier,-0.0324
+EMP013705,Sales,Account Manager,Junior,3,1.3196,640000,0,4,1,3,10.2,Multivariate Workload/Pay Outlier,-0.0323
+EMP039334,Technology,IT Support,Lead,1,0.84,1428000,19,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0322
+EMP001489,Operations,Operations Associate,Mid,1,0.7112,532000,0,2,5,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0321
+EMP000516,Finance,Finance Manager,Mid,2,1.1029,825000,15,5,1,2,9.0,Multivariate Workload/Pay Outlier,-0.0321
+EMP028993,Legal,Legal Manager,Mid,3,1.2981,971000,5,2,5,5,12.5,Multivariate Workload/Pay Outlier,-0.032
+EMP025743,Legal,Legal Associate,Senior,4,1.0465,1282000,9,1,5,3,0.8,Multivariate Workload/Pay Outlier,-0.032
+EMP034162,Technology,Data Analyst,Junior,3,1.3361,648000,16,2,2,4,11.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0319
+EMP021252,Human Resources,Recruiter,Mid,4,1.3356,999000,15,2,1,3,7.2,Multivariate Workload/Pay Outlier,-0.0318
+EMP009292,Customer Support,Support Analyst,Mid,1,0.6765,506000,8,1,5,3,7.5,Multivariate Workload/Pay Outlier,-0.0315
+EMP036821,Human Resources,Recruiter,Junior,4,1.2784,620000,22,3,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0315
+EMP047596,Customer Support,Support Analyst,Junior,4,1.0268,498000,4,5,1,5,0.0,Multivariate Workload/Pay Outlier,-0.0315
+EMP033975,Legal,Compliance Analyst,Junior,3,0.7031,341000,1,1,2,4,8.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0312
+EMP020047,Customer Support,Support Analyst,Mid,3,1.004,751000,21,5,4,5,11.3,Multivariate Workload/Pay Outlier,-0.0311
+EMP024618,Operations,Process Analyst,Senior,4,1.2816,1570000,22,1,4,3,5.5,Multivariate Workload/Pay Outlier,-0.031
+EMP038856,Customer Support,Support Analyst,Junior,3,1.1464,556000,17,5,3,4,13.0,Multivariate Workload/Pay Outlier,-0.031
+EMP048610,Customer Support,Team Lead,Mid,2,1.0428,780000,4,1,1,2,4.5,Multivariate Workload/Pay Outlier,-0.031
+EMP017678,Marketing,Content Specialist,Mid,1,0.7005,524000,20,5,5,3,7.8,Multivariate Workload/Pay Outlier,-0.0309
+EMP048313,Marketing,Content Specialist,Senior,1,0.9306,1140000,1,5,1,4,1.5,Multivariate Workload/Pay Outlier,-0.0308
+EMP003006,Finance,Financial Analyst,Senior,3,1.178,1443000,23,3,2,5,12.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0308
+EMP034129,Human Resources,Recruiter,Senior,0,1.258,1541000,10,1,1,5,5.3,Multivariate Workload/Pay Outlier,-0.0308
+EMP031256,Operations,Operations Manager,Mid,3,0.9104,681000,11,5,5,5,12.1,Multivariate Workload/Pay Outlier,-0.0307
+EMP003861,Technology,DevOps Engineer,Junior,0,1.0412,505000,11,1,2,5,12.2,Multivariate Workload/Pay Outlier,-0.0306
+EMP035387,Legal,Legal Manager,Mid,3,1.131,846000,0,1,3,5,11.3,Multivariate Workload/Pay Outlier,-0.0305
+EMP049923,Finance,Accountant,Senior,3,1.0727,1314000,0,1,4,5,10.8,Multivariate Workload/Pay Outlier,-0.0305
+EMP039855,Legal,Compliance Analyst,Junior,4,1.1835,574000,0,2,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0304
+EMP013334,Technology,DevOps Engineer,Senior,4,1.1576,1418000,2,5,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0304
+EMP027610,Technology,IT Support,Junior,4,1.3216,641000,15,1,2,2,3.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0299
+EMP022440,Human Resources,Recruiter,Junior,1,0.6825,331000,21,5,4,2,0.0,Multivariate Workload/Pay Outlier,-0.0298
+EMP034271,Sales,Account Manager,Senior,3,1.1853,1452000,0,2,5,2,10.6,Multivariate Workload/Pay Outlier,-0.0298
+EMP007426,Sales,Account Manager,Senior,3,0.742,909000,0,3,2,4,13.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0298
+EMP024390,Finance,Finance Manager,Senior,1,0.7265,890000,0,5,1,3,4.7,Multivariate Workload/Pay Outlier,-0.0297
+EMP019923,Finance,Financial Analyst,Junior,1,0.7608,369000,7,5,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0297
+EMP042956,Operations,Process Analyst,Junior,3,1.3299,645000,5,2,1,4,9.4,Multivariate Workload/Pay Outlier,-0.0296
+EMP043263,Sales,Account Manager,Senior,2,1.0914,1337000,24,3,5,4,0.9,Multivariate Workload/Pay Outlier,-0.0296
+EMP004384,Technology,QA Engineer,Junior,3,1.1113,539000,3,2,1,5,11.6,Multivariate Workload/Pay Outlier,-0.0296
+EMP014432,Operations,Operations Associate,Mid,2,1.0749,804000,13,1,1,4,4.2,Multivariate Workload/Pay Outlier,-0.0294
+EMP030367,Human Resources,Recruiter,Mid,0,1.3209,988000,9,1,4,4,11.1,Multivariate Workload/Pay Outlier,-0.0294
+EMP043129,Legal,Legal Manager,Mid,1,0.6765,506000,0,4,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0293
+EMP027940,Customer Support,Team Lead,Mid,1,0.6738,504000,0,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0293
+EMP017911,Finance,Finance Manager,Senior,3,0.8914,1092000,0,1,2,4,9.5,Multivariate Workload/Pay Outlier,-0.0292
+EMP037975,Human Resources,Recruiter,Junior,1,0.7691,373000,10,5,1,4,1.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0291
+EMP003284,Marketing,Digital Marketing Analyst,Senior,3,0.7069,866000,5,5,2,4,13.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.029
+EMP026853,Customer Support,Support Analyst,Mid,4,1.262,944000,0,1,2,2,2.3,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.029
+EMP039835,Customer Support,Team Lead,Senior,3,0.7094,869000,16,2,5,3,12.3,Multivariate Workload/Pay Outlier,-0.0289
+EMP003389,Technology,DevOps Engineer,Mid,3,1.2834,960000,8,1,3,3,12.3,Multivariate Workload/Pay Outlier,-0.0288
+EMP036813,Technology,DevOps Engineer,Senior,4,1.1045,1353000,0,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0288
+EMP018789,Operations,Process Analyst,Junior,4,1.3113,636000,0,4,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0287
+EMP044561,Technology,Software Engineer,Mid,1,0.857,641000,0,1,2,4,0.0,Multivariate Workload/Pay Outlier,-0.0287
+EMP000296,Sales,Account Manager,Mid,3,1.2874,963000,19,5,2,4,9.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0287
+EMP004844,Operations,Operations Associate,Mid,3,1.2727,952000,19,2,3,3,12.7,Multivariate Workload/Pay Outlier,-0.0286
+EMP014741,Technology,IT Support,Lead,2,1.2106,2058000,12,5,1,3,9.7,Multivariate Workload/Pay Outlier,-0.0284
+EMP024538,Technology,IT Support,Mid,4,1.3195,987000,17,1,4,3,6.3,Multivariate Workload/Pay Outlier,-0.0282
+EMP034857,Sales,Sales Analyst,Junior,3,0.8701,422000,8,1,5,5,2.6,Multivariate Workload/Pay Outlier,-0.0279
+EMP002011,Operations,Operations Associate,Senior,2,0.8522,1044000,1,1,5,3,5.5,Multivariate Workload/Pay Outlier,-0.0278
+EMP016675,Operations,Process Analyst,Mid,4,1.0762,805000,19,1,2,2,1.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0278
+EMP008545,Technology,QA Engineer,Senior,3,1.1714,1435000,14,3,5,4,13.3,Multivariate Workload/Pay Outlier,-0.0277
+EMP006123,Sales,Sales Analyst,Senior,3,1.2343,1512000,23,5,4,5,10.3,Multivariate Workload/Pay Outlier,-0.0276
+EMP005580,Customer Support,Support Analyst,Junior,2,0.9608,466000,17,5,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0276
+EMP037711,Operations,Operations Associate,Mid,3,0.7152,535000,4,4,5,4,14.9,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0276
+EMP022773,Technology,Software Engineer,Junior,3,0.8021,389000,11,4,5,4,13.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0274
+EMP041795,Sales,Sales Analyst,Mid,1,0.7968,596000,0,1,4,2,0.1,Multivariate Workload/Pay Outlier,-0.0273
+EMP037129,Technology,Software Engineer,Junior,4,1.3155,638000,14,1,4,4,0.0,Multivariate Workload/Pay Outlier,-0.0272
+EMP009986,Operations,Process Analyst,Mid,4,1.2286,919000,4,1,5,2,3.3,Multivariate Workload/Pay Outlier,-0.0272
+EMP008660,Sales,Sales Executive,Junior,1,0.9753,473000,14,5,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0271
+EMP048694,Sales,Sales Executive,Senior,3,0.8539,1046000,13,1,3,5,11.6,Multivariate Workload/Pay Outlier,-0.027
+EMP009511,Technology,DevOps Engineer,Mid,4,1.3048,976000,8,5,1,2,3.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.027
+EMP012116,Marketing,Digital Marketing Analyst,Junior,4,1.1443,555000,7,1,5,3,3.8,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0268
+EMP015562,Sales,Sales Executive,Mid,3,0.9211,689000,22,5,2,5,10.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0266
+EMP020356,Sales,Sales Executive,Mid,1,0.6791,508000,13,1,4,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0265
+EMP041637,Operations,Operations Manager,Lead,2,1.0118,1720000,14,3,1,3,12.7,Multivariate Workload/Pay Outlier,-0.0265
+EMP005840,Customer Support,Support Associate,Junior,3,0.8412,408000,22,5,3,2,11.7,Multivariate Workload/Pay Outlier,-0.0264
+EMP009467,Sales,Account Manager,Mid,1,0.7233,541000,0,5,1,4,4.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0263
+EMP040659,Finance,Finance Manager,Junior,1,0.9258,449000,17,5,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0263
+EMP026746,Technology,Software Engineer,Mid,3,0.6818,510000,21,2,5,4,6.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0263
+EMP009327,Customer Support,Support Analyst,Mid,3,1.2955,969000,0,4,4,5,13.6,Multivariate Workload/Pay Outlier,-0.0262
+EMP007169,Technology,QA Engineer,Mid,2,1.0388,777000,16,5,1,2,5.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0261
+EMP013419,Technology,Data Analyst,Junior,3,0.701,340000,12,2,1,5,10.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0261
+EMP021621,Customer Support,Team Lead,Mid,2,1.0869,813000,0,5,5,3,2.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.026
+EMP023756,Sales,Sales Executive,Mid,3,0.7126,533000,0,4,2,3,12.8,Multivariate Workload/Pay Outlier,-0.0259
+EMP041132,Human Resources,HR Executive,Mid,2,0.7861,588000,0,5,1,3,4.0,Multivariate Workload/Pay Outlier,-0.0259
+EMP037580,Operations,Operations Manager,Mid,3,0.7353,550000,14,5,1,5,7.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0259
+EMP009547,Operations,Process Analyst,Mid,4,1.2701,950000,1,5,1,3,5.2,Multivariate Workload/Pay Outlier,-0.0258
+EMP000472,Customer Support,Team Lead,Junior,1,0.9216,447000,0,2,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0258
+EMP000073,Sales,Sales Analyst,Mid,3,0.6791,508000,0,4,3,4,13.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0257
+EMP034818,Technology,DevOps Engineer,Mid,3,0.7674,574000,3,2,2,5,13.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0255
+EMP015143,Finance,Accountant,Mid,3,1.3302,995000,0,3,5,5,10.4,Multivariate Workload/Pay Outlier,-0.0254
+EMP021128,Technology,Software Engineer,Junior,4,1.3155,638000,13,1,4,3,0.0,Multivariate Workload/Pay Outlier,-0.0254
+EMP036006,Technology,Software Engineer,Mid,3,0.7086,530000,2,2,1,3,9.4,Multivariate Workload/Pay Outlier,-0.0254
+EMP006237,Customer Support,Support Analyst,Mid,3,1.2059,902000,5,5,1,4,10.6,Multivariate Workload/Pay Outlier,-0.0254
+EMP033986,Sales,Account Manager,Junior,3,0.6722,326000,2,3,5,4,11.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0254
+EMP021301,Legal,Legal Manager,Junior,3,1.132,549000,22,3,4,5,13.6,Multivariate Workload/Pay Outlier,-0.0253
+EMP015446,Customer Support,Team Lead,Junior,4,1.2062,585000,19,1,3,5,0.0,Multivariate Workload/Pay Outlier,-0.0253
+EMP019271,Sales,Sales Analyst,Senior,3,1.1829,1449000,0,2,4,5,13.2,Multivariate Workload/Pay Outlier,-0.0252
+EMP032649,Technology,DevOps Engineer,Senior,3,0.7453,913000,0,1,4,4,9.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0252
+EMP018104,Technology,QA Engineer,Junior,3,0.9196,446000,14,1,5,5,7.3,Multivariate Workload/Pay Outlier,-0.0251
+EMP043974,Technology,Data Analyst,Junior,3,1.0825,525000,10,3,1,4,12.7,Multivariate Workload/Pay Outlier,-0.0251
+EMP007541,Finance,Financial Analyst,Senior,1,0.7094,869000,18,1,4,3,5.2,Multivariate Workload/Pay Outlier,-0.0251
+EMP003487,Sales,Sales Executive,Senior,3,0.6955,852000,17,1,3,5,9.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0249
+EMP006045,Operations,Process Analyst,Mid,4,1.2727,952000,23,3,5,4,2.2,Multivariate Workload/Pay Outlier,-0.0249
+EMP044304,Operations,Operations Associate,Junior,4,1.2701,616000,0,1,4,3,0.0,Multivariate Workload/Pay Outlier,-0.0249
+EMP012128,Marketing,Digital Marketing Analyst,Lead,4,1.2724,2163000,20,3,5,3,0.7,Multivariate Workload/Pay Outlier,-0.0248
+EMP006232,Marketing,Marketing Executive,Senior,1,0.9069,1111000,23,5,2,2,1.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0248
+EMP048555,Finance,Financial Analyst,Junior,3,1.1361,551000,22,2,1,3,9.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0248
+EMP048921,Legal,Legal Associate,Junior,1,0.7402,359000,6,1,5,3,2.4,Multivariate Workload/Pay Outlier,-0.0247
+EMP011130,Finance,Finance Manager,Lead,4,1.2706,2160000,7,1,5,3,7.9,Multivariate Workload/Pay Outlier,-0.0247
+EMP032749,Marketing,Digital Marketing Analyst,Junior,1,0.6784,329000,0,4,1,1,1.3,Multivariate Workload/Pay Outlier,-0.0244
+EMP030753,Operations,Operations Manager,Junior,3,1.2557,609000,0,3,1,5,11.8,Multivariate Workload/Pay Outlier,-0.0244
+EMP015087,Technology,Software Engineer,Junior,1,0.7031,341000,10,5,1,1,2.1,Multivariate Workload/Pay Outlier,-0.0244
+EMP022921,Sales,Sales Executive,Mid,3,0.9198,688000,7,2,5,5,16.1,Multivariate Workload/Pay Outlier,-0.0243
+EMP014478,Legal,Compliance Analyst,Mid,1,0.7112,532000,22,5,2,3,2.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0242
+EMP020754,Operations,Process Analyst,Mid,1,0.881,659000,22,1,4,3,3.8,Multivariate Workload/Pay Outlier,-0.0242
+EMP012736,Finance,Finance Manager,Mid,3,0.9706,726000,13,5,5,4,11.2,Multivariate Workload/Pay Outlier,-0.0241
+EMP023645,Customer Support,Support Analyst,Mid,3,1.0896,815000,6,4,1,5,12.8,Multivariate Workload/Pay Outlier,-0.0241
+EMP010014,Technology,Software Engineer,Senior,3,0.7935,972000,21,5,3,5,12.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0241
+EMP045058,Operations,Process Analyst,Mid,3,1.2433,930000,2,1,2,5,10.2,Multivariate Workload/Pay Outlier,-0.0241
+EMP001584,Sales,Sales Analyst,Junior,3,1.2392,601000,16,5,2,5,11.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.024
+EMP049086,Customer Support,Team Lead,Senior,3,1.2629,1547000,21,2,1,5,6.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0239
+EMP001545,Technology,Data Analyst,Junior,3,1.1938,579000,7,1,1,4,7.2,Multivariate Workload/Pay Outlier,-0.0237
+EMP015793,Technology,Software Engineer,Lead,0,0.8018,1363000,0,1,4,3,0.5,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0237
+EMP004916,Customer Support,Support Analyst,Mid,3,0.7767,581000,0,5,1,5,7.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0237
+EMP017296,Marketing,Content Specialist,Mid,3,1.2246,916000,2,1,4,4,10.6,Multivariate Workload/Pay Outlier,-0.0236
+EMP029092,Operations,Operations Manager,Mid,1,0.7807,584000,21,4,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0235
+EMP015778,Sales,Account Manager,Mid,1,0.6778,507000,1,1,2,4,4.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0234
+EMP000016,Finance,Finance Manager,Mid,3,1.3342,998000,0,5,2,3,10.2,Multivariate Workload/Pay Outlier,-0.0233
+EMP046395,Finance,Financial Analyst,Junior,1,0.7897,383000,0,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0233
+EMP035022,Technology,Software Engineer,Junior,1,0.7794,378000,22,5,5,3,4.9,Multivariate Workload/Pay Outlier,-0.0232
+EMP042170,Sales,Sales Executive,Junior,4,1.266,614000,22,3,5,3,1.4,Multivariate Workload/Pay Outlier,-0.023
+EMP017556,Technology,DevOps Engineer,Junior,4,1.3402,650000,3,2,5,2,1.6,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.023
+EMP037262,Marketing,Digital Marketing Analyst,Mid,1,0.8449,632000,14,1,5,3,5.4,Multivariate Workload/Pay Outlier,-0.023
+EMP035378,Finance,Finance Manager,Mid,3,1.3302,995000,17,4,4,4,13.1,Multivariate Workload/Pay Outlier,-0.023
+EMP042618,Customer Support,Team Lead,Junior,0,1.1299,548000,9,5,1,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0229
+EMP012460,Technology,Software Engineer,Junior,4,1.3175,639000,0,3,5,2,1.3,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0229
+EMP002230,Sales,Sales Executive,Junior,1,0.7608,369000,27,2,4,3,0.0,Multivariate Workload/Pay Outlier,-0.0228
+EMP007130,Operations,Operations Manager,Junior,3,1.3258,643000,18,3,3,3,14.0,Multivariate Workload/Pay Outlier,-0.0228
+EMP032632,Sales,Sales Analyst,Junior,1,0.6907,335000,9,5,1,2,2.5,Multivariate Workload/Pay Outlier,-0.0228
+EMP049301,Marketing,Marketing Executive,Mid,3,1.3329,997000,14,2,1,4,7.2,Multivariate Workload/Pay Outlier,-0.0226
+EMP031881,Technology,Data Analyst,Junior,4,1.2928,627000,9,1,5,2,3.7,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0226
+EMP014410,Finance,Accountant,Lead,2,0.8271,1406000,19,1,4,4,7.9,Multivariate Workload/Pay Outlier,-0.0226
+EMP030846,Marketing,Digital Marketing Analyst,Junior,4,1.0928,530000,15,5,1,3,4.1,Multivariate Workload/Pay Outlier,-0.0226
+EMP009905,Human Resources,HR Business Partner,Mid,0,1.1136,833000,3,1,5,4,5.9,Multivariate Workload/Pay Outlier,-0.0225
+EMP039338,Technology,Data Analyst,Mid,1,0.6925,518000,0,1,3,2,0.0,Multivariate Workload/Pay Outlier,-0.0224
+EMP011948,Technology,QA Engineer,Junior,4,1.0845,526000,13,5,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0224
+EMP036842,Marketing,Digital Marketing Analyst,Senior,3,0.7731,947000,22,3,3,5,14.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0224
+EMP013831,Human Resources,Recruiter,Mid,3,1.1805,883000,20,4,4,5,12.9,Multivariate Workload/Pay Outlier,-0.0222
+EMP031513,Human Resources,Recruiter,Mid,1,0.7821,585000,11,5,1,3,2.2,Multivariate Workload/Pay Outlier,-0.022
+EMP030389,Finance,Finance Manager,Mid,4,1.2914,966000,21,2,5,3,3.5,Multivariate Workload/Pay Outlier,-0.022
+EMP011456,Sales,Account Manager,Junior,2,1.0742,521000,20,1,4,4,6.2,Multivariate Workload/Pay Outlier,-0.022
+EMP017182,Legal,Legal Associate,Junior,4,1.3361,648000,3,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.022
+EMP015041,Customer Support,Support Associate,Junior,4,1.3093,635000,18,4,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0219
+EMP005379,Customer Support,Support Associate,Mid,4,1.3302,995000,9,1,5,2,4.6,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0217
+EMP021765,Technology,QA Engineer,Mid,4,1.2687,949000,21,5,5,3,5.1,Multivariate Workload/Pay Outlier,-0.0217
+EMP029848,Technology,Data Analyst,Mid,3,0.881,659000,25,3,5,4,9.1,Multivariate Workload/Pay Outlier,-0.0217
+EMP017615,Legal,Legal Manager,Mid,3,1.2179,911000,22,4,3,4,13.3,Multivariate Workload/Pay Outlier,-0.0217
+EMP000434,Legal,Compliance Analyst,Junior,3,1.3258,643000,16,4,4,5,14.4,Multivariate Workload/Pay Outlier,-0.0215
+EMP000586,Customer Support,Support Analyst,Mid,3,0.869,650000,4,4,5,5,13.9,Multivariate Workload/Pay Outlier,-0.0215
+EMP033044,Finance,Finance Manager,Mid,2,1.2941,968000,9,1,2,4,9.7,Multivariate Workload/Pay Outlier,-0.0215
+EMP023934,Sales,Sales Executive,Junior,4,1.3402,650000,21,5,4,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0215
+EMP041754,Customer Support,Support Associate,Mid,3,0.6858,513000,15,5,3,4,11.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0215
+EMP046133,Marketing,Marketing Executive,Junior,1,0.8289,402000,21,3,5,3,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0213
+EMP015478,Customer Support,Team Lead,Mid,1,0.8329,623000,0,2,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0212
+EMP046742,Operations,Operations Associate,Lead,3,1.1453,1947000,0,4,1,5,11.6,Multivariate Workload/Pay Outlier,-0.0211
+EMP046997,Marketing,Digital Marketing Analyst,Mid,0,1.123,840000,12,5,1,1,0.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0211
+EMP003184,Sales,Sales Analyst,Mid,3,1.0134,758000,14,1,2,3,10.3,Multivariate Workload/Pay Outlier,-0.0211
+EMP047202,Operations,Process Analyst,Mid,1,0.8877,664000,17,2,5,2,0.5,Multivariate Workload/Pay Outlier,-0.0211
+EMP010583,Marketing,Marketing Executive,Senior,1,0.742,909000,24,3,5,3,7.8,Multivariate Workload/Pay Outlier,-0.0209
+EMP022403,Technology,QA Engineer,Junior,1,0.7113,345000,3,1,2,3,0.0,Multivariate Workload/Pay Outlier,-0.0208
+EMP022082,Technology,DevOps Engineer,Senior,3,1.1788,1444000,0,2,1,4,9.8,Multivariate Workload/Pay Outlier,-0.0207
+EMP045120,Technology,Software Engineer,Lead,3,1.0224,1738000,15,1,4,5,11.2,Multivariate Workload/Pay Outlier,-0.0206
+EMP014682,Finance,Financial Analyst,Mid,3,0.7313,547000,9,5,1,5,9.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0206
+EMP027595,Operations,Operations Associate,Senior,4,1.0939,1340000,14,5,1,2,2.1,Multivariate Workload/Pay Outlier,-0.0204
+EMP041716,Sales,Account Manager,Mid,3,0.6979,522000,3,1,4,3,9.0,Multivariate Workload/Pay Outlier,-0.0203
+EMP044858,Marketing,Marketing Executive,Senior,4,1.2882,1578000,7,1,5,2,4.3,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0203
+EMP033071,Operations,Process Analyst,Mid,3,1.0281,769000,13,1,5,3,7.8,Multivariate Workload/Pay Outlier,-0.0203
+EMP027902,Technology,Data Analyst,Junior,3,1.0804,524000,6,1,3,4,12.4,Multivariate Workload/Pay Outlier,-0.0203
+EMP023304,Operations,Process Analyst,Mid,3,1.266,947000,14,5,1,5,6.4,Multivariate Workload/Pay Outlier,-0.0203
+EMP034425,Operations,Operations Manager,Mid,1,0.7527,563000,5,1,5,3,4.0,Multivariate Workload/Pay Outlier,-0.0201
+EMP007978,Sales,Sales Executive,Mid,0,1.3048,976000,18,5,5,2,2.4,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0201
+EMP008218,Finance,Finance Manager,Lead,4,1.2494,2124000,14,5,1,3,6.4,Multivariate Workload/Pay Outlier,-0.0201
+EMP024455,Human Resources,Recruiter,Mid,1,0.6778,507000,22,4,5,3,6.0,Multivariate Workload/Pay Outlier,-0.0201
+EMP013302,Operations,Operations Manager,Mid,1,0.7152,535000,6,1,5,3,6.0,Multivariate Workload/Pay Outlier,-0.02
+EMP045484,Operations,Operations Associate,Junior,0,1.0784,523000,0,5,1,2,3.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.02
+EMP025080,Finance,Financial Analyst,Senior,2,0.7576,928000,0,1,2,5,8.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0199
+EMP041436,Technology,Software Engineer,Senior,1,0.9649,1182000,8,1,1,3,3.4,Multivariate Workload/Pay Outlier,-0.0199
+EMP046856,Marketing,Digital Marketing Analyst,Mid,3,1.2674,948000,16,2,1,3,8.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0199
+EMP009437,Marketing,Marketing Executive,Mid,4,1.1912,891000,0,5,1,4,4.8,Multivariate Workload/Pay Outlier,-0.0198
+EMP009546,Operations,Operations Manager,Mid,2,1.3142,983000,14,4,1,3,9.5,Multivariate Workload/Pay Outlier,-0.0198
+EMP047580,Technology,QA Engineer,Lead,1,0.7106,1208000,0,5,2,1,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0198
+EMP004059,Legal,Legal Manager,Mid,2,1.2553,939000,21,2,4,3,11.4,Multivariate Workload/Pay Outlier,-0.0198
+EMP011418,Legal,Legal Manager,Senior,0,0.9837,1205000,15,1,5,1,6.6,Multivariate Workload/Pay Outlier,-0.0196
+EMP043034,Finance,Accountant,Senior,1,0.8808,1079000,26,3,1,3,6.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0196
+EMP004724,Marketing,Content Specialist,Mid,1,0.9318,697000,0,2,5,2,0.8,Multivariate Workload/Pay Outlier,-0.0195
+EMP029997,Sales,Account Manager,Senior,3,1.2873,1577000,17,1,3,3,8.9,Multivariate Workload/Pay Outlier,-0.0194
+EMP008964,Sales,Sales Executive,Junior,2,0.732,355000,23,4,2,4,11.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0194
+EMP002018,Operations,Operations Manager,Junior,3,1.3258,643000,12,5,4,5,12.7,Multivariate Workload/Pay Outlier,-0.0193
+EMP015642,Marketing,Digital Marketing Analyst,Mid,4,1.3115,981000,2,4,1,3,0.8,Multivariate Workload/Pay Outlier,-0.0193
+EMP028604,Marketing,Digital Marketing Analyst,Mid,4,1.3035,975000,0,3,5,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0193
+EMP013320,Technology,QA Engineer,Senior,3,1.1102,1360000,19,1,4,5,8.3,Multivariate Workload/Pay Outlier,-0.0193
+EMP011923,Sales,Account Manager,Mid,0,0.7233,541000,10,1,5,3,6.1,Multivariate Workload/Pay Outlier,-0.0193
+EMP002774,Sales,Sales Executive,Mid,4,1.1698,875000,23,3,1,3,6.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0192
+EMP022913,Operations,Operations Associate,Lead,0,0.7365,1252000,21,2,1,3,3.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.019
+EMP040118,Technology,Data Analyst,Mid,3,1.3182,986000,11,5,3,5,13.4,Multivariate Workload/Pay Outlier,-0.0189
+EMP003336,Operations,Operations Associate,Junior,3,0.8392,407000,4,2,2,5,13.4,Multivariate Workload/Pay Outlier,-0.0188
+EMP027043,Sales,Sales Executive,Mid,3,0.9652,722000,4,5,1,5,9.1,Multivariate Workload/Pay Outlier,-0.0188
+EMP031712,Technology,Data Analyst,Senior,3,1.2971,1589000,12,5,3,5,12.7,Multivariate Workload/Pay Outlier,-0.0188
+EMP049400,Customer Support,Support Associate,Mid,0,0.6791,508000,14,2,5,3,0.1,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0188
+EMP008033,Customer Support,Team Lead,Senior,3,1.3004,1593000,17,3,1,5,9.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0187
+EMP033204,Marketing,Digital Marketing Analyst,Mid,4,1.2286,919000,3,1,2,3,2.4,Multivariate Workload/Pay Outlier,-0.0185
+EMP004604,Operations,Operations Associate,Junior,4,1.2247,594000,20,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0185
+EMP041847,Operations,Process Analyst,Mid,3,0.877,656000,8,5,1,4,10.2,Multivariate Workload/Pay Outlier,-0.0184
+EMP020935,Legal,Compliance Analyst,Junior,4,1.0082,489000,21,4,1,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0183
+EMP023870,Operations,Operations Manager,Lead,4,1.1865,2017000,18,5,5,3,1.7,Multivariate Workload/Pay Outlier,-0.0183
+EMP033187,Technology,QA Engineer,Mid,4,1.2794,957000,19,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0183
+EMP046540,Technology,Data Analyst,Mid,0,1.3182,986000,0,2,1,3,4.8,Multivariate Workload/Pay Outlier,-0.0182
+EMP030609,Technology,IT Support,Junior,3,0.6742,327000,0,4,4,5,12.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0182
+EMP037406,Technology,IT Support,Lead,0,1.1035,1876000,16,5,1,3,4.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0181
+EMP045177,Technology,Data Analyst,Senior,4,1.2947,1586000,0,3,5,1,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0181
+EMP018787,Technology,QA Engineer,Mid,4,1.3115,981000,18,4,1,4,4.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0181
+EMP004752,Technology,DevOps Engineer,Junior,1,0.9155,444000,20,1,3,2,0.0,Multivariate Workload/Pay Outlier,-0.0181
+EMP021935,Legal,Compliance Analyst,Junior,4,1.134,550000,16,2,5,2,0.0,Multivariate Workload/Pay Outlier,-0.018
+EMP000963,Operations,Operations Manager,Mid,3,0.8476,634000,20,1,3,3,8.3,Multivariate Workload/Pay Outlier,-0.018
+EMP003355,Marketing,Digital Marketing Analyst,Mid,4,1.2767,955000,10,5,1,2,3.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0179
+EMP048472,Technology,IT Support,Junior,4,1.2454,604000,20,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0178
+EMP021930,Marketing,Digital Marketing Analyst,Mid,3,1.2834,960000,20,2,2,3,10.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0178
+EMP033556,Marketing,Content Specialist,Senior,4,1.1837,1450000,0,1,2,3,1.4,Multivariate Workload/Pay Outlier,-0.0178
+EMP034608,Technology,QA Engineer,Junior,4,1.268,615000,3,1,2,3,2.9,Multivariate Workload/Pay Outlier,-0.0178
+EMP020006,Sales,Sales Analyst,Junior,1,0.7258,352000,3,5,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0178
+EMP001195,Sales,Account Manager,Senior,0,1.1143,1365000,20,5,3,3,11.0,Multivariate Workload/Pay Outlier,-0.0177
+EMP026343,Technology,QA Engineer,Mid,3,1.2634,945000,15,2,1,3,9.6,Multivariate Workload/Pay Outlier,-0.0176
+EMP023260,Legal,Legal Manager,Mid,4,1.0709,801000,0,5,1,3,5.0,Multivariate Workload/Pay Outlier,-0.0175
+EMP003775,Sales,Sales Executive,Junior,1,0.7175,348000,0,5,2,1,0.0,Multivariate Workload/Pay Outlier,-0.0175
+EMP020107,Finance,Finance Manager,Senior,0,1.1837,1450000,0,5,1,2,5.2,Multivariate Workload/Pay Outlier,-0.0175
+EMP011982,Technology,Data Analyst,Senior,1,0.9829,1204000,8,5,1,2,1.0,Multivariate Workload/Pay Outlier,-0.0175
+EMP022169,Sales,Sales Analyst,Mid,1,0.7995,598000,8,1,5,3,7.8,Multivariate Workload/Pay Outlier,-0.0174
+EMP031158,Sales,Account Manager,Mid,3,1.2807,958000,7,5,2,5,15.1,Multivariate Workload/Pay Outlier,-0.0173
+EMP039252,Technology,Software Engineer,Senior,4,1.2678,1553000,0,4,5,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0173
+EMP019172,Finance,Financial Analyst,Mid,3,1.2701,950000,20,5,5,4,4.9,Multivariate Workload/Pay Outlier,-0.0173
+EMP044671,Technology,IT Support,Senior,1,0.8416,1031000,23,3,1,3,1.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0172
+EMP032347,Technology,QA Engineer,Mid,3,0.7473,559000,17,5,3,4,12.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0172
+EMP032482,Technology,Data Analyst,Mid,2,0.9345,699000,0,5,1,3,8.1,Multivariate Workload/Pay Outlier,-0.0171
+EMP015024,Human Resources,HR Executive,Junior,4,1.1113,539000,17,2,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0169
+EMP031205,Technology,DevOps Engineer,Junior,3,1.2515,607000,2,4,1,3,11.2,Multivariate Workload/Pay Outlier,-0.0168
+EMP037839,Legal,Legal Manager,Senior,3,0.72,882000,0,1,4,5,8.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0167
+EMP018418,Marketing,Content Specialist,Mid,1,0.6979,522000,23,2,4,2,1.3,Multivariate Workload/Pay Outlier,-0.0167
+EMP036419,Technology,QA Engineer,Senior,3,0.7469,915000,18,3,4,5,14.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0167
+EMP009379,Sales,Account Manager,Senior,0,0.7412,908000,2,5,2,5,12.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0166
+EMP016460,Finance,Finance Manager,Junior,3,0.7216,350000,18,5,3,3,10.8,Multivariate Workload/Pay Outlier,-0.0166
+EMP013785,Customer Support,Support Analyst,Mid,3,1.254,938000,0,5,2,4,11.4,Multivariate Workload/Pay Outlier,-0.0166
+EMP039770,Sales,Sales Executive,Mid,0,1.2928,967000,0,1,2,3,7.0,Multivariate Workload/Pay Outlier,-0.0165
+EMP019873,Customer Support,Support Associate,Senior,3,0.769,942000,6,5,1,5,9.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0165
+EMP047227,Sales,Sales Analyst,Junior,3,0.7093,344000,5,1,3,5,10.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0165
+EMP042347,Legal,Legal Associate,Mid,3,1.3128,982000,23,3,2,4,9.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0165
+EMP042544,Operations,Operations Associate,Senior,3,1.2841,1573000,0,2,4,5,11.3,Multivariate Workload/Pay Outlier,-0.0164
+EMP035769,Technology,IT Support,Mid,3,0.7005,524000,1,1,3,5,9.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0164
+EMP020953,Technology,QA Engineer,Junior,3,0.6969,338000,0,2,2,5,10.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0164
+EMP021057,Marketing,Content Specialist,Junior,4,1.3361,648000,11,1,4,3,7.7,Multivariate Workload/Pay Outlier,-0.0164
+EMP047668,Customer Support,Support Associate,Senior,4,1.1804,1446000,15,5,5,2,0.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0164
+EMP017292,Human Resources,HR Executive,Lead,0,1.1035,1876000,24,2,5,3,4.1,Multivariate Workload/Pay Outlier,-0.0163
+EMP024917,Customer Support,Support Associate,Junior,3,1.0887,528000,1,1,3,5,11.1,Multivariate Workload/Pay Outlier,-0.0162
+EMP017696,Finance,Finance Manager,Senior,3,0.7657,938000,13,1,3,3,10.4,Multivariate Workload/Pay Outlier,-0.0162
+EMP046603,Customer Support,Team Lead,Mid,3,1.3262,992000,0,5,2,5,9.5,Multivariate Workload/Pay Outlier,-0.0161
+EMP011372,Sales,Sales Analyst,Junior,3,1.1918,578000,3,5,5,5,12.3,Multivariate Workload/Pay Outlier,-0.0161
+EMP021183,Finance,Financial Analyst,Junior,4,1.2866,624000,1,4,1,5,0.0,Multivariate Workload/Pay Outlier,-0.0161
+EMP045439,Customer Support,Team Lead,Senior,0,0.9331,1143000,8,5,1,1,0.0,Multivariate Workload/Pay Outlier,-0.0161
+EMP010066,Sales,Sales Analyst,Mid,4,1.1484,859000,16,1,4,1,1.3,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.016
+EMP024268,Legal,Legal Manager,Junior,4,1.0969,532000,21,4,5,1,0.0,Multivariate Workload/Pay Outlier,-0.016
+EMP027119,Marketing,Digital Marketing Analyst,Junior,1,0.7134,346000,0,4,5,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0159
+EMP020498,Technology,Data Analyst,Junior,1,0.6722,326000,8,1,2,2,0.0,Multivariate Workload/Pay Outlier,-0.0159
+EMP022766,Technology,QA Engineer,Junior,4,1.2577,610000,0,4,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0158
+EMP003682,Sales,Account Manager,Junior,1,0.868,421000,5,1,5,3,7.3,Multivariate Workload/Pay Outlier,-0.0158
+EMP008739,Finance,Finance Manager,Senior,4,1.2547,1537000,0,4,5,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0158
+EMP003377,Human Resources,HR Executive,Junior,1,0.6722,326000,25,2,2,3,6.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0157
+EMP031503,Technology,Software Engineer,Lead,3,0.8571,1457000,10,2,1,5,10.8,Multivariate Workload/Pay Outlier,-0.0157
+EMP049502,Finance,Financial Analyst,Mid,3,0.7273,544000,2,1,3,4,9.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0157
+EMP036770,Customer Support,Support Analyst,Mid,1,0.7059,528000,19,4,1,2,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0156
+EMP019269,Operations,Operations Associate,Lead,2,0.9571,1627000,11,1,4,3,11.1,Multivariate Workload/Pay Outlier,-0.0153
+EMP042612,Customer Support,Support Analyst,Mid,3,0.6805,509000,0,2,5,4,8.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0152
+EMP007055,Operations,Operations Associate,Mid,3,0.6751,505000,10,4,5,5,11.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.015
+EMP023958,Customer Support,Team Lead,Junior,4,1.3361,648000,16,2,5,4,2.3,Multivariate Workload/Pay Outlier,-0.015
+EMP003698,Sales,Sales Executive,Lead,3,0.7718,1312000,24,3,4,4,11.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0149
+EMP042005,Customer Support,Support Analyst,Mid,4,1.1564,865000,9,1,5,2,3.7,Multivariate Workload/Pay Outlier,-0.0148
+EMP041912,Technology,QA Engineer,Senior,4,1.1624,1424000,15,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0147
+EMP016559,Customer Support,Team Lead,Junior,0,1.3381,649000,13,1,3,3,6.6,Multivariate Workload/Pay Outlier,-0.0147
+EMP037103,Technology,IT Support,Junior,4,1.2165,590000,2,5,1,3,4.8,Multivariate Workload/Pay Outlier,-0.0147
+EMP004897,Technology,Data Analyst,Mid,4,1.1283,844000,0,1,2,3,1.2,Multivariate Workload/Pay Outlier,-0.0146
+EMP022721,Human Resources,HR Business Partner,Mid,3,0.7233,541000,0,1,3,4,8.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0146
+EMP039002,Sales,Account Manager,Lead,4,1.1235,1910000,1,2,5,5,0.9,Multivariate Workload/Pay Outlier,-0.0146
+EMP025325,Technology,DevOps Engineer,Mid,3,0.7005,524000,7,4,5,4,12.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0145
+EMP030494,Technology,Data Analyst,Junior,1,0.7835,380000,3,1,2,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0145
+EMP047932,Operations,Operations Associate,Mid,3,1.008,754000,7,2,1,3,11.5,Multivariate Workload/Pay Outlier,-0.0145
+EMP043281,Technology,Data Analyst,Mid,0,0.7447,557000,0,1,3,3,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0145
+EMP013335,Customer Support,Team Lead,Mid,3,1.1297,845000,18,5,3,5,12.3,Multivariate Workload/Pay Outlier,-0.0144
+EMP006896,Finance,Finance Manager,Mid,3,1.2099,905000,15,2,5,3,11.3,Multivariate Workload/Pay Outlier,-0.0144
+EMP003488,Technology,Data Analyst,Senior,2,0.6988,856000,16,1,4,5,7.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0143
+EMP038042,Customer Support,Team Lead,Mid,1,0.7767,581000,6,1,5,3,4.5,Multivariate Workload/Pay Outlier,-0.0143
+EMP046383,Customer Support,Support Analyst,Mid,1,0.7567,566000,25,5,3,3,8.2,Multivariate Workload/Pay Outlier,-0.0143
+EMP022439,Sales,Sales Executive,Mid,1,0.6979,522000,20,5,2,3,3.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0142
+EMP010884,Marketing,Marketing Executive,Senior,4,1.0,1225000,0,2,5,3,0.5,Multivariate Workload/Pay Outlier,-0.0141
+EMP034718,Sales,Sales Executive,Junior,4,1.0701,519000,12,5,1,1,2.2,Multivariate Workload/Pay Outlier,-0.0141
+EMP008990,Marketing,Content Specialist,Junior,4,1.3258,643000,2,5,2,3,0.0,Multivariate Workload/Pay Outlier,-0.014
+EMP000942,Technology,Data Analyst,Senior,0,0.9535,1168000,4,5,1,3,1.7,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0139
+EMP043634,Finance,Financial Analyst,Senior,3,1.2702,1556000,4,3,5,5,13.7,Multivariate Workload/Pay Outlier,-0.0139
+EMP013442,Sales,Sales Executive,Junior,3,1.3196,640000,14,1,3,4,7.4,Multivariate Workload/Pay Outlier,-0.0138
+EMP048753,Technology,Software Engineer,Mid,1,0.7981,597000,0,1,3,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0138
+EMP020871,Operations,Process Analyst,Senior,3,1.0743,1316000,3,2,5,5,11.5,Multivariate Workload/Pay Outlier,-0.0138
+EMP027631,Customer Support,Support Analyst,Junior,1,0.9113,442000,0,2,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0137
+EMP009837,Technology,Software Engineer,Junior,4,1.0082,489000,0,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0137
+EMP027979,Finance,Financial Analyst,Mid,1,0.75,561000,0,5,2,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0137
+EMP011459,Sales,Account Manager,Mid,1,0.7219,540000,18,1,4,2,3.3,Multivariate Workload/Pay Outlier,-0.0136
+EMP007309,Finance,Financial Analyst,Senior,4,1.2278,1504000,4,1,2,4,1.2,Multivariate Workload/Pay Outlier,-0.0135
+EMP037436,Customer Support,Support Associate,Mid,0,1.2807,958000,0,1,4,2,6.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0135
+EMP046872,Sales,Sales Executive,Mid,0,0.8329,623000,1,5,1,4,4.4,Multivariate Workload/Pay Outlier,-0.0135
+EMP025401,Customer Support,Support Associate,Junior,2,1.3258,643000,14,3,1,5,0.0,Multivariate Workload/Pay Outlier,-0.0134
+EMP014201,Technology,Software Engineer,Senior,1,0.9878,1210000,14,5,1,3,3.5,Multivariate Workload/Pay Outlier,-0.0134
+EMP003148,Operations,Process Analyst,Senior,4,1.2727,1559000,0,1,2,3,4.6,Multivariate Workload/Pay Outlier,-0.0134
+EMP000828,Marketing,Content Specialist,Junior,4,1.2948,628000,20,2,5,3,7.5,Multivariate Workload/Pay Outlier,-0.0134
+EMP010121,Technology,DevOps Engineer,Mid,1,0.9345,699000,0,2,5,3,1.2,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0134
+EMP008082,Sales,Account Manager,Mid,3,1.0842,811000,20,1,3,4,6.9,Multivariate Workload/Pay Outlier,-0.0133
+EMP022808,Technology,DevOps Engineer,Senior,1,0.7804,956000,19,5,5,2,4.2,Multivariate Workload/Pay Outlier,-0.0133
+EMP015284,Customer Support,Team Lead,Junior,3,1.0433,506000,12,3,1,5,12.3,Multivariate Workload/Pay Outlier,-0.0133
+EMP000885,Marketing,Marketing Executive,Mid,3,1.2861,962000,19,2,2,5,10.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0132
+EMP006539,Sales,Account Manager,Senior,3,0.8024,983000,5,1,3,4,11.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0131
+EMP049026,Finance,Accountant,Mid,3,0.7968,596000,20,3,3,5,17.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0129
+EMP028605,Operations,Process Analyst,Junior,3,0.666,323000,0,3,1,4,8.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0129
+EMP032444,Legal,Compliance Analyst,Mid,4,1.131,846000,25,5,4,3,1.5,Multivariate Workload/Pay Outlier,-0.0128
+EMP019870,Technology,IT Support,Senior,2,0.8204,1005000,21,5,2,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0128
+EMP040413,Technology,IT Support,Mid,2,0.8142,609000,24,5,4,3,3.2,Multivariate Workload/Pay Outlier,-0.0128
+EMP020420,Finance,Financial Analyst,Senior,1,0.7437,911000,17,5,5,3,2.3,Multivariate Workload/Pay Outlier,-0.0127
+EMP024524,Customer Support,Support Associate,Senior,3,1.2335,1511000,0,4,1,5,9.3,Multivariate Workload/Pay Outlier,-0.0126
+EMP003877,Customer Support,Team Lead,Senior,1,0.711,871000,0,4,5,3,0.4,Multivariate Workload/Pay Outlier,-0.0126
+EMP025003,Operations,Operations Associate,Junior,1,0.7093,344000,18,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0125
+EMP005472,Technology,QA Engineer,Mid,3,1.2005,898000,10,1,3,3,11.8,Multivariate Workload/Pay Outlier,-0.0125
+EMP049839,Technology,IT Support,Mid,3,0.7901,591000,17,2,5,4,10.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0124
+EMP039993,Operations,Operations Associate,Junior,3,0.701,340000,7,5,1,5,8.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0124
+EMP024207,Human Resources,Recruiter,Mid,0,1.3168,985000,13,2,5,3,0.8,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0123
+EMP012361,Marketing,Content Specialist,Junior,2,1.3175,639000,4,3,1,2,1.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0123
+EMP006781,Sales,Account Manager,Mid,0,0.8436,631000,12,3,1,2,12.1,Multivariate Workload/Pay Outlier,-0.0122
+EMP015945,Operations,Operations Associate,Junior,3,1.1732,569000,0,2,5,3,10.1,Multivariate Workload/Pay Outlier,-0.0122
+EMP013055,Technology,QA Engineer,Mid,3,0.762,570000,15,2,1,3,8.9,Multivariate Workload/Pay Outlier,-0.0122
+EMP026686,Marketing,Marketing Executive,Junior,3,0.9959,483000,13,1,4,5,10.7,Multivariate Workload/Pay Outlier,-0.0122
+EMP016148,Customer Support,Support Associate,Junior,4,1.2392,601000,2,1,4,2,0.0,Multivariate Workload/Pay Outlier,-0.0118
+EMP000874,Technology,QA Engineer,Senior,3,1.0114,1239000,22,1,3,5,7.0,Multivariate Workload/Pay Outlier,-0.0118
+EMP025758,Finance,Financial Analyst,Senior,0,0.951,1165000,11,5,1,3,8.0,Multivariate Workload/Pay Outlier,-0.0117
+EMP018489,Human Resources,HR Business Partner,Mid,4,1.2914,966000,5,1,2,3,3.1,Multivariate Workload/Pay Outlier,-0.0116
+EMP032403,Legal,Legal Associate,Junior,1,0.7258,352000,24,2,2,1,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0116
+EMP016348,Sales,Account Manager,Senior,3,1.0637,1303000,22,1,3,3,6.8,Multivariate Workload/Pay Outlier,-0.0116
+EMP011746,Marketing,Content Specialist,Mid,3,0.7259,543000,5,4,5,5,12.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0116
+EMP020461,Human Resources,HR Business Partner,Senior,4,1.1584,1419000,2,1,2,2,0.9,Multivariate Workload/Pay Outlier,-0.0116
+EMP032636,Legal,Compliance Analyst,Junior,3,1.1876,576000,0,1,3,4,9.5,Multivariate Workload/Pay Outlier,-0.0115
+EMP049948,Technology,DevOps Engineer,Mid,3,1.2112,906000,0,4,2,5,13.6,Multivariate Workload/Pay Outlier,-0.0115
+EMP040629,Operations,Process Analyst,Mid,3,1.2767,955000,18,2,2,4,10.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0115
+EMP010895,Operations,Process Analyst,Mid,4,1.1163,835000,0,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0115
+EMP028366,Technology,Software Engineer,Junior,3,1.3196,640000,11,2,5,5,10.8,Multivariate Workload/Pay Outlier,-0.0115
+EMP036983,Customer Support,Support Analyst,Senior,4,1.1143,1365000,0,4,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0115
+EMP021612,Technology,DevOps Engineer,Lead,3,1.0206,1735000,12,5,1,5,8.4,Multivariate Workload/Pay Outlier,-0.0114
+EMP038700,Technology,Software Engineer,Senior,0,1.2433,1523000,17,2,5,1,1.6,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0113
+EMP019424,Human Resources,HR Business Partner,Junior,4,1.332,646000,0,5,4,3,0.0,Multivariate Workload/Pay Outlier,-0.0113
+EMP045658,Sales,Sales Analyst,Junior,1,0.7423,360000,16,2,5,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0113
+EMP043817,Operations,Process Analyst,Senior,4,1.2882,1578000,18,3,5,2,0.6,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0112
+EMP021081,Sales,Account Manager,Mid,3,1.0495,785000,20,5,2,4,9.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0112
+EMP034371,Finance,Accountant,Mid,3,1.2941,968000,0,5,4,3,10.8,Multivariate Workload/Pay Outlier,-0.0112
+EMP049247,Human Resources,Recruiter,Mid,3,1.1484,859000,15,1,4,5,10.3,Multivariate Workload/Pay Outlier,-0.0111
+EMP024204,Sales,Account Manager,Mid,4,1.2687,949000,0,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0111
+EMP022125,Finance,Financial Analyst,Mid,4,1.3209,988000,20,2,2,3,1.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.011
+EMP020639,Finance,Financial Analyst,Junior,0,1.301,631000,11,1,2,3,7.7,Multivariate Workload/Pay Outlier,-0.0109
+EMP024622,Operations,Operations Associate,Mid,4,1.0374,776000,19,4,1,2,0.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0109
+EMP011720,Finance,Finance Manager,Junior,1,0.8495,412000,0,4,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0109
+EMP035446,Technology,IT Support,Junior,3,1.2515,607000,10,2,2,3,13.1,Multivariate Workload/Pay Outlier,-0.0109
+EMP046558,Sales,Sales Executive,Junior,3,1.1278,547000,5,4,5,4,13.0,Multivariate Workload/Pay Outlier,-0.0109
+EMP021487,Technology,IT Support,Mid,0,0.7219,540000,9,5,1,3,7.7,Multivariate Workload/Pay Outlier,-0.0109
+EMP000382,Operations,Operations Associate,Senior,1,0.9967,1221000,12,5,1,3,2.2,Multivariate Workload/Pay Outlier,-0.0108
+EMP036109,Technology,Software Engineer,Lead,4,1.2035,2046000,17,1,2,3,3.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0108
+EMP003935,Customer Support,Support Analyst,Mid,3,1.1524,862000,0,5,2,4,12.3,Multivariate Workload/Pay Outlier,-0.0108
+EMP032470,Technology,IT Support,Senior,3,1.2751,1562000,21,2,4,5,10.6,Multivariate Workload/Pay Outlier,-0.0107
+EMP032020,Technology,Data Analyst,Mid,3,1.3155,984000,0,5,2,5,9.4,Multivariate Workload/Pay Outlier,-0.0107
+EMP044475,Operations,Operations Associate,Junior,3,0.8639,419000,21,2,5,3,9.1,Multivariate Workload/Pay Outlier,-0.0107
+EMP005692,Customer Support,Team Lead,Mid,4,1.3061,977000,1,5,5,2,3.7,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0107
+EMP048307,Marketing,Digital Marketing Analyst,Mid,4,1.2072,903000,18,1,4,4,3.4,Multivariate Workload/Pay Outlier,-0.0107
+EMP023948,Customer Support,Support Associate,Mid,3,1.1029,825000,0,3,1,5,11.4,Multivariate Workload/Pay Outlier,-0.0107
+EMP045266,Operations,Operations Associate,Mid,3,1.0361,775000,9,1,4,5,11.0,Multivariate Workload/Pay Outlier,-0.0106
+EMP042781,Technology,DevOps Engineer,Junior,4,1.1959,580000,17,4,1,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0106
+EMP022604,Sales,Sales Executive,Junior,4,1.1423,554000,12,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0105
+EMP008358,Operations,Process Analyst,Senior,4,1.1649,1427000,5,5,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0105
+EMP026154,Operations,Operations Manager,Junior,2,0.7526,365000,14,5,1,3,4.6,Multivariate Workload/Pay Outlier,-0.0105
+EMP036428,Finance,Accountant,Senior,1,0.818,1002000,17,1,4,1,1.9,Multivariate Workload/Pay Outlier,-0.0105
+EMP030817,Sales,Sales Analyst,Mid,3,1.139,852000,1,5,1,5,7.6,Multivariate Workload/Pay Outlier,-0.0104
+EMP038927,Sales,Account Manager,Lead,4,1.2741,2166000,0,1,3,1,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0104
+EMP047423,Finance,Financial Analyst,Junior,1,0.7381,358000,16,1,2,3,7.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0103
+EMP041591,Sales,Sales Executive,Senior,4,1.1722,1436000,19,3,1,2,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0103
+EMP040871,Legal,Compliance Analyst,Senior,3,1.1053,1354000,11,2,1,5,11.0,Multivariate Workload/Pay Outlier,-0.0103
+EMP024678,Technology,IT Support,Junior,1,0.6948,337000,19,5,4,3,0.9,Multivariate Workload/Pay Outlier,-0.0103
+EMP035724,Technology,Software Engineer,Junior,4,1.2268,595000,0,4,1,2,0.0,Multivariate Workload/Pay Outlier,-0.0102
+EMP043427,Customer Support,Team Lead,Mid,4,1.3302,995000,4,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0101
+EMP027713,Sales,Sales Executive,Junior,2,0.7216,350000,0,5,5,3,3.4,Multivariate Workload/Pay Outlier,-0.0101
+EMP005757,Customer Support,Support Analyst,Mid,3,1.2527,937000,18,1,4,5,5.3,Multivariate Workload/Pay Outlier,-0.0101
+EMP028016,Sales,Sales Executive,Senior,0,1.2555,1538000,17,5,2,3,9.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0101
+EMP048818,Finance,Finance Manager,Senior,1,0.9029,1106000,11,5,1,2,1.9,Multivariate Workload/Pay Outlier,-0.0101
+EMP038659,Legal,Legal Manager,Junior,4,0.9691,470000,0,1,4,3,0.0,Multivariate Workload/Pay Outlier,-0.0101
+EMP033985,Operations,Operations Manager,Junior,2,1.334,647000,2,4,1,2,4.7,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.01
+EMP037897,Sales,Sales Executive,Mid,2,0.7393,553000,6,1,2,4,9.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.01
+EMP004110,Operations,Operations Manager,Junior,4,1.3134,637000,0,4,1,2,4.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.01
+EMP032425,Technology,Software Engineer,Junior,3,0.8557,415000,4,3,1,4,11.4,Multivariate Workload/Pay Outlier,-0.0099
+EMP019989,Technology,IT Support,Junior,4,1.2598,611000,17,5,2,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0098
+EMP032409,Finance,Finance Manager,Senior,4,1.1086,1358000,1,2,5,3,1.2,Multivariate Workload/Pay Outlier,-0.0098
+EMP002125,Operations,Process Analyst,Junior,1,0.8371,406000,24,2,4,2,0.0,Multivariate Workload/Pay Outlier,-0.0097
+EMP001825,Technology,Software Engineer,Junior,4,1.1897,577000,4,1,2,3,0.0,Multivariate Workload/Pay Outlier,-0.0096
+EMP008269,Operations,Operations Associate,Mid,3,1.2393,927000,9,5,1,3,7.9,Multivariate Workload/Pay Outlier,-0.0096
+EMP026831,Technology,IT Support,Mid,3,1.3142,983000,0,3,1,5,8.6,Multivariate Workload/Pay Outlier,-0.0096
+EMP044323,Operations,Operations Associate,Senior,0,1.0114,1239000,0,1,2,1,1.6,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0096
+EMP006415,Finance,Finance Manager,Senior,3,1.2245,1500000,5,5,1,3,8.9,Multivariate Workload/Pay Outlier,-0.0096
+EMP045537,Customer Support,Team Lead,Mid,3,0.7179,537000,0,3,1,4,9.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0095
+EMP022349,Legal,Legal Manager,Lead,3,0.9841,1673000,14,5,5,4,10.3,Multivariate Workload/Pay Outlier,-0.0095
+EMP022801,Sales,Account Manager,Mid,0,0.7767,581000,0,1,2,3,6.8,Multivariate Workload/Pay Outlier,-0.0095
+EMP008311,Technology,DevOps Engineer,Mid,1,0.9011,674000,1,2,1,1,0.5,Multivariate Workload/Pay Outlier,-0.0094
+EMP011835,Operations,Operations Manager,Lead,3,1.2682,2156000,14,1,3,3,9.6,Multivariate Workload/Pay Outlier,-0.0094
+EMP032874,Technology,IT Support,Senior,3,1.2604,1544000,15,3,2,5,14.7,Multivariate Workload/Pay Outlier,-0.0094
+EMP034789,Operations,Operations Manager,Mid,4,1.0909,816000,0,4,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0094
+EMP028893,Customer Support,Team Lead,Senior,3,1.062,1301000,0,4,4,5,13.2,Multivariate Workload/Pay Outlier,-0.0093
+EMP022930,Operations,Operations Associate,Junior,4,1.332,646000,0,5,3,3,0.0,Multivariate Workload/Pay Outlier,-0.0093
+EMP037983,Operations,Process Analyst,Mid,3,1.1952,894000,2,1,4,3,9.2,Multivariate Workload/Pay Outlier,-0.0092
+EMP029828,Technology,QA Engineer,Junior,2,0.8124,394000,0,1,2,3,3.2,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0092
+EMP049068,Customer Support,Team Lead,Junior,3,0.8082,392000,16,4,1,5,10.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0092
+EMP034953,Finance,Financial Analyst,Mid,3,0.7714,577000,0,1,2,4,7.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0091
+EMP020682,Finance,Financial Analyst,Senior,1,0.9053,1109000,14,5,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0091
+EMP030245,Marketing,Content Specialist,Mid,0,1.2901,965000,17,5,2,3,1.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0091
+EMP007554,Technology,DevOps Engineer,Senior,0,1.302,1595000,0,3,4,4,12.5,Multivariate Workload/Pay Outlier,-0.0091
+EMP005760,Operations,Operations Associate,Lead,3,0.9141,1554000,18,4,5,4,11.9,Multivariate Workload/Pay Outlier,-0.0091
+EMP025484,Operations,Operations Associate,Junior,1,0.901,437000,15,5,1,3,4.6,Multivariate Workload/Pay Outlier,-0.0091
+EMP038560,Customer Support,Team Lead,Mid,3,1.2995,972000,1,1,4,5,6.0,Multivariate Workload/Pay Outlier,-0.0091
+EMP032095,Marketing,Content Specialist,Junior,4,1.2392,601000,18,1,4,2,3.8,Multivariate Workload/Pay Outlier,-0.0091
+EMP003175,Customer Support,Team Lead,Junior,4,1.068,518000,0,4,1,3,0.0,Multivariate Workload/Pay Outlier,-0.009
+EMP028354,Marketing,Digital Marketing Analyst,Junior,1,0.7753,376000,4,5,1,2,6.2,Multivariate Workload/Pay Outlier,-0.009
+EMP024874,Sales,Account Manager,Senior,3,1.009,1236000,11,4,5,5,13.2,Multivariate Workload/Pay Outlier,-0.009
+EMP006338,Marketing,Marketing Executive,Lead,3,0.9435,1604000,0,3,2,5,12.6,Multivariate Workload/Pay Outlier,-0.0089
+EMP039026,Customer Support,Team Lead,Mid,0,0.992,742000,19,5,5,3,8.4,Multivariate Workload/Pay Outlier,-0.0089
+EMP040467,Human Resources,Recruiter,Mid,1,0.7032,526000,23,5,4,3,5.1,Multivariate Workload/Pay Outlier,-0.0089
+EMP005393,Sales,Account Manager,Mid,3,0.6965,521000,0,5,4,4,10.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0089
+EMP044884,Customer Support,Support Analyst,Junior,3,1.2186,591000,0,4,1,4,9.2,Multivariate Workload/Pay Outlier,-0.0088
+EMP049717,Customer Support,Team Lead,Junior,3,0.8433,409000,0,4,5,5,10.9,Multivariate Workload/Pay Outlier,-0.0088
+EMP001150,Technology,Software Engineer,Senior,1,0.7306,895000,3,1,2,3,7.1,Multivariate Workload/Pay Outlier,-0.0087
+EMP022032,Operations,Operations Associate,Mid,0,1.2152,909000,14,5,2,3,10.8,Multivariate Workload/Pay Outlier,-0.0087
+EMP014629,Legal,Legal Manager,Mid,3,1.0722,802000,9,5,1,3,9.5,Multivariate Workload/Pay Outlier,-0.0087
+EMP008531,Marketing,Content Specialist,Mid,3,0.6992,523000,0,3,3,5,13.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0086
+EMP044618,Sales,Sales Analyst,Junior,1,0.8619,418000,19,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0086
+EMP002030,Operations,Process Analyst,Junior,4,1.0557,512000,0,4,1,1,0.0,Multivariate Workload/Pay Outlier,-0.0086
+EMP006770,Finance,Finance Manager,Mid,0,0.738,552000,18,5,5,3,4.4,Multivariate Workload/Pay Outlier,-0.0085
+EMP008795,Marketing,Marketing Executive,Mid,0,1.2193,912000,15,5,5,4,1.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0085
+EMP006809,Sales,Sales Analyst,Junior,1,0.7546,366000,11,5,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0085
+EMP006142,Sales,Account Manager,Junior,4,1.334,647000,16,1,3,3,3.0,Multivariate Workload/Pay Outlier,-0.0085
+EMP015195,Technology,Software Engineer,Lead,3,0.88,1496000,18,3,5,5,11.8,Multivariate Workload/Pay Outlier,-0.0085
+EMP012742,Technology,DevOps Engineer,Mid,4,1.2206,913000,6,5,1,3,3.9,Multivariate Workload/Pay Outlier,-0.0085
+EMP018183,Human Resources,HR Business Partner,Junior,4,1.2495,606000,0,3,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0084
+EMP032937,Operations,Operations Manager,Lead,1,0.7312,1243000,0,5,2,3,0.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0084
+EMP023490,Technology,DevOps Engineer,Junior,3,0.6639,322000,5,1,2,4,7.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0083
+EMP049329,Customer Support,Team Lead,Lead,2,0.8324,1415000,12,5,1,5,8.1,Multivariate Workload/Pay Outlier,-0.0083
+EMP045411,Operations,Operations Associate,Mid,3,0.6939,519000,3,2,4,4,11.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0083
+EMP037929,Human Resources,Recruiter,Mid,3,0.9412,704000,4,3,1,3,11.1,Multivariate Workload/Pay Outlier,-0.0083
+EMP006799,Customer Support,Team Lead,Mid,2,0.9933,743000,18,2,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0083
+EMP043158,Operations,Operations Manager,Mid,4,1.242,929000,0,4,5,3,0.6,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0082
+EMP022279,Sales,Sales Executive,Junior,4,1.2247,594000,12,5,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0082
+EMP043369,Technology,DevOps Engineer,Mid,2,0.734,549000,18,1,4,3,3.8,Multivariate Workload/Pay Outlier,-0.0082
+EMP005805,Human Resources,HR Business Partner,Senior,3,1.2955,1587000,4,3,1,4,10.0,Multivariate Workload/Pay Outlier,-0.0082
+EMP048647,Technology,Data Analyst,Senior,2,0.7502,919000,4,1,3,3,10.0,Multivariate Workload/Pay Outlier,-0.0082
+EMP004791,Operations,Operations Manager,Mid,0,1.3021,974000,1,4,5,4,1.9,Multivariate Workload/Pay Outlier,-0.0081
+EMP002147,Operations,Process Analyst,Junior,3,0.7093,344000,5,1,4,5,9.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0081
+EMP006491,Operations,Process Analyst,Junior,4,1.2866,624000,10,1,2,3,1.7,Multivariate Workload/Pay Outlier,-0.0081
+EMP008899,Marketing,Content Specialist,Senior,3,0.9755,1195000,8,1,5,3,7.4,Multivariate Workload/Pay Outlier,-0.008
+EMP032832,Human Resources,Recruiter,Mid,1,0.8984,672000,20,5,5,3,5.4,Multivariate Workload/Pay Outlier,-0.008
+EMP048927,Technology,QA Engineer,Junior,3,1.1711,568000,26,2,2,3,8.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.008
+EMP008307,Human Resources,Recruiter,Junior,4,1.3278,644000,4,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.008
+EMP043512,Marketing,Marketing Executive,Mid,1,0.8997,673000,19,4,5,1,0.0,Multivariate Workload/Pay Outlier,-0.0079
+EMP048414,Operations,Operations Manager,Mid,1,0.865,647000,0,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0079
+EMP024717,Marketing,Digital Marketing Analyst,Junior,0,1.1093,538000,1,2,1,5,9.5,Multivariate Workload/Pay Outlier,-0.0079
+EMP025404,Technology,QA Engineer,Mid,4,1.2233,915000,9,1,2,2,0.0,Multivariate Workload/Pay Outlier,-0.0079
+EMP038807,Sales,Sales Executive,Junior,4,1.2557,609000,0,1,2,3,6.4,Multivariate Workload/Pay Outlier,-0.0078
+EMP034374,Human Resources,HR Executive,Lead,1,0.7065,1201000,6,5,1,3,4.8,Multivariate Workload/Pay Outlier,-0.0078
+EMP026126,Technology,Data Analyst,Junior,1,0.7093,344000,20,3,1,4,7.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0078
+EMP007117,Customer Support,Team Lead,Senior,1,0.889,1089000,14,5,5,2,0.2,Multivariate Workload/Pay Outlier,-0.0078
+EMP027947,Legal,Compliance Analyst,Mid,3,1.3289,994000,0,3,2,5,12.2,Multivariate Workload/Pay Outlier,-0.0078
+EMP000615,Human Resources,HR Executive,Mid,3,1.1604,868000,0,4,2,4,13.0,Multivariate Workload/Pay Outlier,-0.0077
+EMP017801,Operations,Operations Associate,Junior,4,1.3278,644000,14,1,3,3,0.0,Multivariate Workload/Pay Outlier,-0.0077
+EMP046504,Customer Support,Support Associate,Junior,4,1.066,517000,13,1,5,3,5.4,Multivariate Workload/Pay Outlier,-0.0077
+EMP042832,Sales,Sales Executive,Mid,4,1.1564,865000,1,1,2,2,8.9,Multivariate Workload/Pay Outlier,-0.0077
+EMP042257,Customer Support,Support Analyst,Junior,4,1.2474,605000,0,4,5,3,2.0,Multivariate Workload/Pay Outlier,-0.0076
+EMP027772,Customer Support,Team Lead,Senior,3,0.7012,859000,19,2,2,3,10.1,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0076
+EMP029211,Operations,Process Analyst,Mid,4,1.2727,952000,18,4,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0076
+EMP006043,Legal,Legal Associate,Mid,2,0.7821,585000,19,2,1,3,3.4,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0075
+EMP020440,Operations,Process Analyst,Mid,3,1.0588,792000,0,3,2,3,13.1,Multivariate Workload/Pay Outlier,-0.0075
+EMP010686,Customer Support,Team Lead,Mid,4,1.3316,996000,24,2,4,2,5.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0075
+EMP036070,Finance,Accountant,Junior,1,0.7876,382000,0,1,4,3,2.7,Multivariate Workload/Pay Outlier,-0.0075
+EMP047316,Technology,IT Support,Senior,0,1.2212,1496000,13,3,5,5,12.5,Multivariate Workload/Pay Outlier,-0.0074
+EMP043054,Finance,Accountant,Mid,1,0.861,644000,0,1,4,3,2.0,Multivariate Workload/Pay Outlier,-0.0074
+EMP028288,Sales,Account Manager,Junior,4,1.1649,565000,3,2,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0074
+EMP047642,Human Resources,HR Executive,Mid,0,1.3035,975000,3,2,1,3,6.6,Multivariate Workload/Pay Outlier,-0.0074
+EMP015982,Customer Support,Support Associate,Lead,4,1.2459,2118000,8,1,2,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0074
+EMP032571,Operations,Process Analyst,Mid,4,1.2112,906000,2,1,3,2,9.8,Multivariate Workload/Pay Outlier,-0.0073
+EMP010003,Technology,IT Support,Mid,0,1.2433,930000,2,4,1,3,10.6,Multivariate Workload/Pay Outlier,-0.0073
+EMP010309,Operations,Operations Manager,Mid,2,0.6858,513000,21,5,4,4,5.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0073
+EMP011268,Operations,Operations Associate,Mid,1,0.754,564000,1,5,2,5,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0073
+EMP032119,Operations,Operations Manager,Mid,1,0.9906,741000,12,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0073
+EMP025315,Customer Support,Support Associate,Junior,3,0.8557,415000,25,3,5,4,5.8,Multivariate Workload/Pay Outlier,-0.0072
+EMP004876,Customer Support,Support Associate,Junior,3,0.7629,370000,1,5,2,5,10.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0072
+EMP036068,Finance,Accountant,Senior,4,0.9649,1182000,22,2,5,2,2.7,Multivariate Workload/Pay Outlier,-0.0071
+EMP018304,Legal,Legal Manager,Mid,3,1.3128,982000,7,1,3,5,9.5,Multivariate Workload/Pay Outlier,-0.0071
+EMP026329,Operations,Process Analyst,Mid,4,1.3128,982000,16,3,1,2,1.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0071
+EMP039866,Operations,Process Analyst,Junior,4,1.3258,643000,20,4,5,3,4.2,Multivariate Workload/Pay Outlier,-0.0071
+EMP041645,Customer Support,Support Associate,Senior,4,1.2351,1513000,0,3,5,2,0.2,Multivariate Workload/Pay Outlier,-0.0071
+EMP040680,Operations,Process Analyst,Junior,1,0.7876,382000,0,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0071
+EMP027475,Technology,Data Analyst,Senior,4,1.2367,1515000,16,5,5,3,1.5,Multivariate Workload/Pay Outlier,-0.007
+EMP047504,Finance,Accountant,Mid,2,1.0735,803000,16,1,2,4,8.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.007
+EMP028751,Operations,Process Analyst,Junior,1,0.9402,456000,12,5,5,1,0.0,Multivariate Workload/Pay Outlier,-0.007
+EMP000949,Technology,Software Engineer,Senior,0,1.2955,1587000,6,1,3,3,10.3,Multivariate Workload/Pay Outlier,-0.0069
+EMP042854,Sales,Sales Analyst,Lead,4,1.1812,2008000,24,3,5,3,3.7,Multivariate Workload/Pay Outlier,-0.0069
+EMP020284,Technology,QA Engineer,Lead,3,0.9053,1539000,14,2,2,5,12.8,Multivariate Workload/Pay Outlier,-0.0069
+EMP045624,Sales,Sales Analyst,Mid,3,0.8142,609000,1,1,3,5,9.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0068
+EMP007272,Marketing,Digital Marketing Analyst,Mid,3,0.7019,525000,0,2,5,4,8.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0068
+EMP017515,Operations,Process Analyst,Senior,0,1.0204,1250000,26,2,2,3,9.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0068
+EMP015958,Operations,Process Analyst,Senior,0,0.7478,916000,6,1,2,5,9.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0068
+EMP021118,Operations,Operations Associate,Senior,4,1.2082,1480000,14,2,1,3,0.8,Multivariate Workload/Pay Outlier,-0.0068
+EMP018457,Marketing,Content Specialist,Mid,3,1.0455,782000,10,5,1,5,7.2,Multivariate Workload/Pay Outlier,-0.0068
+EMP001831,Technology,Data Analyst,Junior,1,0.7546,366000,11,5,5,3,0.1,Multivariate Workload/Pay Outlier,-0.0068
+EMP045960,Operations,Process Analyst,Mid,1,0.7072,529000,17,5,5,4,4.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0067
+EMP040156,Legal,Compliance Analyst,Junior,0,1.1196,543000,17,5,5,2,8.6,Multivariate Workload/Pay Outlier,-0.0067
+EMP013143,Technology,DevOps Engineer,Mid,1,0.7286,545000,5,5,1,3,4.7,Multivariate Workload/Pay Outlier,-0.0067
+EMP000328,Operations,Operations Manager,Mid,3,0.8342,624000,0,5,2,4,10.6,Multivariate Workload/Pay Outlier,-0.0067
+EMP026277,Sales,Account Manager,Junior,1,0.9052,439000,0,4,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0067
+EMP006618,Customer Support,Support Associate,Mid,4,1.1939,893000,9,5,1,4,3.6,Multivariate Workload/Pay Outlier,-0.0066
+EMP032280,Operations,Operations Manager,Junior,4,1.1546,560000,14,1,2,3,2.2,Multivariate Workload/Pay Outlier,-0.0066
+EMP012787,Technology,Software Engineer,Junior,3,0.8784,426000,17,2,3,5,14.1,Multivariate Workload/Pay Outlier,-0.0065
+EMP046685,Sales,Account Manager,Mid,1,0.6818,510000,2,5,5,4,3.9,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0065
+EMP019614,Marketing,Content Specialist,Junior,4,1.3155,638000,16,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0065
+EMP015127,Human Resources,HR Business Partner,Junior,4,1.3237,642000,0,2,2,3,0.9,Multivariate Workload/Pay Outlier,-0.0065
+EMP025837,Operations,Process Analyst,Senior,3,1.1829,1449000,16,4,1,3,9.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0065
+EMP018330,Operations,Process Analyst,Mid,3,0.6738,504000,13,4,4,4,12.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0065
+EMP032919,Technology,QA Engineer,Junior,1,0.7505,364000,3,2,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0065
+EMP022924,Operations,Operations Manager,Senior,3,1.2669,1552000,24,2,4,5,8.3,Multivariate Workload/Pay Outlier,-0.0065
+EMP028839,Customer Support,Support Analyst,Mid,3,0.6818,510000,8,4,2,5,14.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0064
+EMP010484,Operations,Operations Manager,Senior,4,1.1135,1364000,0,4,5,3,1.2,Multivariate Workload/Pay Outlier,-0.0064
+EMP031260,Legal,Compliance Analyst,Mid,4,1.1912,891000,4,1,2,3,0.9,Multivariate Workload/Pay Outlier,-0.0063
+EMP012463,Marketing,Digital Marketing Analyst,Senior,4,1.2849,1574000,4,2,1,3,8.5,Multivariate Workload/Pay Outlier,-0.0063
+EMP021429,Operations,Operations Associate,Junior,4,1.2412,602000,0,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0063
+EMP004092,Marketing,Content Specialist,Mid,4,1.3369,1000000,16,5,5,3,3.5,Multivariate Workload/Pay Outlier,-0.0063
+EMP026580,Customer Support,Support Analyst,Senior,3,0.8024,983000,19,5,5,4,6.9,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0063
+EMP025012,Operations,Operations Manager,Junior,4,1.233,598000,18,5,2,5,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0063
+EMP020906,Sales,Sales Analyst,Junior,1,0.6619,321000,16,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0062
+EMP043794,Finance,Accountant,Junior,1,0.7299,354000,7,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0062
+EMP029485,Technology,Software Engineer,Junior,2,0.8227,399000,0,5,2,4,0.0,Multivariate Workload/Pay Outlier,-0.0062
+EMP008722,Technology,Data Analyst,Junior,4,1.2433,603000,8,1,2,3,0.0,Multivariate Workload/Pay Outlier,-0.0062
+EMP047807,Operations,Process Analyst,Mid,3,0.7928,593000,11,3,1,4,11.3,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0061
+EMP045637,Sales,Sales Executive,Mid,3,0.6818,510000,19,3,4,4,10.9,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0061
+EMP009496,Technology,DevOps Engineer,Lead,3,1.1594,1971000,16,5,4,3,11.8,Multivariate Workload/Pay Outlier,-0.006
+EMP030449,Technology,Data Analyst,Mid,3,0.7941,594000,16,2,3,5,15.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.006
+EMP034757,Finance,Finance Manager,Senior,3,0.7388,905000,0,3,1,5,9.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.006
+EMP025131,Technology,IT Support,Junior,4,1.2227,593000,0,3,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0059
+EMP019850,Customer Support,Support Associate,Junior,0,1.1546,560000,6,5,1,3,2.5,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0059
+EMP049596,Customer Support,Support Analyst,Senior,2,0.9388,1150000,20,1,2,3,4.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0059
+EMP015441,Technology,IT Support,Senior,3,0.7559,926000,25,4,2,4,9.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0059
+EMP032737,Legal,Compliance Analyst,Senior,1,0.7412,908000,17,5,5,3,8.3,Multivariate Workload/Pay Outlier,-0.0058
+EMP041524,Sales,Sales Executive,Lead,3,0.7359,1251000,3,4,2,4,13.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0058
+EMP001922,Finance,Accountant,Junior,3,0.7959,386000,4,3,1,5,10.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0058
+EMP012245,Finance,Finance Manager,Lead,3,1.2565,2136000,0,2,5,4,8.3,Multivariate Workload/Pay Outlier,-0.0057
+EMP014837,Sales,Account Manager,Mid,4,1.3102,980000,9,4,1,1,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0057
+EMP011055,Technology,DevOps Engineer,Mid,2,1.135,849000,18,3,1,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0057
+EMP016214,Technology,IT Support,Mid,1,0.6805,509000,19,5,4,3,3.7,Multivariate Workload/Pay Outlier,-0.0057
+EMP016305,Sales,Account Manager,Senior,3,0.8212,1006000,18,5,2,5,10.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0056
+EMP023320,Customer Support,Support Analyst,Mid,3,0.9612,719000,11,5,4,5,13.2,Multivariate Workload/Pay Outlier,-0.0056
+EMP005613,Customer Support,Team Lead,Junior,4,1.2907,626000,19,4,5,2,2.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0056
+EMP009314,Finance,Financial Analyst,Junior,4,1.0474,508000,26,2,2,2,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0056
+EMP031571,Operations,Process Analyst,Mid,4,1.2233,915000,0,5,2,1,0.0,Multivariate Workload/Pay Outlier,-0.0056
+EMP013010,Marketing,Marketing Executive,Mid,4,1.2674,948000,0,3,5,2,1.7,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0055
+EMP038609,Marketing,Content Specialist,Mid,3,0.9091,680000,14,1,4,5,10.0,Multivariate Workload/Pay Outlier,-0.0055
+EMP013432,Finance,Finance Manager,Senior,3,1.2906,1581000,1,2,1,5,7.4,Multivariate Workload/Pay Outlier,-0.0054
+EMP020964,Operations,Operations Manager,Mid,1,0.7701,576000,7,5,1,3,7.3,Multivariate Workload/Pay Outlier,-0.0054
+EMP006173,Sales,Sales Analyst,Senior,1,0.9118,1117000,0,1,3,4,0.2,Multivariate Workload/Pay Outlier,-0.0054
+EMP006260,Technology,Data Analyst,Junior,4,1.2351,599000,0,3,1,4,0.0,Multivariate Workload/Pay Outlier,-0.0054
+EMP047530,Customer Support,Team Lead,Mid,4,1.0842,811000,0,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0054
+EMP041750,Sales,Sales Executive,Mid,4,1.2607,943000,0,1,4,3,7.0,Multivariate Workload/Pay Outlier,-0.0053
+EMP012013,Operations,Operations Associate,Mid,3,1.2741,953000,0,1,3,5,8.2,Multivariate Workload/Pay Outlier,-0.0053
+EMP018690,Operations,Operations Associate,Junior,1,0.7155,347000,20,5,4,3,1.7,Multivariate Workload/Pay Outlier,-0.0053
+EMP005307,Marketing,Digital Marketing Analyst,Junior,1,0.6742,327000,2,5,4,2,0.0,Multivariate Workload/Pay Outlier,-0.0053
+EMP024371,Technology,Software Engineer,Mid,0,0.7112,532000,0,1,3,3,1.1,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0052
+EMP000709,Sales,Sales Analyst,Senior,3,0.7118,872000,20,2,3,4,10.8,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0052
+EMP049794,Customer Support,Team Lead,Mid,3,0.6765,506000,4,3,4,5,13.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0052
+EMP003943,Technology,DevOps Engineer,Junior,1,0.7093,344000,0,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0052
+EMP032741,Operations,Operations Manager,Mid,0,1.2968,970000,7,2,1,3,8.7,Multivariate Workload/Pay Outlier,-0.0052
+EMP015203,Human Resources,HR Business Partner,Mid,3,1.3249,991000,0,3,1,5,4.9,Multivariate Workload/Pay Outlier,-0.0052
+EMP020241,Sales,Account Manager,Junior,3,0.8082,392000,14,5,2,4,11.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0051
+EMP031317,Operations,Process Analyst,Mid,4,1.2647,946000,0,3,5,2,1.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0051
+EMP007672,Technology,Software Engineer,Junior,4,1.2268,595000,23,2,4,1,0.6,Multivariate Workload/Pay Outlier,-0.0051
+EMP021137,Marketing,Marketing Executive,Mid,1,0.8182,612000,0,1,2,3,3.9,Multivariate Workload/Pay Outlier,-0.0051
+EMP008366,Marketing,Digital Marketing Analyst,Mid,3,1.2981,971000,2,3,1,4,7.9,Multivariate Workload/Pay Outlier,-0.0051
+EMP021307,Technology,Software Engineer,Junior,3,1.2948,628000,4,2,1,4,6.7,Multivariate Workload/Pay Outlier,-0.005
+EMP027814,Technology,QA Engineer,Senior,0,1.3053,1599000,0,5,3,4,11.1,Multivariate Workload/Pay Outlier,-0.005
+EMP035217,Human Resources,HR Executive,Mid,3,1.1444,856000,5,2,5,3,11.5,Multivariate Workload/Pay Outlier,-0.005
+EMP028649,Technology,QA Engineer,Mid,1,0.7968,596000,0,1,2,3,4.6,Multivariate Workload/Pay Outlier,-0.005
+EMP044104,Technology,QA Engineer,Senior,1,0.911,1116000,27,4,5,2,6.1,Multivariate Workload/Pay Outlier,-0.0049
+EMP022455,Operations,Operations Associate,Mid,3,1.0588,792000,27,2,4,5,10.0,Multivariate Workload/Pay Outlier,-0.0049
+EMP009613,Sales,Sales Analyst,Lead,3,1.1418,1941000,26,3,2,3,10.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0048
+EMP042235,Sales,Account Manager,Junior,1,0.9402,456000,20,3,5,3,1.1,Multivariate Workload/Pay Outlier,-0.0048
+EMP034613,Finance,Finance Manager,Mid,4,1.3088,979000,16,4,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0047
+EMP035261,Finance,Finance Manager,Junior,4,1.2577,610000,8,1,2,3,0.9,Multivariate Workload/Pay Outlier,-0.0047
+EMP038075,Sales,Sales Executive,Senior,3,1.2914,1582000,0,4,5,5,9.6,Multivariate Workload/Pay Outlier,-0.0047
+EMP031818,Operations,Operations Associate,Senior,2,1.0931,1339000,0,2,5,4,2.5,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0047
+EMP013996,Sales,Sales Analyst,Junior,3,0.6928,336000,3,4,4,5,13.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0046
+EMP000956,Legal,Legal Manager,Mid,3,1.0187,762000,4,5,2,4,13.3,Multivariate Workload/Pay Outlier,-0.0046
+EMP046854,Operations,Operations Associate,Mid,3,0.8944,669000,1,1,2,4,8.2,Multivariate Workload/Pay Outlier,-0.0046
+EMP026602,Operations,Operations Manager,Mid,0,1.3235,990000,17,5,2,3,5.9,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0046
+EMP027984,Sales,Sales Analyst,Mid,3,1.2246,916000,22,5,2,4,6.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0046
+EMP019818,Sales,Sales Executive,Senior,4,1.2343,1512000,0,1,3,1,0.0,Multivariate Workload/Pay Outlier,-0.0045
+EMP011693,Customer Support,Support Analyst,Senior,2,1.2155,1489000,24,5,4,4,6.9,Multivariate Workload/Pay Outlier,-0.0045
+EMP001454,Marketing,Marketing Executive,Junior,2,1.2907,626000,16,3,1,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0045
+EMP040820,Sales,Account Manager,Mid,3,1.0709,801000,16,1,2,4,7.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0045
+EMP039242,Technology,DevOps Engineer,Junior,3,1.0763,522000,0,2,3,4,12.6,Multivariate Workload/Pay Outlier,-0.0045
+EMP031828,Finance,Financial Analyst,Mid,2,0.9278,694000,4,5,4,5,13.6,Multivariate Workload/Pay Outlier,-0.0044
+EMP029559,Sales,Account Manager,Junior,1,0.6722,326000,3,5,2,2,0.0,Multivariate Workload/Pay Outlier,-0.0044
+EMP036007,Technology,IT Support,Mid,3,1.1564,865000,20,2,2,4,10.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0044
+EMP010984,Technology,DevOps Engineer,Senior,1,0.7233,886000,3,5,5,3,1.3,Multivariate Workload/Pay Outlier,-0.0044
+EMP040812,Customer Support,Support Analyst,Senior,2,0.822,1007000,3,5,1,3,3.7,Multivariate Workload/Pay Outlier,-0.0044
+EMP027837,Customer Support,Support Associate,Lead,2,0.8594,1461000,16,5,2,5,11.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0043
+EMP012090,Technology,Data Analyst,Junior,4,1.2144,589000,17,1,3,1,0.0,Multivariate Workload/Pay Outlier,-0.0043
+EMP037764,Sales,Sales Executive,Senior,2,0.7576,928000,25,5,4,3,4.1,Multivariate Workload/Pay Outlier,-0.0043
+EMP049447,Operations,Operations Manager,Mid,0,1.0655,797000,10,1,5,3,6.6,Multivariate Workload/Pay Outlier,-0.0043
+EMP010823,Customer Support,Support Analyst,Senior,1,0.7322,897000,6,5,1,3,4.9,Multivariate Workload/Pay Outlier,-0.0043
+EMP010606,Operations,Process Analyst,Junior,4,1.3155,638000,4,4,1,2,3.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0043
+EMP016775,Customer Support,Support Associate,Mid,2,1.2607,943000,0,4,5,2,2.1,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0042
+EMP047340,Technology,QA Engineer,Mid,0,1.254,938000,0,3,5,3,1.1,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0042
+EMP037489,Legal,Compliance Analyst,Senior,4,1.1216,1374000,0,4,5,3,1.6,Multivariate Workload/Pay Outlier,-0.0042
+EMP004750,Finance,Finance Manager,Mid,2,1.2219,914000,0,1,2,3,6.2,Multivariate Workload/Pay Outlier,-0.0042
+EMP007730,Customer Support,Team Lead,Senior,4,1.2441,1524000,0,3,5,3,0.7,Multivariate Workload/Pay Outlier,-0.0041
+EMP017579,Marketing,Content Specialist,Junior,3,1.2309,597000,12,5,4,5,12.9,Multivariate Workload/Pay Outlier,-0.0041
+EMP030630,Operations,Process Analyst,Junior,1,0.6866,333000,0,5,2,4,3.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0041
+EMP002662,Operations,Operations Manager,Mid,0,1.2179,911000,0,3,5,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0041
+EMP004843,Sales,Sales Executive,Mid,3,1.127,843000,0,5,5,5,8.9,Multivariate Workload/Pay Outlier,-0.0041
+EMP016950,Technology,Data Analyst,Junior,1,0.9649,468000,0,4,5,5,0.0,Multivariate Workload/Pay Outlier,-0.0041
+EMP024851,Sales,Sales Analyst,Senior,0,1.3053,1599000,16,4,1,3,5.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.004
+EMP028071,Customer Support,Team Lead,Mid,3,0.9639,721000,8,3,5,3,13.1,Multivariate Workload/Pay Outlier,-0.004
+EMP020665,Human Resources,Recruiter,Mid,1,0.6965,521000,22,3,5,3,6.8,Multivariate Workload/Pay Outlier,-0.0039
+EMP028022,Operations,Operations Associate,Junior,4,1.2289,596000,17,5,2,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0039
+EMP005047,Operations,Operations Manager,Senior,4,1.2604,1544000,6,2,1,2,0.8,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0039
+EMP044119,Marketing,Content Specialist,Mid,4,1.2086,904000,0,1,4,3,7.5,Multivariate Workload/Pay Outlier,-0.0039
+EMP024166,Human Resources,Recruiter,Mid,4,1.3275,993000,4,3,1,3,3.6,Multivariate Workload/Pay Outlier,-0.0039
+EMP013189,Human Resources,HR Business Partner,Senior,3,0.9861,1208000,15,1,4,5,10.2,Multivariate Workload/Pay Outlier,-0.0039
+EMP019509,Marketing,Marketing Executive,Mid,1,0.9358,700000,26,2,2,3,0.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0039
+EMP008811,Technology,DevOps Engineer,Mid,4,1.2273,918000,15,4,1,3,0.0,Multivariate Workload/Pay Outlier,-0.0039
+EMP033636,Marketing,Content Specialist,Junior,3,1.2701,616000,0,2,4,4,10.8,Multivariate Workload/Pay Outlier,-0.0039
+EMP022417,Marketing,Content Specialist,Senior,0,0.8441,1034000,13,1,4,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0038
+EMP038599,Customer Support,Team Lead,Mid,3,0.7206,539000,15,3,4,5,14.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0038
+EMP001115,Operations,Operations Associate,Mid,2,0.7687,575000,0,1,3,3,7.9,Multivariate Workload/Pay Outlier,-0.0038
+EMP040977,Technology,DevOps Engineer,Mid,4,1.262,944000,0,2,5,3,3.5,Multivariate Workload/Pay Outlier,-0.0038
+EMP048663,Operations,Operations Associate,Mid,3,0.8222,615000,0,3,2,5,12.4,Multivariate Workload/Pay Outlier,-0.0038
+EMP012761,Technology,DevOps Engineer,Mid,3,1.0963,820000,2,5,1,4,5.8,Multivariate Workload/Pay Outlier,-0.0036
+EMP047349,Finance,Finance Manager,Junior,1,0.8289,402000,22,2,5,3,4.0,Multivariate Workload/Pay Outlier,-0.0036
+EMP038381,Sales,Sales Executive,Junior,3,0.9361,454000,4,2,5,5,12.2,Multivariate Workload/Pay Outlier,-0.0036
+EMP006643,Customer Support,Support Analyst,Junior,2,1.3113,636000,19,5,4,2,1.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0036
+EMP000215,Customer Support,Support Associate,Mid,3,0.6858,513000,1,5,4,4,10.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0035
+EMP040022,Customer Support,Support Analyst,Mid,4,1.111,831000,0,5,5,4,3.6,Multivariate Workload/Pay Outlier,-0.0035
+EMP039051,Customer Support,Support Associate,Mid,2,0.6698,501000,0,5,3,4,10.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0035
+EMP012650,Technology,QA Engineer,Mid,1,0.8142,609000,0,1,3,2,8.7,Multivariate Workload/Pay Outlier,-0.0035
+EMP018387,Customer Support,Team Lead,Junior,1,0.666,323000,18,5,3,3,0.0,Multivariate Workload/Pay Outlier,-0.0035
+EMP041824,Sales,Sales Executive,Senior,3,1.1984,1468000,19,3,3,5,13.1,Multivariate Workload/Pay Outlier,-0.0034
+EMP021845,Legal,Legal Associate,Mid,1,0.7179,537000,15,5,5,3,2.8,Multivariate Workload/Pay Outlier,-0.0033
+EMP022740,Technology,Data Analyst,Junior,0,1.099,533000,28,4,5,3,7.4,Multivariate Workload/Pay Outlier,-0.0033
+EMP034924,Sales,Account Manager,Junior,4,1.3299,645000,10,3,1,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0033
+EMP006856,Sales,Sales Analyst,Junior,4,1.0722,520000,2,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0033
+EMP030510,Technology,Software Engineer,Senior,2,1.2294,1506000,3,2,5,3,1.6,Multivariate Workload/Pay Outlier,-0.0033
+EMP029754,Sales,Sales Executive,Senior,0,1.2433,1523000,1,4,1,3,0.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0032
+EMP028754,Finance,Accountant,Mid,4,1.1591,867000,0,3,5,2,0.9,Multivariate Workload/Pay Outlier,-0.0032
+EMP033843,Technology,QA Engineer,Mid,4,1.2861,962000,11,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0032
+EMP015370,Finance,Accountant,Junior,4,1.1216,544000,3,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0032
+EMP049232,Customer Support,Team Lead,Mid,4,1.0816,809000,17,4,1,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0032
+EMP023228,Technology,IT Support,Mid,1,0.7246,542000,0,2,1,2,3.4,Multivariate Workload/Pay Outlier,-0.0031
+EMP001377,Operations,Operations Associate,Mid,4,1.1604,868000,0,4,5,3,1.9,Multivariate Workload/Pay Outlier,-0.003
+EMP041163,Customer Support,Support Associate,Junior,3,1.2165,590000,24,3,5,4,7.6,Multivariate Workload/Pay Outlier,-0.003
+EMP045216,Operations,Process Analyst,Mid,1,0.8155,610000,14,2,5,1,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0029
+EMP023401,Sales,Account Manager,Junior,1,0.9691,470000,0,2,1,3,1.5,Multivariate Workload/Pay Outlier,-0.0029
+EMP025509,Technology,DevOps Engineer,Junior,1,0.8412,408000,15,1,2,5,0.0,Multivariate Workload/Pay Outlier,-0.0028
+EMP001957,Finance,Accountant,Junior,4,1.3258,643000,17,5,2,3,4.8,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0028
+EMP024488,Sales,Sales Analyst,Mid,1,0.869,650000,11,5,5,3,0.3,Multivariate Workload/Pay Outlier,-0.0028
+EMP035749,Human Resources,Recruiter,Mid,3,0.6725,503000,3,4,3,5,13.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0028
+EMP012199,Operations,Process Analyst,Mid,4,1.3182,986000,9,1,4,3,2.4,Multivariate Workload/Pay Outlier,-0.0028
+EMP036269,Operations,Process Analyst,Senior,4,1.2898,1580000,17,4,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0027
+EMP017680,Finance,Financial Analyst,Senior,3,0.8669,1062000,0,4,1,5,10.5,Multivariate Workload/Pay Outlier,-0.0027
+EMP017045,Sales,Account Manager,Junior,4,1.3155,638000,26,2,3,2,6.4,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0027
+EMP028899,Operations,Operations Manager,Junior,4,1.0309,500000,0,4,5,2,0.0,Multivariate Workload/Pay Outlier,-0.0027
+EMP026622,Operations,Process Analyst,Senior,3,0.92,1127000,13,2,4,4,13.7,Multivariate Workload/Pay Outlier,-0.0027
+EMP014434,Finance,Financial Analyst,Lead,0,0.8865,1507000,27,5,3,4,7.7,Multivariate Workload/Pay Outlier,-0.0027
+EMP018266,Customer Support,Support Associate,Junior,3,1.1402,553000,0,5,3,5,12.9,Multivariate Workload/Pay Outlier,-0.0026
+EMP014707,Operations,Process Analyst,Junior,2,1.1423,554000,0,3,5,5,0.0,Multivariate Workload/Pay Outlier,-0.0026
+EMP037117,Customer Support,Team Lead,Junior,2,1.1938,579000,0,2,5,4,3.2,Multivariate Workload/Pay Outlier,-0.0026
+EMP046931,Operations,Operations Associate,Mid,1,0.7888,590000,7,5,5,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0026
+EMP047334,Customer Support,Support Analyst,Junior,1,0.7814,379000,7,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0026
+EMP017433,Customer Support,Support Analyst,Senior,2,0.8327,1020000,23,5,2,5,7.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0025
+EMP028374,Technology,QA Engineer,Mid,3,0.881,659000,11,5,4,4,12.6,Multivariate Workload/Pay Outlier,-0.0025
+EMP035292,Operations,Operations Manager,Junior,2,0.9134,443000,0,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0025
+EMP039767,Sales,Account Manager,Lead,0,0.87,1479000,0,5,4,4,11.8,Multivariate Workload/Pay Outlier,-0.0025
+EMP043899,Finance,Financial Analyst,Junior,4,1.1876,576000,6,1,2,2,0.7,Multivariate Workload/Pay Outlier,-0.0024
+EMP014825,Technology,Software Engineer,Junior,0,1.2928,627000,10,2,1,2,8.7,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0023
+EMP037951,Marketing,Digital Marketing Analyst,Senior,3,0.7624,934000,12,1,4,5,10.1,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0023
+EMP026186,Customer Support,Support Associate,Mid,2,1.0134,758000,15,1,5,3,4.4,Multivariate Workload/Pay Outlier,-0.0023
+EMP007251,Marketing,Digital Marketing Analyst,Mid,0,1.2781,956000,0,2,5,3,5.6,Multivariate Workload/Pay Outlier,-0.0023
+EMP006226,Technology,DevOps Engineer,Mid,3,1.0588,792000,3,5,5,5,11.0,Multivariate Workload/Pay Outlier,-0.0023
+EMP034058,Operations,Process Analyst,Senior,3,1.2849,1574000,22,3,5,3,8.4,Multivariate Workload/Pay Outlier,-0.0023
+EMP011354,Sales,Account Manager,Mid,1,0.8837,661000,24,2,2,2,7.7,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0023
+EMP016162,Customer Support,Team Lead,Mid,2,1.2326,922000,3,1,4,2,1.4,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0023
+EMP014226,Operations,Process Analyst,Senior,3,1.0057,1232000,19,5,5,4,3.8,Multivariate Workload/Pay Outlier,-0.0022
+EMP003547,Customer Support,Support Associate,Mid,1,0.9693,725000,19,5,2,3,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0022
+EMP001219,Technology,Software Engineer,Senior,3,1.2824,1571000,8,4,5,5,14.3,Multivariate Workload/Pay Outlier,-0.0022
+EMP045253,Operations,Operations Manager,Senior,4,1.2939,1585000,12,1,4,3,7.6,Multivariate Workload/Pay Outlier,-0.0021
+EMP041658,Technology,QA Engineer,Mid,3,0.8115,607000,0,3,2,4,12.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.002
+EMP046333,Finance,Accountant,Mid,3,0.6898,516000,5,3,2,4,13.6,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.002
+EMP046788,Operations,Operations Associate,Junior,2,0.8454,410000,15,1,2,3,7.8,Multivariate Workload/Pay Outlier,-0.002
+EMP044601,Finance,Financial Analyst,Junior,1,0.8268,401000,9,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.002
+EMP022981,Operations,Process Analyst,Junior,4,1.3052,633000,15,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0019
+EMP017589,Operations,Process Analyst,Junior,2,0.6701,325000,13,1,2,1,4.6,Multivariate Workload/Pay Outlier,-0.0019
+EMP014009,Technology,DevOps Engineer,Senior,4,1.1608,1422000,4,2,1,1,1.9,Multivariate Workload/Pay Outlier,-0.0019
+EMP017427,Sales,Sales Analyst,Junior,4,1.2701,616000,14,5,5,2,1.5,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0019
+EMP016635,Technology,Data Analyst,Senior,3,0.7445,912000,15,1,4,4,6.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0019
+EMP005076,Technology,Data Analyst,Mid,4,1.2513,936000,6,5,5,1,0.5,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0019
+EMP029839,Human Resources,HR Executive,Senior,4,1.2784,1566000,13,1,4,3,3.4,Multivariate Workload/Pay Outlier,-0.0019
+EMP032084,Customer Support,Team Lead,Junior,3,0.8598,417000,6,1,2,3,9.6,Multivariate Workload/Pay Outlier,-0.0018
+EMP021120,Technology,Data Analyst,Junior,0,0.8227,399000,6,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0018
+EMP024113,Customer Support,Support Associate,Junior,0,1.1505,558000,25,3,5,3,6.8,Multivariate Workload/Pay Outlier,-0.0018
+EMP021863,Technology,Data Analyst,Senior,3,0.8931,1094000,3,1,4,5,9.2,Multivariate Workload/Pay Outlier,-0.0018
+EMP044734,Operations,Process Analyst,Mid,3,0.9612,719000,1,2,4,4,14.6,Multivariate Workload/Pay Outlier,-0.0017
+EMP005728,Finance,Accountant,Mid,2,0.7741,579000,7,5,1,3,4.3,Multivariate Workload/Pay Outlier,-0.0017
+EMP037786,Technology,QA Engineer,Mid,3,0.6778,507000,5,5,3,5,12.4,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0016
+EMP043181,Sales,Sales Executive,Mid,3,0.6684,500000,8,5,2,3,10.8,Multivariate Workload/Pay Outlier,-0.0016
+EMP034853,Sales,Account Manager,Junior,1,0.6928,336000,0,5,3,3,0.0,Multivariate Workload/Pay Outlier,-0.0016
+EMP002640,Operations,Operations Manager,Lead,3,0.9718,1652000,17,1,2,3,7.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0016
+EMP043912,Technology,Software Engineer,Senior,3,1.2971,1589000,0,2,2,5,9.7,Multivariate Workload/Pay Outlier,-0.0016
+EMP049547,Sales,Sales Executive,Junior,4,1.3031,632000,0,2,2,4,0.0,Multivariate Workload/Pay Outlier,-0.0016
+EMP025085,Finance,Finance Manager,Mid,3,0.8008,599000,0,2,4,5,11.2,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0015
+EMP022198,Operations,Process Analyst,Senior,3,1.1437,1401000,16,1,4,3,8.1,Multivariate Workload/Pay Outlier,-0.0014
+EMP040283,Technology,IT Support,Mid,0,1.0107,756000,21,2,1,3,5.6,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0014
+EMP005086,Operations,Operations Manager,Senior,0,1.2988,1591000,0,2,4,4,9.8,Multivariate Workload/Pay Outlier,-0.0013
+EMP029344,Operations,Operations Manager,Junior,3,1.0907,529000,9,5,1,3,7.8,Multivariate Workload/Pay Outlier,-0.0013
+EMP015777,Finance,Finance Manager,Senior,0,1.0914,1337000,0,1,4,2,2.0,Multivariate Workload/Pay Outlier,-0.0013
+EMP024767,Technology,DevOps Engineer,Mid,3,0.7045,527000,19,3,5,3,9.8,Multivariate Workload/Pay Outlier,-0.0012
+EMP030298,Finance,Finance Manager,Junior,1,0.7938,385000,10,1,2,2,0.0,Multivariate Workload/Pay Outlier,-0.0012
+EMP031576,Technology,IT Support,Mid,2,1.254,938000,0,4,5,4,2.2,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0012
+EMP011379,Technology,QA Engineer,Mid,3,1.2781,956000,3,1,4,4,7.9,Multivariate Workload/Pay Outlier,-0.0012
+EMP018311,Human Resources,HR Executive,Mid,3,0.8262,618000,11,4,1,5,11.0,Multivariate Workload/Pay Outlier,-0.0012
+EMP024884,Finance,Accountant,Mid,1,0.7901,591000,7,5,1,2,6.8,Multivariate Workload/Pay Outlier,-0.0012
+EMP005861,Operations,Operations Associate,Senior,3,1.0131,1241000,32,5,3,4,6.6,Multivariate Workload/Pay Outlier,-0.0012
+EMP047367,Finance,Financial Analyst,Senior,3,1.0082,1235000,11,5,1,5,6.5,Multivariate Workload/Pay Outlier,-0.0012
+EMP042914,Sales,Account Manager,Junior,3,1.2268,595000,3,1,2,3,8.2,Multivariate Workload/Pay Outlier,-0.0012
+EMP020649,Technology,DevOps Engineer,Mid,1,0.9051,677000,18,3,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0012
+EMP007647,Customer Support,Support Associate,Senior,0,0.7233,886000,16,2,1,3,2.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0011
+EMP019135,Finance,Financial Analyst,Mid,2,0.7273,544000,18,5,5,3,6.5,Multivariate Workload/Pay Outlier,-0.0011
+EMP022942,Customer Support,Team Lead,Mid,3,1.0441,781000,2,3,5,4,12.5,Multivariate Workload/Pay Outlier,-0.0011
+EMP031947,Legal,Compliance Analyst,Junior,4,1.2144,589000,0,1,3,3,1.2,Multivariate Workload/Pay Outlier,-0.0011
+EMP004270,Customer Support,Team Lead,Junior,3,0.8124,394000,9,4,5,5,12.7,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.001
+EMP007476,Sales,Account Manager,Senior,3,1.289,1579000,13,1,4,4,7.6,Multivariate Workload/Pay Outlier,-0.001
+EMP041964,Customer Support,Team Lead,Junior,1,0.9052,439000,19,5,2,4,0.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.001
+EMP006838,Sales,Sales Executive,Mid,0,0.6805,509000,15,3,5,2,0.0,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.001
+EMP015297,Technology,IT Support,Senior,4,1.2727,1559000,11,5,5,3,1.8,Multivariate Workload/Pay Outlier,-0.0009
+EMP025181,Human Resources,HR Business Partner,Senior,3,0.7984,978000,1,4,5,3,10.9,Multivariate Workload/Pay Outlier,-0.0009
+EMP044958,Sales,Sales Analyst,Mid,0,1.2099,905000,10,1,2,3,8.7,Multivariate Workload/Pay Outlier,-0.0008
+EMP046664,Sales,Account Manager,Senior,4,1.3029,1596000,3,5,2,2,0.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0008
+EMP021054,Technology,Data Analyst,Mid,2,1.0388,777000,0,5,2,3,0.0,Multivariate Workload/Pay Outlier,-0.0008
+EMP029975,Technology,DevOps Engineer,Mid,2,1.2861,962000,0,2,3,5,12.1,Multivariate Workload/Pay Outlier,-0.0007
+EMP024776,Marketing,Marketing Executive,Junior,2,0.8866,430000,8,5,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0007
+EMP015124,Customer Support,Support Associate,Mid,3,0.9492,710000,14,5,5,4,9.1,Multivariate Workload/Pay Outlier,-0.0007
+EMP008325,Customer Support,Team Lead,Junior,1,0.8268,401000,7,5,5,4,0.0,Multivariate Workload/Pay Outlier,-0.0006
+EMP001645,Technology,QA Engineer,Mid,3,0.6832,511000,18,3,2,4,11.2,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0006
+EMP000428,Human Resources,HR Executive,Mid,2,0.8035,601000,22,3,1,4,3.3,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0006
+EMP018883,Operations,Operations Manager,Junior,3,0.7072,343000,7,5,5,4,10.5,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0006
+EMP007024,Operations,Operations Manager,Senior,1,0.8988,1101000,2,5,1,3,6.9,Multivariate Workload/Pay Outlier,-0.0006
+EMP045157,Technology,Data Analyst,Senior,3,0.9306,1140000,15,1,3,4,10.5,Multivariate Workload/Pay Outlier,-0.0006
+EMP019538,Operations,Process Analyst,Junior,1,0.9485,460000,11,5,1,3,3.2,Multivariate Workload/Pay Outlier,-0.0005
+EMP015947,Operations,Operations Manager,Junior,4,1.2825,622000,7,1,2,4,3.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0005
+EMP004191,Technology,IT Support,Mid,4,1.1591,867000,0,2,1,3,2.3,Multivariate Workload/Pay Outlier,-0.0005
+EMP007704,Finance,Accountant,Junior,4,1.332,646000,6,4,1,4,4.5,Multivariate Workload/Pay Outlier,-0.0005
+EMP019177,Operations,Process Analyst,Junior,1,0.6619,321000,2,4,1,3,2.4,Multivariate Workload/Pay Outlier,-0.0004
+EMP031767,Operations,Process Analyst,Junior,3,0.8536,414000,2,1,3,3,9.8,Multivariate Workload/Pay Outlier,-0.0004
+EMP036383,Technology,QA Engineer,Mid,1,0.8489,635000,18,5,5,3,7.3,Multivariate Workload/Pay Outlier,-0.0004
+EMP014759,Marketing,Content Specialist,Senior,4,1.3029,1596000,5,5,5,2,2.2,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0004
+EMP001499,Technology,DevOps Engineer,Mid,4,1.3182,986000,6,3,1,2,0.0,Underperformer Pay Premium (Compa >=1.25 & Rating <=2),-0.0004
+EMP002536,Sales,Account Manager,Senior,4,1.169,1432000,18,4,1,3,7.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0003
+EMP032101,Sales,Account Manager,Junior,3,1.2371,600000,13,2,1,4,9.8,Multivariate Workload/Pay Outlier,-0.0003
+EMP027184,Technology,Data Analyst,Mid,4,1.2433,930000,16,1,4,4,3.5,Multivariate Workload/Pay Outlier,-0.0002
+EMP036150,Sales,Account Manager,Senior,2,1.2971,1589000,1,5,2,4,10.3,Multivariate Workload/Pay Outlier,-0.0002
+EMP038623,Legal,Compliance Analyst,Mid,0,1.3061,977000,13,5,2,4,9.7,Multivariate Workload/Pay Outlier,-0.0002
+EMP038022,Operations,Process Analyst,Senior,0,0.7265,890000,21,5,2,4,4.5,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0002
+EMP038115,Operations,Process Analyst,Mid,1,0.6912,517000,24,4,4,4,0.0,High Performer Pay Compression (Compa <=0.82 & Rating >=4),-0.0002
+EMP025127,Legal,Compliance Analyst,Mid,0,0.8342,624000,11,2,4,4,13.7,Multivariate Workload/Pay Outlier,-0.0001
+EMP020273,Operations,Process Analyst,Mid,4,1.254,938000,18,4,5,3,0.8,Multivariate Workload/Pay Outlier,-0.0001
+EMP015579,Operations,Operations Manager,Junior,3,1.1113,539000,7,5,5,5,10.8,Multivariate Workload/Pay Outlier,-0.0001
+EMP028660,Operations,Operations Manager,Junior,1,0.6784,329000,5,2,5,3,0.0,Multivariate Workload/Pay Outlier,-0.0001
+EMP011133,Sales,Sales Executive,Mid,0,0.9265,693000,20,2,5,3,2.9,Compensation Stagnation (Promotion Delay >=36m & Low Hike),-0.0
+EMP039852,Sales,Sales Executive,Senior,0,0.7053,864000,20,3,2,3,11.0,Severe Workload Burnout (Overtime >=16h & Low WLB),-0.0

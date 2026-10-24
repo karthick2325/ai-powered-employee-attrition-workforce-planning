@@ -111,6 +111,11 @@ class PredictionService:
         med_pct = round((med_count / max(1, total_eligible)) * 100, 2) if total_eligible > 0 else 0.0
         low_pct = round((low_count / max(1, total_eligible)) * 100, 2) if total_eligible > 0 else 0.0
 
+        # Historical benchmark
+        outcomes_df = ExcelService.get_sheet("Attrition_Outcomes")
+        hist_attr_count = int(outcomes_df["Attrition_Within_6M"].sum()) if outcomes_df is not None else 2779
+        hist_attr_pct = round((hist_attr_count / max(1, len(outcomes_df))) * 100, 2) if outcomes_df is not None else 5.79
+
         return {
             "eligible_employees": total_eligible,
             "predicted_high_risk": high_count,
@@ -119,6 +124,10 @@ class PredictionService:
             "predicted_medium_risk_pct": med_pct,
             "predicted_low_risk": low_count,
             "predicted_low_risk_pct": low_pct,
+            "historical_attrition_count": hist_attr_count,
+            "historical_attrition_pct": hist_attr_pct,
+            "high_risk_threshold": "≥ 60%",
+            "prediction_horizon": "6 Months (Jan-Jun 2026)",
             "model_used": "Random Forest",
             "model_status": "Best performing model"
         }

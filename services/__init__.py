@@ -9,6 +9,7 @@ from services.prediction_service import PredictionService
 from services.analytics_service import AnalyticsService
 from services.workforce_planning_service import WorkforcePlanningService
 from services.recruitment_service import RecruitmentService
+from services.segmentation_service import SegmentationService
 
 __all__ = [
     "ExcelService",
@@ -18,5 +19,6 @@ __all__ = [
     "PredictionService",
     "AnalyticsService",
     "WorkforcePlanningService",
-    "RecruitmentService"
+    "RecruitmentService",
+    "SegmentationService"
 ]

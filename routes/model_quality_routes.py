@@ -15,12 +15,13 @@ logger = logging.getLogger(__name__)
 model_quality_bp = Blueprint("model_quality", __name__)
 
 @model_quality_bp.route("/model-quality")
+@model_quality_bp.route("/ai-model-intelligence")
 def model_quality_page():
     return render_template(
         "model_quality.html",
         active_page="model_quality",
-        page_title="Model Performance & Data Quality",
-        page_subtitle="Evaluate machine learning models and check dataset health",
+        page_title="AI Model Intelligence",
+        page_subtitle="Comprehensive supervised attrition models & unsupervised workforce segmentation benchmarks",
         snapshot_date=config.DATA_SNAPSHOT_DATE
     )
 
