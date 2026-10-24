@@ -16,6 +16,11 @@ from routes.analytics_routes import analytics_bp
 from routes.prediction_routes import prediction_bp
 from routes.workforce_routes import workforce_bp
 from routes.model_quality_routes import model_quality_bp
+from routes.segmentation_routes import segmentation_bp
+from routes.report_routes import report_bp
+from routes.recruitment_routes import recruitment_bp
+from routes.data_quality_routes import data_quality_bp
+from routes.help_routes import help_bp
 
 logging.basicConfig(
     level=logging.INFO,
@@ -27,12 +32,17 @@ def create_app() -> Flask:
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config["SECRET_KEY"] = config.SECRET_KEY
 
-    # Register application blueprints
+    # Register application blueprints across all 10 modules
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(analytics_bp)
     app.register_blueprint(prediction_bp)
     app.register_blueprint(workforce_bp)
+    app.register_blueprint(segmentation_bp)
     app.register_blueprint(model_quality_bp)
+    app.register_blueprint(recruitment_bp)
+    app.register_blueprint(data_quality_bp)
+    app.register_blueprint(report_bp)
+    app.register_blueprint(help_bp)
 
     @app.route("/health")
     @app.route("/api/health")
@@ -51,6 +61,9 @@ def create_app() -> Flask:
             if success:
                 # Invalidate prediction cache
                 PredictionService.get_predictions_df(force_recompute=True)
+                # Invalidate segmentation cache
+                from services.segmentation_service import SegmentationService
+                SegmentationService.get_pipeline(k=5, force_refit=True)
                 return jsonify({"success": True, "message": "Dataset successfully refreshed."})
             else:
                 return jsonify({"success": False, "error": ExcelService.get_load_error()}), 500
@@ -74,6 +87,9 @@ def create_app() -> Flask:
             ModelTrainingService.load_artifacts_or_train()
             logger.info("Pre-warming prediction cache...")
             PredictionService.get_predictions_df()
+            logger.info("Pre-warming workforce segmentation pipeline...")
+            from services.segmentation_service import SegmentationService
+            SegmentationService.get_pipeline(k=5)
             logger.info("Workforce Intelligence application ready.")
         else:
             logger.error(f"Initialization warning: {ExcelService.get_load_error()}")

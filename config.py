@@ -108,6 +108,10 @@ DISCLAIMER_TEXT = (
     "Predictions and planning estimates are illustrative and must not be treated as actual employee outcomes."
 )
 
+# Enterprise branding
+COMPANY_NAME = "AttritionSense Technologies"
+TAGLINE = "Detect Risks. Retain Talent."
+
 DATA_SNAPSHOT_DATE = "01 Jan 2026"
 
 # Server configuration
