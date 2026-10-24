@@ -1,0 +1,202 @@
+{
+  "evaluated_at": "2026-10-24T17:47:45Z",
+  "dataset_records": 47972,
+  "sample_evaluated": 3000,
+  "target_k": 5,
+  "random_state": 42,
+  "selected_algorithm": "K-Means",
+  "selected_algorithm_id": "kmeans",
+  "selection_rationale": "K-Means is selected as the optimal workforce segmentation model. It achieved the highest composite validation score (66.54) with a Davies-Bouldin index of 2.7977, Calinski-Harabasz score of 174.4, 100% employee assignment coverage (0% noise), and balanced segment sizes (ratio: 2.49).",
+  "candidates": [
+    {
+      "id": "kmeans",
+      "name": "K-Means",
+      "family": "Centroid-based (Partitioning)",
+      "description": "Partitions workforce by minimizing within-cluster variance using Euclidean distances.",
+      "parameters": {
+        "n_clusters": 5,
+        "init": "k-means++",
+        "n_init": 10,
+        "random_state": 42
+      },
+      "runtime_ms": 1303.6,
+      "clusters_found": 5,
+      "noise_count": 0,
+      "noise_percentage": 0.0,
+      "coverage_percentage": 100.0,
+      "cluster_sizes": [
+        424,
+        787,
+        316,
+        717,
+        756
+      ],
+      "min_cluster_size": 316,
+      "max_cluster_size": 787,
+      "size_imbalance_ratio": 2.49,
+      "silhouette_score": 0.064,
+      "silhouette_display": "0.064",
+      "davies_bouldin_index": 2.7977,
+      "davies_bouldin_display": "2.7977",
+      "calinski_harabasz_index": 174.4,
+      "calinski_harabasz_display": "174.4",
+      "extra_diagnostics": {},
+      "is_valid": true,
+      "rejection_reason": null,
+      "composite_score": 66.54,
+      "warnings": []
+    },
+    {
+      "id": "agglomerative",
+      "name": "Agglomerative Clustering",
+      "family": "Hierarchical (Bottom-up)",
+      "description": "Constructs cluster hierarchy by iteratively merging closest pairs with Ward linkage.",
+      "parameters": {
+        "n_clusters": 5,
+        "linkage": "ward"
+      },
+      "runtime_ms": 381.9,
+      "clusters_found": 5,
+      "noise_count": 0,
+      "noise_percentage": 0.0,
+      "coverage_percentage": 100.0,
+      "cluster_sizes": [
+        472,
+        1215,
+        522,
+        432,
+        359
+      ],
+      "min_cluster_size": 359,
+      "max_cluster_size": 1215,
+      "size_imbalance_ratio": 3.38,
+      "silhouette_score": 0.0211,
+      "silhouette_display": "0.0211",
+      "davies_bouldin_index": 3.6437,
+      "davies_bouldin_display": "3.6437",
+      "calinski_harabasz_index": 106.1,
+      "calinski_harabasz_display": "106.1",
+      "extra_diagnostics": {},
+      "is_valid": true,
+      "rejection_reason": null,
+      "composite_score": 59.64,
+      "warnings": [
+        "Subsampled fit (3,000 records) applied for computational memory safety."
+      ]
+    },
+    {
+      "id": "gmm",
+      "name": "Gaussian Mixture Model (GMM)",
+      "family": "Distribution-based (Probabilistic)",
+      "description": "Models workforce as mixture of Gaussian distributions, yielding soft cluster probabilities.",
+      "parameters": {
+        "n_components": 5,
+        "covariance_type": "full",
+        "random_state": 42
+      },
+      "runtime_ms": 3823.4,
+      "clusters_found": 5,
+      "noise_count": 0,
+      "noise_percentage": 0.0,
+      "coverage_percentage": 100.0,
+      "cluster_sizes": [
+        2130,
+        336,
+        367,
+        40,
+        127
+      ],
+      "min_cluster_size": 40,
+      "max_cluster_size": 2130,
+      "size_imbalance_ratio": 53.25,
+      "silhouette_score": 0.0035,
+      "silhouette_display": "0.0035",
+      "davies_bouldin_index": 6.9688,
+      "davies_bouldin_display": "6.9688",
+      "calinski_harabasz_index": 14.6,
+      "calinski_harabasz_display": "14.6",
+      "extra_diagnostics": {
+        "bic": -119717.5,
+        "aic": -131063.6
+      },
+      "is_valid": true,
+      "rejection_reason": null,
+      "composite_score": 30.75,
+      "warnings": []
+    },
+    {
+      "id": "dbscan",
+      "name": "DBSCAN",
+      "family": "Density-based",
+      "description": "Groups dense regions of workforce and explicitly flags isolated outliers as noise (-1).",
+      "parameters": {
+        "eps": 4.2,
+        "min_samples": 25
+      },
+      "runtime_ms": 105.5,
+      "clusters_found": 1,
+      "noise_count": 2,
+      "noise_percentage": 0.07,
+      "coverage_percentage": 99.93,
+      "cluster_sizes": [
+        2998
+      ],
+      "min_cluster_size": 2998,
+      "max_cluster_size": 2998,
+      "size_imbalance_ratio": 1.0,
+      "silhouette_score": null,
+      "silhouette_display": "N/A",
+      "davies_bouldin_index": null,
+      "davies_bouldin_display": "N/A",
+      "calinski_harabasz_index": null,
+      "calinski_harabasz_display": "N/A",
+      "extra_diagnostics": {},
+      "is_valid": false,
+      "rejection_reason": "Degenerate solution: fewer than 2 meaningful clusters formed.",
+      "composite_score": 0.0,
+      "warnings": [
+        "Subsampled fit (3,000 records) applied for computational memory safety.",
+        "Only 1 cluster(s) found. Internal separation metrics undefined."
+      ]
+    },
+    {
+      "id": "birch",
+      "name": "BIRCH",
+      "family": "Hierarchical Tree-based (CFTree)",
+      "description": "Constructs Clustering Feature Tree for incremental, memory-efficient subclustering.",
+      "parameters": {
+        "n_clusters": 5,
+        "threshold": 1.0,
+        "branching_factor": 50
+      },
+      "runtime_ms": 493.5,
+      "clusters_found": 5,
+      "noise_count": 0,
+      "noise_percentage": 0.0,
+      "coverage_percentage": 100.0,
+      "cluster_sizes": [
+        1240,
+        531,
+        269,
+        792,
+        168
+      ],
+      "min_cluster_size": 168,
+      "max_cluster_size": 1240,
+      "size_imbalance_ratio": 7.38,
+      "silhouette_score": 0.0275,
+      "silhouette_display": "0.0275",
+      "davies_bouldin_index": 3.4534,
+      "davies_bouldin_display": "3.4534",
+      "calinski_harabasz_index": 105.1,
+      "calinski_harabasz_display": "105.1",
+      "extra_diagnostics": {},
+      "is_valid": true,
+      "rejection_reason": null,
+      "composite_score": 50.56,
+      "warnings": [
+        "Subsampled fit (3,000 records) applied for computational memory safety."
+      ]
+    }
+  ]
+}

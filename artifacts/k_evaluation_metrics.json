@@ -1,0 +1,37 @@
+[
+  {
+    "k": 3,
+    "inertia": 535604.3,
+    "silhouette_score": 0.0691,
+    "davies_bouldin": 3.0556,
+    "calinski_harabasz": 179.6
+  },
+  {
+    "k": 4,
+    "inertia": 514780.9,
+    "silhouette_score": 0.0667,
+    "davies_bouldin": 2.8701,
+    "calinski_harabasz": 153.0
+  },
+  {
+    "k": 5,
+    "inertia": 499209.8,
+    "silhouette_score": 0.0595,
+    "davies_bouldin": 2.8549,
+    "calinski_harabasz": 138.6
+  },
+  {
+    "k": 6,
+    "inertia": 485441.0,
+    "silhouette_score": 0.0596,
+    "davies_bouldin": 2.7203,
+    "calinski_harabasz": 132.0
+  },
+  {
+    "k": 7,
+    "inertia": 473194.8,
+    "silhouette_score": 0.0622,
+    "davies_bouldin": 2.6631,
+    "calinski_harabasz": 123.3
+  }
+]
