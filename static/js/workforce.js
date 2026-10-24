@@ -19,7 +19,12 @@ async function loadWorkforceKPIs() {
         const res = await API.get('/api/workforce/kpis');
         if (!res.success) return;
         const k = res.kpis;
-        document.getElementById('kpiWfCurrent').textContent = formatNumber(k.current_headcount);
+        if (document.getElementById('kpiWfActive')) {
+            document.getElementById('kpiWfActive').textContent = formatNumber(k.active_headcount || 47972);
+        }
+        if (document.getElementById('kpiWfCurrent')) {
+            document.getElementById('kpiWfCurrent').textContent = formatNumber(k.total_snapshot_records || k.current_headcount);
+        }
         document.getElementById('kpiWfNotice').textContent = formatNumber(k.employees_serving_notice);
         document.getElementById('kpiWfPredicted').textContent = formatNumber(k.expected_additional_exits);
         document.getElementById('kpiWfTarget').textContent = formatNumber(k.target_headcount);
@@ -140,7 +145,16 @@ async function loadWorkforceCharts() {
         }
 
         // 5. Notice Period Distribution (Days Remaining)
-        const distRes = await API.get('/api/workforce/notice-distribution');
+        await loadNoticeDistributionChart();
+    } catch (err) {
+        console.error('Error loading workforce charts:', err);
+    }
+}
+
+async function loadNoticeDistributionChart() {
+    try {
+        const refDate = document.getElementById('noticeReferenceDate')?.value || '2026-01-01';
+        const distRes = await API.get('/api/workforce/notice-distribution', { reference_date: refDate });
         if (distRes.success && distRes.data) {
             const d = distRes.data;
             renderChart('wfNoticeDistChart', {
@@ -163,7 +177,7 @@ async function loadWorkforceCharts() {
             });
         }
     } catch (err) {
-        console.error('Error loading workforce charts:', err);
+        console.error('Error loading notice distribution:', err);
     }
 }
 

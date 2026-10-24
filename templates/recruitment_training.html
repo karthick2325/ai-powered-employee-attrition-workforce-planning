@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% set page_title = "Recruitment & Training Analytics" %}
+{% set page_subtitle = "Talent acquisition pipeline, verified cost breakdown, and employee learning hours" %}
+
+{% block header_actions %}
+<div style="display: flex; gap: 10px; align-items: center;">
+    <a href="/api/reports/download?type=recruitment_training&format=xlsx" class="btn btn-outline-primary" title="Export Recruitment & Training Workbook">
+        <i class="bi bi-file-earmark-excel"></i>
+        <span>Export Excel</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Executive KPIs -->
+<div class="kpi-grid kpi-grid-6">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Active Requisitions</div>
+            <div class="kpi-value" id="kpiActiveReqs">463</div>
+            <div class="kpi-subtitle" id="kpiTotalReqsSubtitle">of 1,200 total requisitions</div>
+            <span id="kpiTotalReqs" style="display:none;">1,200</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-cyan">
+            <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Open Positions</div>
+            <div class="kpi-value" id="kpiPositionsRemaining">730</div>
+            <div class="kpi-subtitle">Vacancies remaining to fill</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-green">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Hiring Fill Rate</div>
+            <div class="kpi-value" id="kpiFillRate">67.3%</div>
+            <div class="kpi-subtitle">1,617 hires of 2,402 requested</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Candidate Pipeline</div>
+            <div class="kpi-value" id="kpiActiveCandidates">20,000</div>
+            <div class="kpi-subtitle">Across 5 evaluation stages</div>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-currency-rupee"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Avg Cost Per Hire</div>
+            <div class="kpi-value" id="kpiAvgCost">₹ 78,066</div>
+            <div class="kpi-subtitle" id="kpiTotalSpendSubtitle">Total spend: ₹ 12.62 Cr</div>
+            <span id="kpiTotalSpend" style="display:none;">₹ 12,62,32,510</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="kpi-details">
+            <div class="kpi-title">Avg Training Hours</div>
+            <div class="kpi-value" id="kpiAvgTraining">28.1 hrs</div>
+            <div class="kpi-subtitle">Past 12 months average</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Candidate Funnel & Recruitment Cost Breakdown -->
+<div class="analytics-charts-grid">
+    <!-- Recruitment Candidate Funnel -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-filter-circle-fill text-primary"></i>
+                <h3 class="card-title">Candidate Pipeline Conversion Funnel</h3>
+            </div>
+            <span class="badge-neutral">20,000 Candidates</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartCandidateFunnel"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recruitment Cost Category Breakdown -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill text-purple"></i>
+                <h3 class="card-title">Recruitment Cost Allocation (INR)</h3>
+            </div>
+            <span class="badge-neutral">Itemized Spend Breakdown</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartRecruitmentCosts"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Training Hours by Department & by Job Level -->
+<div class="analytics-charts-grid">
+    <!-- Department Training Hours -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-book-half text-success"></i>
+                <h3 class="card-title">Training Hours by Department</h3>
+            </div>
+            <span class="badge-neutral">Past 12M Avg</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartDepartmentTraining"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Level Training Hours -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-mortarboard-fill text-primary"></i>
+                <h3 class="card-title">Training Hours by Job Level</h3>
+            </div>
+            <span class="badge-neutral">Past 12M Avg</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="chartLevelTraining"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section: Active Requisitions Table -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-table text-primary"></i>
+            <h3 class="card-title">Active Job Requisitions &amp; Hiring Status</h3>
+        </div>
+        <span class="badge-neutral" id="requisitionsTableBadge">1,200 Requisitions</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+            <table class="data-table" id="requisitionsTable">
+                <thead>
+                    <tr>
+                        <th>Requisition ID</th>
+                        <th>Department</th>
+                        <th>Job Role</th>
+                        <th>Open Date</th>
+                        <th>Positions Requested</th>
+                        <th>Hires Made</th>
+                        <th>Positions Remaining</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="requisitionsTbody">
+                    <tr><td colspan="8" class="text-center py-4 text-muted">Loading job requisitions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/recruitment_training.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% set page_title = "Workforce Segmentation & Talent Intelligence" %}
+{% set page_subtitle = "Descriptive Workforce Archetypes, 2D PCA Dimensionality Projection, and Supportive Talent Actions" %}
+
+{% block content %}
+<!-- Executive KPI Summary Cards -->
+<section class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Clustered Workforce</span>
+            <div class="kpi-icon-wrap bg-primary-light text-primary">
+                <i class="bi bi-people-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="kpiTotalClustered">47,972</div>
+        <div class="kpi-footer">
+            <span class="badge-neutral" id="kpiSegmentCountBadge">K = 5 Archetypes</span>
+            <span class="text-muted">Eligible cohort (100% assigned)</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Segment Coverage</span>
+            <div class="kpi-icon-wrap bg-success-light text-success">
+                <i class="bi bi-award-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value text-success" id="kpiSegmentCoverage">100.0%</div>
+        <div class="kpi-footer">
+            <span class="text-muted" id="kpiBestModelMetric">47,972 of 47,972 assigned</span>
+            <span id="kpiBestModel" style="display:none;">K-Means</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Unassigned Noise</span>
+            <div class="kpi-icon-wrap bg-purple-light text-purple">
+                <i class="bi bi-slash-circle-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="kpiNoiseRate">0 (0.0%)</div>
+        <div class="kpi-footer">
+            <span class="text-muted">Full population coverage</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Critical Role Exposure</span>
+            <div class="kpi-icon-wrap bg-warning-light text-warning">
+                <i class="bi bi-exclamation-diamond-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value text-warning" id="kpiTopPressureRatio">0.182</div>
+        <div class="kpi-footer">
+            <span class="text-muted" id="kpiTopPressureRole">Top: Team Lead</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Workload Outliers</span>
+            <div class="kpi-icon-wrap bg-danger-light text-danger">
+                <i class="bi bi-shield-exclamation"></i>
+            </div>
+        </div>
+        <div class="kpi-value text-danger" id="kpiTotalAnomalies">960</div>
+        <div class="kpi-footer">
+            <span class="text-muted">Review signals (2.0% cohort)</span>
+        </div>
+    </div>
+</section>
+
+<!-- Section 1: Visual Overview & Dimensionality Projection -->
+<div class="analytics-charts-grid" style="margin-bottom: 24px;">
+    <!-- 2D PCA Cluster Projection -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-scatter-chart text-primary"></i>
+                <h3 class="card-title">2D PCA Cluster Projection (Dimensionality Reduction)</h3>
+            </div>
+            <span class="badge-neutral" id="pcaVarianceBadge">Total Variance: ~21.4%</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;">
+                <i class="bi bi-info-circle text-primary"></i>
+                <strong>Projection Context:</strong> 2D PCA projects 26 workplace dimensions onto two orthogonal axes for visual exploration. Boundary proximity in 2D reflects dimensionality compression rather than true multi-dimensional overlap.
+            </p>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="chartPcaScatter"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workforce Segment Size & Distribution Chart -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill text-success"></i>
+                <h3 class="card-title">Workforce Segment Distribution</h3>
+            </div>
+            <span class="badge-neutral">Headcount &amp; Share</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;">
+                <i class="bi bi-check2-circle text-success"></i>
+                <strong>Population Split:</strong> Distribution of 47,972 active eligible employees across the 5 validated talent archetypes.
+            </p>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="chartSegmentDistribution"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: Workforce Segment Archetypes Grid -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-person-workspace text-primary"></i>
+            <h3 class="card-title">Workforce Segment Archetypes &amp; Strategic Action Checklist</h3>
+        </div>
+        <span class="badge-neutral">Derived from Cluster Characteristics</span>
+    </div>
+    <div class="card-body">
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 18px;">
+            Descriptive, non-stigmatizing talent archetypes derived from observed compensation, tenure, workload, and satisfaction statistics.
+            Each archetype provides tailored, constructive HR retention actions.
+        </p>
+        <div class="segment-grid" id="segmentCardsGrid">
+            <div class="loading-placeholder">
+                <div class="spinner"></div>
+                <span>Loading workforce segment profiles...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 3: Detailed Segment Comparison Table -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-table"></i>
+            <h3 class="card-title">Detailed Segment Profiles</h3>
+        </div>
+        <span class="badge-neutral" id="segmentTableCountBadge">K = 5 Archetypes</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="data-table" id="segmentProfilesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Archetype Name</th>
+                        <th>Headcount</th>
+                        <th>Share (%)</th>
+                        <th>Dominant Dept</th>
+                        <th>Dominant Role</th>
+                        <th>Avg Tenure</th>
+                        <th>Avg Compa</th>
+                        <th>Median Salary</th>
+                        <th>Satisfaction</th>
+                        <th>Flight Risk</th>
+                        <th>Strategic HR Action</th>
+                    </tr>
+                </thead>
+                <tbody id="segmentProfilesTbody">
+                    <tr>
+                        <td colspan="12" class="text-center py-4 text-muted">Loading segment profiles table...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Section 5: Employee Cluster Assignments Table (Search & Paginated) -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-person-lines-fill"></i>
+            <h3 class="card-title">Employee Cluster Assignments &amp; Exploration</h3>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <select class="form-select form-select-sm" id="segFilterSegment" style="width: 170px;">
+                <option value="-1">All Segments</option>
+                <option value="0">Segment 1</option>
+                <option value="1">Segment 2</option>
+                <option value="2">Segment 3</option>
+                <option value="3">Segment 4</option>
+                <option value="4">Segment 5</option>
+            </select>
+            <input type="text" class="form-input form-input-sm" id="segSearchEmployee" placeholder="Search employee..." style="width: 200px;">
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="data-table" id="segmentEmployeesTable">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Job Role</th>
+                        <th>Job Level</th>
+                        <th>Assigned Segment</th>
+                        <th>Tenure (Mo)</th>
+                        <th>Salary</th>
+                        <th>Compa-Ratio</th>
+                        <th>Satisfaction</th>
+                        <th>Overtime</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="segmentEmployeesTbody">
+                    <tr>
+                        <td colspan="12" class="text-center py-4 text-muted">Loading employee cluster assignments...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-bar" id="segEmployeesPagination" style="margin-top: 14px;">
+            <span class="pagination-info" id="segEmployeesPageInfo">Showing page 1</span>
+            <div class="pagination-controls">
+                <button class="btn btn-outline-secondary btn-sm" id="btnPrevSegEmp" disabled>Previous</button>
+                <button class="btn btn-outline-secondary btn-sm" id="btnNextSegEmp">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Job Role Staffing Pressure & Workload Anomalies -->
+<div class="analytics-charts-grid" style="margin-bottom: 24px;">
+    <!-- Job Role Staffing Pressure -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-briefcase-fill"></i>
+                <h3 class="card-title">Job Role Staffing Pressure</h3>
+            </div>
+            <select class="form-select form-select-sm" id="roleTierFilter" style="width: 170px;">
+                <option value="All">All Tiers</option>
+                <option value="Critical Staffing Pressure">Critical Pressure</option>
+                <option value="Moderate Staffing Risk">Moderate Risk</option>
+                <option value="Stable / Low Pressure">Stable</option>
+            </select>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+                <table class="data-table" id="rolePressureTable">
+                    <thead>
+                        <tr>
+                            <th>Job Role</th>
+                            <th>Headcount</th>
+                            <th>Notice Exits</th>
+                            <th>Open Reqs</th>
+                            <th>Pressure Ratio</th>
+                            <th>Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolePressureTbody">
+                        <tr><td colspan="6" class="text-center py-4 text-muted">Loading role pressure...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workload & Pay Outliers (Isolation Forest) -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-shield-slash"></i>
+                <h3 class="card-title">Workload &amp; Pay Outliers</h3>
+            </div>
+            <span class="badge-neutral">Isolation Forest (2.0%)</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+                <table class="data-table" id="anomaliesTable">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Role</th>
+                            <th>Compa-Ratio</th>
+                            <th>Overtime</th>
+                            <th>WLB</th>
+                            <th>Anomaly Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="anomaliesTbody">
+                        <tr><td colspan="6" class="text-center py-4 text-muted">Loading anomalies...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/segmentation.js') }}"></script>
+{% endblock %}

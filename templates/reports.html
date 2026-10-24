@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% set page_title = "Reports & Exports Center" %}
+{% set page_subtitle = "Generate verified enterprise CSV and multi-sheet Excel (.xlsx) analytical reports" %}
+
+{% block content %}
+<!-- Top Stats Banner -->
+<div class="card" style="margin-bottom: 24px; padding: 20px 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--navy-text); margin-bottom: 4px;">
+                <i class="bi bi-file-earmark-spreadsheet-fill text-primary"></i> Enterprise Export Hub
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
+                All workbooks are generated in-memory with professional styling, auto-fitted columns, number formats, formula sanitization, and audit metadata.
+            </p>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <span class="badge-neutral" style="font-size: 12px;">
+                <i class="bi bi-shield-check text-success"></i> Formula-Injection Safe
+            </span>
+            <span class="badge-neutral" style="font-size: 12px;">
+                <i class="bi bi-filetype-csv text-primary"></i> UTF-8 with BOM
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Report Cards Grid -->
+<div class="reports-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; margin-bottom: 28px;">
+    
+    <!-- Report 1: Attrition Risk Assessment -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-cpu text-primary"></i>
+                <h4 class="card-title">Attrition Risk Assessment</h4>
+            </div>
+            <span class="badge-neutral">Supervised ML</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Employee-level attrition risk probabilities, classified risk bands (Low/Medium/High), feature contributions, and retention actions.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Executive_Summary, Employee_Risk_Scores
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=attrition_risk&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=attrition_risk&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report 2: Workforce Segmentation Profiles -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-diagram-2-fill text-purple"></i>
+                <h4 class="card-title">Workforce Segmentation Profiles</h4>
+            </div>
+            <span class="badge-neutral">Unsupervised Archetypes</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Workforce cluster archetypes (K=5), employee counts, compa-ratio benchmarks, role staffing pressure, and pay/workload anomalies.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Segment_Profiles, Role_Staffing_Pressure, Workload_Anomalies
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=workforce_segmentation&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=workforce_segmentation&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report 3: 5-Algorithm Clustering Benchmark -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-steps text-success"></i>
+                <h4 class="card-title">5-Algorithm Clustering Benchmark</h4>
+            </div>
+            <span class="badge-neutral">Model Evaluation</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Comparative evaluation across K-Means, Agglomerative, GMM, DBSCAN, and BIRCH with Silhouette, Davies-Bouldin, and selection rationale.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Benchmark_Comparison
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=clustering_benchmark&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=clustering_benchmark&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report 4: Workforce Planning & Exit Analysis -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-person-lines-fill text-warning"></i>
+                <h4 class="card-title">Workforce Planning &amp; Exit Analysis</h4>
+            </div>
+            <span class="badge-neutral">Staffing Forecast</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Department headcount gaps, verified notice period exit schedules (2,028 departures), open requisitions, and net hiring needs.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Department_Headcount_Gaps, Role_Staffing_Pressure
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=workforce_planning&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=workforce_planning&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report 5: Data Quality & Governance Audit -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-database-check text-info"></i>
+                <h4 class="card-title">Data Quality &amp; Governance Audit</h4>
+            </div>
+            <span class="badge-neutral">Integrity Audit</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                12 automated data health audits covering primary keys, referential integrity, range bounds, chronological logic, and population reconciliation.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Quality_Checks
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=data_quality&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=data_quality&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report 6: Recruitment & Training Analytics -->
+    <div class="card report-card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-mortarboard-fill text-danger"></i>
+                <h4 class="card-title">Recruitment &amp; Training Analytics</h4>
+            </div>
+            <span class="badge-neutral">Talent Funnel</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Candidate pipeline conversions (20,000 applicants), recruitment costs breakdown in INR across 1,200 requisitions, and training hours.
+            </p>
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-size: 12px; margin-bottom: 16px;">
+                <strong>Sheets Included:</strong> README_Metadata, Job_Requisitions, Recruitment_Costs, Department_Training_Hours
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="/api/reports/download?type=recruitment_training&format=csv" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-filetype-csv"></i> Download CSV
+                </a>
+                <a href="/api/reports/download?type=recruitment_training&format=xlsx" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Download Excel (.xlsx)
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

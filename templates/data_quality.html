@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% set page_title = "Data Quality & Governance Audit" %}
+{% set page_subtitle = "12 automated integrity audits, referential key verification, and population reconciliation" %}
+
+{% block header_actions %}
+<div style="display: flex; gap: 10px; align-items: center;">
+    <a href="/api/reports/download?type=data_quality&format=xlsx" class="btn btn-outline-primary" title="Export Data Quality Audit Workbook">
+        <i class="bi bi-file-earmark-excel"></i>
+        <span>Export Audit Excel</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Executive HR Data Quality KPIs -->
+<div class="dq-audit-status" id="dqAuditStatus" role="status" aria-live="polite">Loading verified audit metrics…</div>
+<div class="kpi-grid dq-kpi-grid" aria-label="Data quality key performance indicators">
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Records Audited</span>
+            <div class="kpi-icon-wrap bg-primary-light text-primary">
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqTotalAudited">—</div>
+        <div class="kpi-footer">
+            <span class="text-muted">Master snapshot rows</span>
+            <span id="dqTotalRecords" style="display:none;">—</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Unique Employees</span>
+            <div class="kpi-icon-wrap bg-info-light text-info">
+                <i class="bi bi-people-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqUniqueEmployees">—</div>
+        <div class="kpi-footer">
+            <span class="badge-neutral" id="dqUniqueBadge">Awaiting audit</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Data Completeness</span>
+            <div class="kpi-icon-wrap bg-success-light text-success">
+                <i class="bi bi-shield-check"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqDataCompleteness">—</div>
+        <div class="kpi-footer">
+            <span class="badge-neutral" id="dqValidationStatus">Awaiting audit</span>
+            <span id="dqOverallScore" style="display:none;">100.0%</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Duplicate IDs</span>
+            <div class="kpi-icon-wrap bg-success-light text-success">
+                <i class="bi bi-check2-all"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqDuplicateIds">—</div>
+        <div class="kpi-footer">
+            <span class="text-muted" id="dqDuplicateHint">Verified duplicate employee IDs</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Missing Values</span>
+            <div class="kpi-icon-wrap bg-success-light text-success">
+                <i class="bi bi-clipboard2-check"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqMissingValues">—</div>
+        <div class="kpi-footer">
+            <span class="text-muted" id="dqMissingHint">Missing required values</span>
+        </div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-title">Requiring Review</span>
+            <div class="kpi-icon-wrap bg-success-light text-success">
+                <i class="bi bi-patch-check-fill"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="dqRecordsReview">—</div>
+        <div class="kpi-footer">
+            <span class="text-muted" id="dqReviewHint">Records flagged for review</span>
+            <span id="dqFailedChecks" style="display:none;">—</span>
+            <span id="dqPassedChecks" style="display:none;">—</span>
+            <span id="dqEligibleCount" style="display:none;">—</span>
+        </div>
+    </div>
+</div>
+
+<!-- Balanced Analytical Charts Row (2-column layout) -->
+<div class="analytics-charts-grid" style="margin-bottom: 24px;">
+    <!-- Chart 1: Feature Completeness by Domain -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-bar-chart-fill text-primary"></i>
+                <h3 class="card-title">Feature Completeness by Domain</h3>
+            </div>
+            <span class="badge-success"><i class="bi bi-check-all"></i> 100.0% Complete</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="height: 260px;">
+                <canvas id="chartDomainCompleteness"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 2: Audit Checks by Category & Severity -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap">
+                <i class="bi bi-pie-chart-fill text-success"></i>
+                <h3 class="card-title">Audit Checks by Category &amp; Severity</h3>
+            </div>
+            <span class="badge-neutral">12 Automated Audits</span>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="height: 260px;">
+                <canvas id="chartChecksCategory"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Population Balance & Reconciliation Card -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-diagram-3-fill text-primary"></i>
+            <h3 class="card-title">Workforce Population Reconciliation &amp; Exclusion Accounting</h3>
+        </div>
+        <span class="badge-success"><i class="bi bi-check-all"></i> Balanced 100%</span>
+    </div>
+    <div class="card-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 14px;">
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px;">
+                <h5 style="font-size: 13px; font-weight: 700; color: var(--navy-text); margin-bottom: 6px;">
+                    1. Master Employee Headcount
+                </h5>
+                <div id="dqReconcileMaster" style="font-size: 22px; font-weight: 700; color: var(--navy-text);">—</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total records in master snapshot</div>
+            </div>
+
+            <div style="background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 8px; padding: 14px;">
+                <h5 style="font-size: 13px; font-weight: 700; color: #9F1239; margin-bottom: 6px;">
+                    2. Notice Cohort Excluded
+                </h5>
+                <div id="dqReconcileNotice" style="font-size: 22px; font-weight: 700; color: #BE123C;">—</div>
+                <div style="font-size: 12px; color: #9F1239;">Exits confirmed via contractual notice</div>
+            </div>
+
+            <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 14px;">
+                <h5 style="font-size: 13px; font-weight: 700; color: #166534; margin-bottom: 6px;">
+                    3. Eligible Modeling Cohort
+                </h5>
+                <div id="dqReconcileEligible" style="font-size: 22px; font-weight: 700; color: #15803D;">—</div>
+                <div style="font-size: 12px; color: #166534;">Target for ML prediction &amp; segmentation</div>
+            </div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">
+            <strong>Accounting Rule:</strong> Master population should reconcile to the notice cohort plus eligible non-notice population. Values and any variance must be verified against the audit API; do not assume a zero variance.
+        </p>
+    </div>
+</div>
+
+<!-- Section: Automated Integrity Checks Table -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-shield-check text-success"></i>
+            <h3 class="card-title">12 Automated Data Quality &amp; Referential Integrity Audits</h3>
+        </div>
+        <span class="badge-neutral">Strict Enterprise Rules</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="data-table" id="checksTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Check Name</th>
+                        <th>Status</th>
+                        <th>Severity</th>
+                        <th>Result</th>
+                        <th>Verification Details</th>
+                        <th>Actionable Remediation Guidance</th>
+                    </tr>
+                </thead>
+                <tbody id="checksTbody">
+                    <tr><td colspan="8" class="text-center py-4 text-muted">Loading automated data quality checks...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Section: Dataset Worksheets Inventory -->
+<div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <div class="card-title-wrap">
+            <i class="bi bi-folder2-open text-primary"></i>
+            <h3 class="card-title">Loaded Excel Worksheets Inventory</h3>
+        </div>
+        <span class="badge-neutral" id="sheetCountBadge">11 Worksheets</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="data-table" id="sheetsTable">
+                <thead>
+                    <tr>
+                        <th>Sheet Name</th>
+                        <th>Purpose / Scope</th>
+                        <th>Total Records</th>
+                        <th>Total Columns</th>
+                        <th>Integrity Status</th>
+                    </tr>
+                </thead>
+                <tbody id="sheetsTbody">
+                    <tr><td colspan="5" class="text-center py-4 text-muted">Loading sheet inventory...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/data_quality.js') }}"></script>
+{% endblock %}

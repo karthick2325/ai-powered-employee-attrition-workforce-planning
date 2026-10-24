@@ -174,3 +174,7 @@ async function openEmployeeModal(empId) {
         body.innerHTML = `<div class="p-4 text-center text-danger">Error loading employee profile: ${err.message}</div>`;
     }
 }
+
+// Global expose
+window.showEmployeeDetail = openEmployeeModal;
+window.openEmployeeModal = openEmployeeModal;

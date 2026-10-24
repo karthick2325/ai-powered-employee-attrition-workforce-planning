@@ -8,9 +8,10 @@
             <i class="bi bi-people-fill"></i>
         </div>
         <div class="kpi-details">
-            <div class="kpi-title">Current Headcount</div>
-            <div class="kpi-value" id="kpiWfCurrent">-</div>
-            <div class="kpi-subtitle">Total active employees</div>
+            <div class="kpi-title">Active Headcount</div>
+            <div class="kpi-value" id="kpiWfActive">47,972</div>
+            <div class="kpi-subtitle">50,000 snapshot (2,028 on notice)</div>
+            <span id="kpiWfCurrent" style="display:none;">50,000</span>
         </div>
     </div>
 
@@ -240,8 +241,8 @@
     </div>
 </div>
 
-<!-- Row 3: Notice Period Table, Notice Distribution Bar, Quick Planning Insights -->
-<div class="dashboard-grid-3">
+<!-- Row 3: Notice Period Table on the left; Notice Distribution + Quick Insights on the right -->
+<div class="dashboard-grid-split" style="grid-template-columns:minmax(0, 1.35fr) minmax(0, 1fr); align-items:stretch;">
     <!-- Employees Serving Notice Table -->
     <div class="card">
         <div class="card-header">
@@ -249,9 +250,15 @@
                 <i class="bi bi-clock-history"></i>
                 <span class="card-title">Employees Serving Notice</span>
             </div>
-            <div style="position:relative; width:180px;">
-                <input type="text" id="noticeSearchInput" class="form-input" placeholder="Search Notice..." style="height:28px; font-size:11px; padding-left:24px;">
-                <i class="bi bi-search" style="position:absolute; left:7px; top:7px; font-size:11px; color:var(--text-muted);"></i>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="display:flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted);" title="Calculate days remaining relative to reference date">
+                    <label for="noticeReferenceDate" style="white-space:nowrap; margin:0; font-weight:600;"><i class="bi bi-calendar-event"></i> As of:</label>
+                    <input type="date" id="noticeReferenceDate" class="form-input" value="2026-01-01" style="height:28px; font-size:11px; padding:2px 6px; width:130px;">
+                </div>
+                <div style="position:relative; width:150px;">
+                    <input type="text" id="noticeSearchInput" class="form-input" placeholder="Search Notice..." style="height:28px; font-size:11px; padding-left:24px;">
+                    <i class="bi bi-search" style="position:absolute; left:7px; top:7px; font-size:11px; color:var(--text-muted);"></i>
+                </div>
             </div>
         </div>
         <div class="card-body" style="padding:0;">
@@ -281,7 +288,7 @@
         </div>
     </div>
 
-    <!-- Notice Period Distribution (Days Remaining) -->
+    <!-- Notice Period Distribution with Quick Insights below it -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
@@ -289,26 +296,21 @@
                 <span class="card-title">Notice Period Distribution</span>
             </div>
         </div>
-        <div class="card-body">
-            <div class="chart-container">
+        <div class="card-body" style="gap:16px;">
+            <div class="chart-container" style="height:240px; min-height:240px; max-height:240px; flex:0 0 240px;">
                 <canvas id="wfNoticeDistChart"></canvas>
             </div>
-        </div>
-    </div>
 
-    <!-- Quick Planning Insights -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title-wrap">
-                <i class="bi bi-lightbulb-fill" style="color:var(--warning-amber);"></i>
-                <span class="card-title">Quick Insights</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="insights-list" id="wfInsightsList">
-                <div class="loading-placeholder">
-                    <div class="spinner"></div>
-                    <span>Loading planning insights...</span>
+            <div style="border-top:1px solid var(--border-subtle); padding-top:14px;">
+                <div class="card-title-wrap" style="margin-bottom:12px;">
+                    <i class="bi bi-lightbulb-fill" style="color:var(--warning-amber);"></i>
+                    <span class="card-title">Quick Insights</span>
+                </div>
+                <div class="insights-list" id="wfInsightsList">
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <span>Loading planning insights...</span>
+                    </div>
                 </div>
             </div>
         </div>

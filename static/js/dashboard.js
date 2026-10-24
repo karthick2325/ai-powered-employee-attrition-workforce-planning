@@ -223,8 +223,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 9. Recruitment Costs Summary
         const rc = data.recruitment_costs;
-        document.getElementById('totalRecruitmentCost').textContent = rc.total_cost_formatted;
-        document.getElementById('avgCostPerRequisition').textContent = rc.avg_cost_formatted;
+        const totalCostEl = document.getElementById('totalRecruitmentCost');
+        if (totalCostEl) totalCostEl.textContent = rc.total_cost_formatted;
+        const avgHireEl = document.getElementById('avgCostPerHire') || document.getElementById('avgCostPerRequisition');
+        if (avgHireEl) avgHireEl.textContent = rc.avg_cost_formatted;
         document.getElementById('costRecruiter').textContent = rc.categories.recruiter.formatted;
         document.getElementById('costAdvertising').textContent = rc.categories.advertising.formatted;
         document.getElementById('costAgency').textContent = rc.categories.agency.formatted;

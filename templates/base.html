@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page_title }} | Workforce Intelligence — AI-Powered HR Analytics</title>
+    <title>{{ page_title }} | AttritionSense Technologies</title>
     
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,35 +27,70 @@
         <!-- Sidebar Navigation -->
         <aside class="app-sidebar" id="appSidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo-icon">
-                    <i class="bi bi-diagram-3-fill"></i>
-                </div>
-                <div class="sidebar-brand">
-                    <h1>Workforce Intelligence</h1>
-                    <p>AI-Powered HR Analytics</p>
-                </div>
+                <a href="/" class="brand-link" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit;">
+                    <div class="sidebar-logo-container" style="position:relative; width:40px; height:40px; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                        <img src="{{ url_for('static', filename='images/attritionsense-technologies-logo.png') }}" 
+                             alt="AttritionSense Technologies Logo" 
+                             id="sidebarLogoImg"
+                             class="sidebar-logo-img"
+                             style="display:none; max-width:40px; max-height:40px; object-fit:contain; border-radius:8px;"
+                             onload="this.style.display='block'; var fb=document.getElementById('sidebarLogoFallback'); if(fb) fb.style.display='none';"
+                             onerror="this.style.display='none'; var fb=document.getElementById('sidebarLogoFallback'); if(fb) fb.style.display='flex';">
+                        <div class="sidebar-logo-icon" id="sidebarLogoFallback" style="display:flex; width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg, #0D63F3 0%, #1E3A8A 100%); color:#fff; align-items:center; justify-content:center; font-size:1.25rem; box-shadow:0 4px 10px rgba(13, 99, 243, 0.25);">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                    </div>
+                    <div class="sidebar-brand">
+                        <h1 style="font-size:15px; font-weight:700; margin:0; line-height:1.2; letter-spacing:-0.2px; color:var(--navy-text, #0F172A);">AttritionSense</h1>
+                        <span style="font-size:10px; font-weight:700; color:var(--primary, #0D63F3); text-transform:uppercase; letter-spacing:0.8px; display:block;">Technologies</span>
+                        <p style="font-size:10px; color:var(--text-muted, #64748B); margin:2px 0 0 0; line-height:1.1;">Detect Risks. Retain Talent.</p>
+                    </div>
+                </a>
             </div>
 
             <nav class="sidebar-nav">
+                <div class="nav-section-title">Core Intelligence</div>
                 <a href="/" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard Overview</span>
-                </a>
-                <a href="/analytics" class="nav-item {% if active_page == 'analytics' %}active{% endif %}">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Employee &amp; Department Analytics</span>
                 </a>
                 <a href="/prediction" class="nav-item {% if active_page == 'prediction' %}active{% endif %}">
                     <i class="bi bi-cpu-fill"></i>
                     <span>AI Attrition Prediction</span>
                 </a>
+                <a href="/segmentation" class="nav-item {% if active_page == 'segmentation' %}active{% endif %}">
+                    <i class="bi bi-diagram-2-fill"></i>
+                    <span>Workforce Segmentation</span>
+                </a>
                 <a href="/workforce" class="nav-item {% if active_page == 'workforce' %}active{% endif %}">
                     <i class="bi bi-person-lines-fill"></i>
-                    <span>Workforce Planning &amp; Exit Analysis</span>
+                    <span>Workforce Planning</span>
                 </a>
-                <a href="/model-quality" class="nav-item {% if active_page == 'model_quality' %}active{% endif %}">
-                    <i class="bi bi-shield-check"></i>
-                    <span>Model Performance &amp; Data Quality</span>
+                <a href="/analytics" class="nav-item {% if active_page == 'analytics' %}active{% endif %}">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Employee Analytics</span>
+                </a>
+                <a href="/recruitment-training" class="nav-item {% if active_page == 'recruitment' %}active{% endif %}">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    <span>Recruitment &amp; Training</span>
+                </a>
+
+                <div class="nav-section-title">AI &amp; Governance</div>
+                <a href="/model-quality" class="nav-item {% if active_page in ('model_quality', 'ai_model_intelligence') %}active{% endif %}" title="AI Model Intelligence & Benchmark">
+                    <i class="bi bi-cpu"></i>
+                    <span>AI Model Intelligence</span>
+                </a>
+                <a href="/data-quality" class="nav-item {% if active_page == 'data_quality' %}active{% endif %}">
+                    <i class="bi bi-database-check"></i>
+                    <span>Data Quality Audit</span>
+                </a>
+                <a href="/reports" class="nav-item {% if active_page == 'reports' %}active{% endif %}">
+                    <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                    <span>Reports &amp; Exports</span>
+                </a>
+                <a href="/help" class="nav-item {% if active_page == 'help' %}active{% endif %}">
+                    <i class="bi bi-book-half"></i>
+                    <span>Documentation &amp; Help</span>
                 </a>
             </nav>
 
@@ -66,13 +101,13 @@
                             <i class="bi bi-file-earmark-excel-fill"></i>
                         </div>
                         <div class="ds-info">
-                            <div class="ds-title">Employee_Attrition_Workforce_Planning.xlsx</div>
-                            <div class="ds-subtitle">Last Updated: {{ snapshot_date or '01 Jan 2026' }}</div>
+                            <div class="ds-title">AttritionSense_Expert_Data.xlsx</div>
+                            <div class="ds-subtitle">Snapshot: {{ snapshot_date or '01 Jan 2026' }}</div>
                         </div>
                     </div>
                     <div class="ds-disclaimer">
-                        <i class="bi bi-info-circle-fill"></i>
-                        <div>This is a synthetic dataset for academic and demonstration purposes only.</div>
+                        <i class="bi bi-shield-lock-fill"></i>
+                        <div>AttritionSense Technologies &bull; HR Decision Support</div>
                     </div>
                 </div>
             </div>
@@ -103,18 +138,23 @@
                         </div>
                     </div>
 
-                    <div class="user-profile-badge" title="Active HR Executive Session">
+                    <div class="user-profile-badge" title="Active HR Manager Session">
                         <div class="user-avatar">
                             <i class="bi bi-person-fill"></i>
                         </div>
                         <span class="user-name">HR Manager</span>
-                        <i class="bi bi-chevron-down"></i>
                     </div>
                 </div>
             </header>
 
             <!-- Page Body Content -->
             <div class="page-content">
+                <div class="synthetic-data-banner">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <div>
+                        <strong>HR Decision-Support &amp; Synthetic Data Notice:</strong> All predictions, cluster assignments, and workforce forecasts are decision-support estimates to aid talent retention discussions. No employee should be automatically disciplined, rejected, or dismissed based on algorithmic outputs.
+                    </div>
+                </div>
                 {% block content %}{% endblock %}
             </div>
         </main>

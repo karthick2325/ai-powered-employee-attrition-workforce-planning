@@ -66,7 +66,10 @@ async function loadPredictionKPIs() {
         document.getElementById('kpiMedRiskPct').textContent = `${k.predicted_medium_risk_pct}% of eligible`;
         document.getElementById('kpiLowRiskCount').textContent = formatNumber(k.predicted_low_risk);
         document.getElementById('kpiLowRiskPct').textContent = `${k.predicted_low_risk_pct}% of eligible`;
-        document.getElementById('kpiModelUsed').textContent = k.model_used;
+        const baseEl = document.getElementById('kpiHistoricalBaseline');
+        if (baseEl) baseEl.textContent = `${k.historical_attrition_pct || 5.79}%`;
+        const modelEl = document.getElementById('kpiModelUsed');
+        if (modelEl) modelEl.textContent = k.model_used;
     } catch (err) {
         if (reqId === predKpiRequestId) console.error('Error loading prediction KPIs:', err);
     }

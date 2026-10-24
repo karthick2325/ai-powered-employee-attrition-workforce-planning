@@ -111,8 +111,17 @@ body {
 
 .sidebar-nav {
     flex: 1;
-    padding: 20px 0;
+    padding: 10px 0;
     overflow-y: auto;
+}
+
+.nav-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94A3B8;
+    padding: 14px 20px 4px;
 }
 
 .nav-item {
@@ -442,26 +451,35 @@ body {
    ------------------------------------------------------------------- */
 .dashboard-grid-3 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
+    align-items: stretch;
+    width: 100%;
 }
 
-.dashboard-grid-2 {
+.dashboard-grid-2,
+.analytics-charts-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
+    align-items: stretch;
+    width: 100%;
 }
 
 .dashboard-grid-split {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr minmax(0, 1fr);
     gap: 20px;
+    align-items: stretch;
+    width: 100%;
 }
 
 .dashboard-grid-split-rev {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(0, 1fr) 2fr;
     gap: 20px;
+    align-items: stretch;
+    width: 100%;
 }
 
 .card {
@@ -472,6 +490,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: 0;
 }
 
 .card-header {
@@ -512,12 +531,20 @@ body {
     padding: 20px;
     flex: 1;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .chart-container {
     position: relative;
     width: 100%;
-    height: 250px;
+    min-width: 0;
+    height: 280px;
+    flex: 1;
+}
+
+.chart-container canvas {
+    max-width: 100% !important;
 }
 
 .chart-container-sm {
@@ -695,6 +722,43 @@ body {
 .badge-low { background-color: var(--success-light); color: var(--success-green); }
 .badge-active { background-color: var(--success-light); color: var(--success-green); }
 .badge-valid { background-color: var(--success-light); color: var(--success-green); }
+.badge-success { background-color: #E8F8F1; color: #166534; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.badge-danger { background-color: #FEECEE; color: #991B1B; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.badge-warning { background-color: #FFF8E6; color: #92400E; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.badge-neutral { background-color: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+
+/* Workflow Steps */
+.workflow-steps {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.workflow-step {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 14px;
+    background: #F1F5F9;
+    color: #64748B;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.workflow-step.active {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    font-weight: 600;
+    border: 1px solid #BFDBFE;
+}
+
+/* Reports Hub Cards */
+.report-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.report-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(20, 38, 79, 0.08);
+}
 
 /* Table Pagination */
 .table-pagination {
@@ -1161,3 +1225,554 @@ body {
     color: var(--text-muted);
     font-size: 13px;
 }
+
+/* Synthetic Data Banner */
+.synthetic-data-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(90deg, #FFF9E6 0%, #FFFEF9 100%);
+    border: 1px solid #FFE082;
+    border-left: 5px solid var(--warning-amber);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+    color: #7A4E00;
+    font-size: 13px;
+    line-height: 1.45;
+    box-shadow: 0 1px 3px rgba(255, 167, 38, 0.08);
+}
+
+.synthetic-data-banner i {
+    font-size: 20px;
+    color: var(--warning-amber);
+    flex-shrink: 0;
+}
+
+/* Segmentation Styles */
+.k-selector-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-card);
+}
+
+.k-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.k-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.k-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.k-btn.active {
+    background: var(--primary-blue);
+    color: #fff;
+    border-color: var(--primary-blue);
+    box-shadow: 0 2px 6px rgba(13, 99, 243, 0.3);
+}
+
+.segment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.segment-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.segment-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-blue);
+}
+
+.segment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.segment-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary-blue);
+    text-transform: uppercase;
+}
+
+.segment-archetype-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy-text);
+    margin-top: 4px;
+}
+
+.segment-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+    background: var(--bg-main);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+}
+
+.segment-metric-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.segment-metric-label {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.segment-metric-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy-text);
+}
+
+.segment-action-box {
+    background: #F8FAFC;
+    border-left: 3px solid var(--primary-blue);
+    padding: 10px 12px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 12px;
+    color: var(--text-dark);
+}
+
+.pressure-pill-critical {
+    background: var(--danger-light);
+    color: var(--danger-red);
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.pressure-pill-moderate {
+    background: var(--warning-light);
+    color: #B45309;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.pressure-pill-stable {
+    background: var(--success-light);
+    color: var(--success-green);
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+
+/* ==========================================================
+   Workforce Segmentation — Focused Layout Improvements
+   Add at the end of style.css
+   ========================================================== */
+
+/* Keep segmentation content aligned */
+.page-content {
+    min-width: 0;
+}
+
+/* Compact KPI cards on the segmentation page */
+.kpi-card {
+    padding: 14px 12px;
+    gap: 10px;
+    min-width: 0;
+}
+
+.kpi-icon-wrapper {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+}
+
+.kpi-title {
+    white-space: normal;
+    line-height: 1.35;
+}
+
+.kpi-value {
+    font-size: 21px;
+    overflow-wrap: anywhere;
+}
+
+.kpi-subtitle {
+    white-space: normal;
+    line-height: 1.35;
+}
+
+/* More balanced segment cards */
+.segment-grid {
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 290px), 1fr)
+    );
+    gap: 16px;
+}
+
+.segment-card {
+    min-width: 0;
+    padding: 17px;
+}
+
+.segment-archetype-title {
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.segment-metric-grid {
+    gap: 12px;
+}
+
+.segment-metric-val {
+    overflow-wrap: anywhere;
+}
+
+/* Prevent wide tables from breaking the page */
+.table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Keep chart cards within their grid */
+.card {
+    min-width: 0;
+}
+
+.chart-container {
+    min-width: 0;
+}
+
+/* Segmentation controls */
+.k-selector-bar {
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.k-btn-group {
+    flex-wrap: wrap;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+    .segment-grid {
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(min(100%, 270px), 1fr)
+        );
+    }
+
+    .k-selector-bar {
+        align-items: flex-start;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .kpi-card {
+        padding: 12px;
+    }
+
+    .segment-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .segment-card {
+        padding: 14px;
+    }
+
+    .segment-metric-grid {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .k-selector-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+    }
+
+    .k-btn-group {
+        gap: 6px;
+    }
+
+    .k-btn {
+        padding: 6px 11px;
+    }
+
+    .synthetic-data-banner {
+        align-items: flex-start;
+        font-size: 12px;
+        padding: 12px;
+    }
+}
+
+
+
+/* ===================================================================
+   Data Quality Audit — targeted KPI and chart layout corrections
+   =================================================================== */
+.dq-audit-status {
+    padding: 9px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+.dq-audit-status.is-success {
+    background: #F0FDF4;
+    border-color: #BBF7D0;
+    color: #166534;
+}
+.dq-audit-status.is-error {
+    background: #FFF7ED;
+    border-color: #FED7AA;
+    color: #9A3412;
+}
+
+/* Critical fix: .kpi-grid provides display:grid; the old page used only
+   kpi-grid-6, which defines columns but not the grid layout itself. */
+.dq-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+    width: 100%;
+}
+.dq-kpi-grid .kpi-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    min-height: 132px;
+    padding: 16px 18px;
+    margin: 0;
+    overflow: hidden;
+}
+.dq-kpi-grid .kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+.dq-kpi-grid .kpi-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    font-size: 12px;
+    line-height: 1.35;
+    margin: 0;
+}
+.dq-kpi-grid .kpi-icon-wrap {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+.dq-kpi-grid .kpi-value {
+    font-size: clamp(22px, 1.8vw, 29px);
+    line-height: 1.15;
+    font-weight: 750;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+.dq-kpi-grid .kpi-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 20px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.35;
+}
+.dq-kpi-grid .kpi-footer > span {
+    max-width: 100%;
+}
+.dq-kpi-grid .kpi-value.text-success { color: var(--success-green); }
+.dq-kpi-grid .kpi-value.text-warning { color: #B45309; }
+.dq-kpi-grid .kpi-value.text-danger { color: var(--danger-red); }
+
+.analytics-charts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+}
+.analytics-charts-grid > .card {
+    min-width: 0;
+    width: 100%;
+}
+.analytics-charts-grid .card-body {
+    min-width: 0;
+}
+.analytics-charts-grid .chart-container {
+    width: 100%;
+    min-width: 0;
+    height: 260px;
+    flex: none;
+}
+.analytics-charts-grid .chart-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+.dq-chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    padding: 18px;
+    text-align: center;
+    color: var(--text-muted);
+    background: #F8FAFC;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    font-size: 12px;
+}
+#checksTable,
+#sheetsTable {
+    min-width: 760px;
+}
+#checksTable td,
+#sheetsTable td {
+    overflow-wrap: anywhere;
+}
+#checksTable td:nth-child(7),
+#checksTable td:nth-child(8) {
+    min-width: 190px;
+    white-space: normal;
+}
+#checksTable td:nth-child(4),
+#checksTable td:nth-child(5),
+#checksTable td:nth-child(6),
+#sheetsTable td:nth-child(3),
+#sheetsTable td:nth-child(4),
+#sheetsTable td:nth-child(5) {
+    white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+    .dq-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 760px) {
+    .analytics-charts-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .dq-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+    .dq-kpi-grid .kpi-card {
+        min-height: 124px;
+        padding: 13px;
+    }
+    .dq-kpi-grid .kpi-value {
+        font-size: 22px;
+    }
+}
+@media (max-width: 480px) {
+    .dq-kpi-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .dq-kpi-grid .kpi-card {
+        min-height: 0;
+    }
+    .analytics-charts-grid .card-header {
+        align-items: flex-start;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+
+
+/* Workforce Planning — compact chart sizing */
+body:has(#wfHeadcountChart) .chart-container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    min-height: 0;
+    max-height: 280px;
+    flex: 0 0 280px;
+}
+
+body:has(#wfHeadcountChart) .chart-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+    body:has(#wfHeadcountChart) .chart-container {
+        height: 260px;
+        max-height: 260px;
+        flex-basis: 260px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    body:has(#wfHeadcountChart) .chart-container {
+        height: 240px;
+        max-height: 240px;
+        flex-basis: 240px;
+    }
+}
+
+
