@@ -63,11 +63,12 @@ def create_app() -> Flask:
                 PredictionService.get_predictions_df(force_recompute=True)
                 # Invalidate segmentation cache
                 from services.segmentation_service import SegmentationService
-                SegmentationService.get_pipeline(k=5, force_refit=True)
+                SegmentationService.get_pipeline(k=getattr(config, "SEGMENTATION_DEFAULT_K", 5), force_refit=True)
                 return jsonify({"success": True, "message": "Dataset successfully refreshed."})
             else:
                 return jsonify({"success": False, "error": ExcelService.get_load_error()}), 500
         except Exception as e:
+            logger.exception("Dataset refresh failed")
             return jsonify({"success": False, "error": str(e)}), 500
 
     @app.errorhandler(404)
@@ -89,10 +90,10 @@ def create_app() -> Flask:
             PredictionService.get_predictions_df()
             logger.info("Pre-warming workforce segmentation pipeline...")
             from services.segmentation_service import SegmentationService
-            SegmentationService.get_pipeline(k=5)
+            SegmentationService.get_pipeline(k=getattr(config, "SEGMENTATION_DEFAULT_K", 5))
             logger.info("Workforce Intelligence application ready.")
         else:
-            logger.error(f"Initialization warning: {ExcelService.get_load_error()}")
+            logger.error("Initialization warning: %s", ExcelService.get_load_error())
 
     return app
 
@@ -101,5 +102,5 @@ app = create_app()
 application = app
 
 if __name__ == "__main__":
-    logger.info(f"Starting development server on {config.HOST}:{config.PORT}...")
+    logger.info("Starting development server on %s:%s...", config.HOST, config.PORT)
     app.run(host=config.HOST, port=config.PORT, debug=config.DEBUG)

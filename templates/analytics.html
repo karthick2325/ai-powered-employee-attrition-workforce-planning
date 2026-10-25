@@ -137,100 +137,69 @@
     </div>
 </div>
 
-<!-- 6 Department Charts (2 rows x 3 cols) -->
-<div class="dashboard-grid-3">
-    <!-- Headcount -->
+<!-- Department Analytics: four decision-focused charts -->
+<div class="analytics-charts-grid">
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-bar-chart-fill"></i>
-                <span class="card-title">Department-wise Headcount</span>
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <span class="card-title">Department Headcount &amp; 6-Month Attrition</span>
             </div>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDeptHeadcount"></canvas>
+            <p class="analytics-chart-help">Compare workforce size with attrition rate. Hover or tap a department to see Male, Female and Non-disclosed counts.</p>
+            <div class="chart-container analytics-combo-chart">
+                <canvas id="chartDeptHeadcountAttrition" aria-label="Department headcount columns, attrition rate line, and gender counts in tooltip"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Attrition Rate -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-percent"></i>
-                <span class="card-title">Department-wise Attrition Rate (6 Months)</span>
+                <i class="bi bi-award-fill"></i>
+                <span class="card-title">Performance &amp; Job Satisfaction by Department</span>
             </div>
         </div>
         <div class="card-body">
+            <p class="analytics-chart-help">Both scores use a 1–5 scale. Lower values can flag teams that may need support; hover for work-life balance context.</p>
             <div class="chart-container">
-                <canvas id="chartDeptAttrition"></canvas>
+                <canvas id="chartDeptPerformanceSatisfaction" aria-label="Department average performance rating and job satisfaction on a five-point scale"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Tenure -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title-wrap">
-                <i class="bi bi-clock-history"></i>
-                <span class="card-title">Average Tenure by Department</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDeptTenure"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dashboard-grid-3">
-    <!-- Satisfaction -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title-wrap">
-                <i class="bi bi-star-fill" style="color:var(--warning-amber);"></i>
-                <span class="card-title">Job Satisfaction by Department</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDeptSatisfaction"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Overtime -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
                 <i class="bi bi-speedometer2" style="color:var(--accent-purple);"></i>
-                <span class="card-title">Average Overtime Hours (Per Month)</span>
+                <span class="card-title">Overtime &amp; Job Satisfaction</span>
             </div>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDeptOvertime"></canvas>
+            <p class="analytics-chart-help">Compare monthly overtime with satisfaction to spot possible workload pressure. This is an association, not proof that overtime causes dissatisfaction.</p>
+            <div class="chart-container analytics-combo-chart">
+                <canvas id="chartDeptOvertimeSatisfaction" aria-label="Department overtime hours per month and job satisfaction score"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Training -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-mortarboard-fill"></i>
-                <span class="card-title">Training Hours by Department (Last 12M)</span>
+                <i class="bi bi-mortarboard-fill" style="color:var(--accent-cyan);"></i>
+                <span class="card-title">Training Hours &amp; Average Tenure</span>
             </div>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDeptTraining"></canvas>
+            <p class="analytics-chart-help">Compare training investment over the last 12 months with average employee tenure. The two measures use separate axes.</p>
+            <div class="chart-container analytics-combo-chart">
+                <canvas id="chartDeptTrainingTenure" aria-label="Department training hours over twelve months and average tenure in months"></canvas>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Bottom Section: Employee Details Table (col-8) & Department Comparison (col-4) -->
 <div class="dashboard-grid-split">

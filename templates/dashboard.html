@@ -70,20 +70,22 @@
     </div>
 </div>
 
-<!-- Row 1: Headcount, Outcome Distribution, Dept Attrition Rate -->
-<div class="dashboard-grid-3">
-    <!-- Department-wise Headcount -->
+<!-- Row 1: Department Workforce Combo Chart + Attrition Outcome Distribution -->
+<div class="dashboard-grid-2">
+    <!-- Combined Department Headcount + Attrition Rate -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-bar-chart-fill"></i>
-                <span class="card-title">Department-wise Headcount</span>
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <span class="card-title">Department-wise Headcount & Attrition Rate (6 Months)</span>
             </div>
             <span class="card-badge" id="headcountTotalBadge">Total: -</span>
         </div>
         <div class="card-body">
             <div class="chart-container">
-                <canvas id="headcountChart"></canvas>
+                <canvas id="departmentWorkforceComboChart"
+                        role="img"
+                        aria-label="Department-wise headcount as columns and six-month attrition rate as a line"></canvas>
             </div>
         </div>
     </div>
@@ -100,21 +102,6 @@
         <div class="card-body">
             <div class="chart-container">
                 <canvas id="attritionOutcomeChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Department-wise Attrition Rate -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title-wrap">
-                <i class="bi bi-percent"></i>
-                <span class="card-title">Department-wise Attrition Rate (6 Months)</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="chart-container">
-                <canvas id="deptAttritionRateChart"></canvas>
             </div>
         </div>
     </div>

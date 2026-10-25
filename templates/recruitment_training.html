@@ -21,9 +21,9 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Active Requisitions</div>
-            <div class="kpi-value" id="kpiActiveReqs">463</div>
-            <div class="kpi-subtitle" id="kpiTotalReqsSubtitle">of 1,200 total requisitions</div>
-            <span id="kpiTotalReqs" style="display:none;">1,200</span>
+            <div class="kpi-value" id="kpiActiveReqs">Loading…</div>
+            <div class="kpi-subtitle" id="kpiTotalReqsSubtitle">Loading requisition totals…</div>
+            <span id="kpiTotalReqs" style="display:none;">Loading…</span>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Open Positions</div>
-            <div class="kpi-value" id="kpiPositionsRemaining">730</div>
+            <div class="kpi-value" id="kpiPositionsRemaining">Loading…</div>
             <div class="kpi-subtitle">Vacancies remaining to fill</div>
         </div>
     </div>
@@ -44,7 +44,7 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Hiring Fill Rate</div>
-            <div class="kpi-value" id="kpiFillRate">67.3%</div>
+            <div class="kpi-value" id="kpiFillRate">Loading…</div>
             <div class="kpi-subtitle">1,617 hires of 2,402 requested</div>
         </div>
     </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Candidate Pipeline</div>
-            <div class="kpi-value" id="kpiActiveCandidates">20,000</div>
+            <div class="kpi-value" id="kpiActiveCandidates">Loading…</div>
             <div class="kpi-subtitle">Across 5 evaluation stages</div>
         </div>
     </div>
@@ -66,9 +66,9 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Avg Cost Per Hire</div>
-            <div class="kpi-value" id="kpiAvgCost">₹ 78,066</div>
-            <div class="kpi-subtitle" id="kpiTotalSpendSubtitle">Total spend: ₹ 12.62 Cr</div>
-            <span id="kpiTotalSpend" style="display:none;">₹ 12,62,32,510</span>
+            <div class="kpi-value" id="kpiAvgCost">Loading…</div>
+            <div class="kpi-subtitle" id="kpiTotalSpendSubtitle">Loading cost totals…</div>
+            <span id="kpiTotalSpend" style="display:none;">Loading…</span>
         </div>
     </div>
 
@@ -78,78 +78,72 @@
         </div>
         <div class="kpi-details">
             <div class="kpi-title">Avg Training Hours</div>
-            <div class="kpi-value" id="kpiAvgTraining">28.1 hrs</div>
+            <div class="kpi-value" id="kpiAvgTraining">Loading…</div>
             <div class="kpi-subtitle">Past 12 months average</div>
         </div>
     </div>
 </div>
 
-<!-- Charts Row 1: Candidate Funnel & Recruitment Cost Breakdown -->
+<!-- Recruitment intelligence charts: pipeline, hiring demand, cost, and training -->
 <div class="analytics-charts-grid">
-    <!-- Recruitment Candidate Funnel -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
                 <i class="bi bi-filter-circle-fill text-primary"></i>
-                <h3 class="card-title">Candidate Pipeline Conversion Funnel</h3>
+                <h3 class="card-title">Candidate Pipeline Conversion</h3>
             </div>
-            <span class="badge-neutral">20,000 Candidates</span>
+            <span class="badge-neutral">Where candidates progress or drop off</span>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartCandidateFunnel"></canvas>
-            </div>
+            <p class="text-muted small mb-3">Compare the candidate volume reaching each stage. Values are based on the current recorded pipeline stages.</p>
+            <div class="chart-container"><canvas id="chartCandidateFunnel" aria-label="Candidate pipeline conversion chart"></canvas></div>
         </div>
     </div>
 
-    <!-- Recruitment Cost Category Breakdown -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-pie-chart-fill text-purple"></i>
-                <h3 class="card-title">Recruitment Cost Allocation (INR)</h3>
+                <i class="bi bi-bar-chart-line-fill text-primary"></i>
+                <h3 class="card-title">Hiring Demand &amp; Fulfilment by Department</h3>
             </div>
-            <span class="badge-neutral">Itemized Spend Breakdown</span>
+            <span class="badge-neutral">Requested · Hired · Open positions · Fill rate</span>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartRecruitmentCosts"></canvas>
-            </div>
+            <p class="text-muted small mb-3">Which departments have the largest hiring demand, and where do vacancies remain? The line shows fill rate on a separate percentage axis.</p>
+            <div class="chart-container"><canvas id="chartHiringByDepartment" aria-label="Hiring demand and fulfilment by department"></canvas></div>
         </div>
     </div>
 </div>
 
-<!-- Charts Row 2: Training Hours by Department & by Job Level -->
 <div class="analytics-charts-grid">
-    <!-- Department Training Hours -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-book-half text-success"></i>
-                <h3 class="card-title">Training Hours by Department</h3>
+                <i class="bi bi-pie-chart-fill text-purple"></i>
+                <h3 class="card-title">Recruitment Cost Allocation</h3>
             </div>
-            <span class="badge-neutral">Past 12M Avg</span>
+            <span class="badge-neutral">INR · Itemized spend</span>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartDepartmentTraining"></canvas>
-            </div>
+            <p class="text-muted small mb-3">See which recruitment activities account for the largest share of hiring expenditure.</p>
+            <div class="chart-container"><canvas id="chartRecruitmentCosts" aria-label="Recruitment cost allocation chart"></canvas></div>
         </div>
     </div>
 
-    <!-- Job Level Training Hours -->
     <div class="card">
         <div class="card-header">
             <div class="card-title-wrap">
-                <i class="bi bi-mortarboard-fill text-primary"></i>
-                <h3 class="card-title">Training Hours by Job Level</h3>
+                <i class="bi bi-mortarboard-fill text-success"></i>
+                <h3 class="card-title">Training Hours Comparison</h3>
             </div>
-            <span class="badge-neutral">Past 12M Avg</span>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Training chart grouping">
+                <button type="button" class="btn btn-primary" data-training-view="department" aria-pressed="true">By Department</button>
+                <button type="button" class="btn btn-outline-primary" data-training-view="level" aria-pressed="false">By Job Level</button>
+            </div>
         </div>
         <div class="card-body">
-            <div class="chart-container">
-                <canvas id="chartLevelTraining"></canvas>
-            </div>
+            <p id="trainingChartDescription" class="text-muted small mb-3">Compare average training hours per employee across departments over the past 12 months.</p>
+            <div class="chart-container"><canvas id="chartTrainingComparison" aria-label="Training hours comparison chart"></canvas></div>
         </div>
     </div>
 </div>
