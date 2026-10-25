@@ -1,5 +1,5 @@
 {
-  "evaluated_at": "2026-10-24T17:47:45Z",
+  "evaluated_at": "2026-10-25T18:00:49Z",
   "dataset_records": 47972,
   "sample_evaluated": 3000,
   "target_k": 5,
@@ -19,7 +19,7 @@
         "n_init": 10,
         "random_state": 42
       },
-      "runtime_ms": 1303.6,
+      "runtime_ms": 1423.0,
       "clusters_found": 5,
       "noise_count": 0,
       "noise_percentage": 0.0,
@@ -55,7 +55,7 @@
         "n_clusters": 5,
         "linkage": "ward"
       },
-      "runtime_ms": 381.9,
+      "runtime_ms": 383.7,
       "clusters_found": 5,
       "noise_count": 0,
       "noise_percentage": 0.0,
@@ -94,7 +94,7 @@
         "covariance_type": "full",
         "random_state": 42
       },
-      "runtime_ms": 3823.4,
+      "runtime_ms": 3830.1,
       "clusters_found": 5,
       "noise_count": 0,
       "noise_percentage": 0.0,
@@ -133,7 +133,7 @@
         "eps": 4.2,
         "min_samples": 25
       },
-      "runtime_ms": 105.5,
+      "runtime_ms": 149.4,
       "clusters_found": 1,
       "noise_count": 2,
       "noise_percentage": 0.07,
@@ -169,7 +169,7 @@
         "threshold": 1.0,
         "branching_factor": 50
       },
-      "runtime_ms": 493.5,
+      "runtime_ms": 488.3,
       "clusters_found": 5,
       "noise_count": 0,
       "noise_percentage": 0.0,

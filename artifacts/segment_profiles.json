@@ -2,7 +2,7 @@
   {
     "Segment_ID":0,
     "Segment_Label":"Segment 1",
-    "Archetype_Name":"Stable Operational Professionals",
+    "Archetype_Name":"Stable Operational Professionals \u2014 Technology \/ Operations Manager",
     "Headcount":7043,
     "Pct_Workforce":14.68,
     "Dominant_Department":"Technology (22.3%)",
@@ -25,7 +25,7 @@
   {
     "Segment_ID":1,
     "Segment_Label":"Segment 2",
-    "Archetype_Name":"Compensation Review Cohort",
+    "Archetype_Name":"Compensation Review Cohort \u2014 Technology \/ Process Analyst",
     "Headcount":11864,
     "Pct_Workforce":24.73,
     "Dominant_Department":"Technology (22.2%)",
@@ -48,7 +48,7 @@
   {
     "Segment_ID":2,
     "Segment_Label":"Segment 3",
-    "Archetype_Name":"Stable Operational Professionals",
+    "Archetype_Name":"Stable Operational Professionals \u2014 Technology \/ Process Analyst",
     "Headcount":5843,
     "Pct_Workforce":12.18,
     "Dominant_Department":"Technology (22.8%)",
@@ -71,7 +71,7 @@
   {
     "Segment_ID":3,
     "Segment_Label":"Segment 4",
-    "Archetype_Name":"Stable Operational Professionals",
+    "Archetype_Name":"Stable Operational Professionals \u2014 Technology \/ Operations Associate",
     "Headcount":11878,
     "Pct_Workforce":24.76,
     "Dominant_Department":"Technology (22.1%)",
@@ -94,7 +94,7 @@
   {
     "Segment_ID":4,
     "Segment_Label":"Segment 5",
-    "Archetype_Name":"Strategic Technical Leaders",
+    "Archetype_Name":"Strategic Technical Leaders \u2014 Technology \/ Operations Manager",
     "Headcount":11344,
     "Pct_Workforce":23.65,
     "Dominant_Department":"Technology (21.3%)",
