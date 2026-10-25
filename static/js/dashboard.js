@@ -24,26 +24,127 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('headcountTotalBadge').textContent = `Total: ${formatNumber(k.total_employees)}`;
         document.getElementById('attritionCohortBadge').textContent = `From ${formatNumber(k.total_eligible_outcomes)} records`;
 
-        // 2. Department-wise Headcount Chart
-        const hc = data.headcount_by_department;
-        renderChart('headcountChart', {
+        // 2. Combined Department-wise Headcount (columns) + Attrition Rate (line)
+        const hc = data.headcount_by_department || { departments: [], values: [], total: 0 };
+        const ar = data.attrition_rate_by_department_aligned || data.attrition_rate_by_department || { departments: [], rates: [] };
+
+        // Match attrition rates by department name instead of relying on array order.
+        // The API sorts attrition rates by rate, while headcount is sorted by count.
+        const attritionRateByDepartment = new Map(
+            (ar.departments || []).map((department, index) => [
+                department,
+                Number(ar.rates?.[index] ?? 0)
+            ])
+        );
+        const comboDepartments = hc.departments || [];
+        const alignedAttritionRates = comboDepartments.map(
+            department => attritionRateByDepartment.get(department) ?? 0
+        );
+
+        renderChart('departmentWorkforceComboChart', {
             type: 'bar',
             data: {
-                labels: hc.departments,
-                datasets: [{
-                    label: 'Employees',
-                    data: hc.values,
-                    backgroundColor: '#3B82F6',
-                    borderRadius: 6
-                }]
+                labels: comboDepartments,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Headcount',
+                        data: hc.values || [],
+                        yAxisID: 'y',
+                        backgroundColor: '#3B82F6',
+                        borderColor: '#2563EB',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        maxBarThickness: 48,
+                        order: 2
+                    },
+                    {
+                        type: 'line',
+                        label: 'Attrition Rate (6 Months)',
+                        data: alignedAttritionRates,
+                        yAxisID: 'y1',
+                        borderColor: '#E34B65',
+                        backgroundColor: '#E34B65',
+                        pointBackgroundColor: '#E34B65',
+                        pointBorderColor: '#FFFFFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        borderWidth: 2.5,
+                        tension: 0.25,
+                        fill: false,
+                        spanGaps: false,
+                        order: 1
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            padding: 16
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                if (ctx.dataset.yAxisID === 'y1') {
+                                    return ` ${ctx.dataset.label}: ${Number(ctx.parsed.y).toFixed(1)}%`;
+                                }
+                                return ` ${ctx.dataset.label}: ${formatNumber(ctx.parsed.y)}`;
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#F1F5F9' } },
-                    x: { grid: { display: false } }
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Employee Headcount'
+                        },
+                        ticks: {
+                            callback: (value) => formatNumber(value)
+                        },
+                        grid: {
+                            color: '#F1F5F9'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: true,
+                        suggestedMax: 10,
+                        title: {
+                            display: true,
+                            text: 'Attrition Rate (%)'
+                        },
+                        ticks: {
+                            callback: (value) => `${value}%`
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
                 }
             }
         });
@@ -70,41 +171,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 cutout: '70%',
                 plugins: {
                     legend: { position: 'bottom', labels: { boxWidth: 12 } }
-                }
-            }
-        });
-
-        // 4. Department-wise Attrition Rate (Bar)
-        const ar = data.attrition_rate_by_department;
-        renderChart('deptAttritionRateChart', {
-            type: 'bar',
-            data: {
-                labels: ar.departments,
-                datasets: [{
-                    label: 'Attrition Rate (%)',
-                    data: ar.rates,
-                    backgroundColor: '#F87171',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: (ctx) => ` Attrition: ${ctx.parsed.y}%`
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { callback: (val) => `${val}%` },
-                        grid: { color: '#F1F5F9' }
-                    },
-                    x: { grid: { display: false } }
                 }
             }
         });

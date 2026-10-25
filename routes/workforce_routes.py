@@ -28,8 +28,15 @@ def get_workforce_kpis():
 
 @workforce_bp.route("/api/workforce/headcount-analysis")
 def get_headcount_analysis():
-    data = WorkforcePlanningService.get_headcount_analysis_by_department()
-    return jsonify({"success": True, "data": data})
+    try:
+        data = WorkforcePlanningService.get_headcount_analysis_by_department()
+        # Include an explicit status so the chart can distinguish missing source data
+        # from legitimate zero counts. Never infer gender from employee names.
+        return jsonify({"success": True, "data": data})
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).exception("Headcount analysis API failed")
+        return jsonify({"success": False, "error": str(exc)}), 500
 
 
 @workforce_bp.route("/api/workforce/expected-exits-breakdown")

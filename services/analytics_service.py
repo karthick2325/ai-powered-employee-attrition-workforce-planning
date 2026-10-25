@@ -103,7 +103,7 @@ class AnalyticsService:
         max_tenure: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
-        Calculates all 6 department-level charts for Analytics & Overview dashboards.
+        Calculates department-level metrics for the four decision-focused Employee Analytics charts.
         Accurately joins eligible outcomes for attrition rates using applied filters.
         """
         outcomes_df = ExcelService.get_sheet("Attrition_Outcomes")
@@ -120,9 +120,16 @@ class AnalyticsService:
         if len(filtered_emp) == 0:
             return {
                 "headcount": {"departments": [], "values": [], "total": 0},
+                "gender_by_department": {
+                    "departments": [], "male": [], "female": [],
+                    "non_disclosed": [], "unknown": [], "available": "Gender" in filtered_emp.columns
+                },
                 "attrition_rate": {"departments": [], "rates": []},
+                "attrition_rate_aligned": {"departments": [], "rates": []},
                 "tenure": {"departments": [], "values": []},
                 "satisfaction": {"departments": [], "values": []},
+                "performance": {"departments": [], "values": []},
+                "work_life_balance": {"departments": [], "values": []},
                 "overtime": {"departments": [], "values": []},
                 "training": {"departments": [], "values": []}
             }
@@ -130,7 +137,34 @@ class AnalyticsService:
         # Headcount by department
         headcount_series = filtered_emp["Department"].value_counts().sort_values(ascending=False)
         departments = headcount_series.index.tolist()
-        headcounts = headcount_series.values.tolist()
+        headcounts = [int(value) for value in headcount_series.values.tolist()]
+
+        # Gender breakdown is returned for chart tooltips only (not KPI cards).
+        # Never infer gender from employee names; use the workbook's Gender field.
+        gender_counts = {"male": [], "female": [], "non_disclosed": [], "unknown": []}
+        gender_available = "Gender" in filtered_emp.columns
+        if gender_available:
+            normalized_gender = filtered_emp["Gender"].astype("string").str.strip().str.casefold()
+            for dept in departments:
+                dept_gender = normalized_gender[filtered_emp["Department"] == dept]
+                gender_counts["male"].append(int(dept_gender.isin(["male", "m"]).sum()))
+                gender_counts["female"].append(int(dept_gender.isin(["female", "f"]).sum()))
+                gender_counts["non_disclosed"].append(int(dept_gender.isin([
+                    "non-disclosed", "non disclosed", "not disclosed", "prefer not to say", "undisclosed"
+                ]).sum()))
+                gender_counts["unknown"].append(int((dept_gender.isna() | ~dept_gender.isin([
+                    "male", "m", "female", "f", "non-disclosed", "non disclosed",
+                    "not disclosed", "prefer not to say", "undisclosed"
+                ])).sum()))
+        else:
+            for key in gender_counts:
+                gender_counts[key] = [None for _ in departments]
+
+        gender_by_department = {
+            "departments": departments,
+            **gender_counts,
+            "available": gender_available
+        }
 
         # Attrition rate by department
         # Merge eligible employees with outcomes
@@ -141,30 +175,46 @@ class AnalyticsService:
         for dept in departments:
             dept_cohort = merged_outcomes[merged_outcomes["Department"] == dept]
             if len(dept_cohort) > 0:
-                pos = dept_cohort["Attrition_Within_6M"].sum()
-                rate = round((pos / len(dept_cohort)) * 100, 1)
+                pos = pd.to_numeric(dept_cohort["Attrition_Within_6M"], errors="coerce").sum()
+                rate = round((float(pos) / len(dept_cohort)) * 100, 1)
             else:
-                rate = 0.0
+                # No eligible outcome records means unavailable, not a real 0% rate.
+                rate = None
             dept_attr_rates.append({"department": dept, "attrition_rate": rate})
 
         # Sort attrition rate descending
-        dept_attr_rates_sorted = sorted(dept_attr_rates, key=lambda x: x["attrition_rate"], reverse=True)
+        dept_attr_rates_sorted = sorted(
+            dept_attr_rates,
+            key=lambda x: (x["attrition_rate"] is not None, x["attrition_rate"] if x["attrition_rate"] is not None else -1),
+            reverse=True
+        )
+
+        # Null-safe aggregation shared by all department-level metrics.
+        # Missing metric data is returned as null (displayed as N/A), not a false zero.
+        def safe_group_mean(column: str) -> List[Optional[float]]:
+            if column not in filtered_emp.columns:
+                return [None for _ in departments]
+            numeric = pd.to_numeric(filtered_emp[column], errors="coerce")
+            grouped = numeric.groupby(filtered_emp["Department"]).mean()
+            result = []
+            for dept in departments:
+                value = grouped.get(dept)
+                result.append(round(float(value), 2) if pd.notna(value) else None)
+            return result
 
         # Average tenure by department
-        tenure_series = filtered_emp.groupby("Department")["Tenure_Months_At_Prediction"].mean()
-        tenure_values = [round(float(tenure_series.get(dept, 0.0)), 1) for dept in departments]
+        tenure_values = safe_group_mean("Tenure_Months_At_Prediction")
 
-        # Job satisfaction by department
-        sat_series = filtered_emp.groupby("Department")["Job_Satisfaction_Score_1_5"].mean()
-        sat_values = [round(float(sat_series.get(dept, 0.0)), 1) for dept in departments]
+        # Job satisfaction, performance and work-life balance by department.
+        sat_values = safe_group_mean("Job_Satisfaction_Score_1_5")
+        performance_values = safe_group_mean("Performance_Rating_1_5")
+        work_life_balance_values = safe_group_mean("Work_Life_Balance_Score_1_5")
 
         # Average overtime hours by department
-        overtime_series = filtered_emp.groupby("Department")["Overtime_Hours_Monthly"].mean()
-        overtime_values = [round(float(overtime_series.get(dept, 0.0)), 1) for dept in departments]
+        overtime_values = safe_group_mean("Overtime_Hours_Monthly")
 
         # Training hours by department
-        training_series = filtered_emp.groupby("Department")["Training_Hours_Last_12M"].mean()
-        training_values = [round(float(training_series.get(dept, 0.0)), 1) for dept in departments]
+        training_values = safe_group_mean("Training_Hours_Last_12M")
 
         return {
             "headcount": {
@@ -172,9 +222,22 @@ class AnalyticsService:
                 "values": headcounts,
                 "total": sum(headcounts)
             },
+            "gender_by_department": gender_by_department,
             "attrition_rate": {
                 "departments": [item["department"] for item in dept_attr_rates_sorted],
                 "rates": [item["attrition_rate"] for item in dept_attr_rates_sorted]
+            },
+            # Same department order as headcount, specifically for combo charts.
+            "attrition_rate_aligned": {
+                "departments": departments,
+                "rates": [
+                    next(
+                        (item["attrition_rate"] for item in dept_attr_rates
+                         if item["department"] == dept),
+                        None
+                    )
+                    for dept in departments
+                ]
             },
             "tenure": {
                 "departments": departments,
@@ -183,6 +246,14 @@ class AnalyticsService:
             "satisfaction": {
                 "departments": departments,
                 "values": sat_values
+            },
+            "performance": {
+                "departments": departments,
+                "values": performance_values
+            },
+            "work_life_balance": {
+                "departments": departments,
+                "values": work_life_balance_values
             },
             "overtime": {
                 "departments": departments,

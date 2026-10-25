@@ -8,6 +8,19 @@ import config
 
 analytics_bp = Blueprint("analytics", __name__)
 
+
+def _analytics_filters():
+    return {
+        "department": request.args.get("department"),
+        "job_role": request.args.get("job_role"),
+        "job_level": request.args.get("job_level"),
+        "location": request.args.get("location"),
+        "employment_type": request.args.get("employment_type"),
+        "min_tenure": request.args.get("min_tenure", type=int),
+        "max_tenure": request.args.get("max_tenure", type=int),
+    }
+
+
 @analytics_bp.route("/analytics")
 def analytics_page():
     return render_template(
@@ -15,89 +28,45 @@ def analytics_page():
         active_page="analytics",
         page_title="Employee & Department Analytics",
         page_subtitle="Explore employee details, department trends and key workforce metrics",
-        snapshot_date=config.DATA_SNAPSHOT_DATE
+        snapshot_date=config.DATA_SNAPSHOT_DATE,
     )
+
 
 @analytics_bp.route("/api/analytics/kpis")
 def get_analytics_kpis():
-    department = request.args.get("department")
-    job_role = request.args.get("job_role")
-    job_level = request.args.get("job_level")
-    location = request.args.get("location")
-    employment_type = request.args.get("employment_type")
-    min_tenure = request.args.get("min_tenure", type=int)
-    max_tenure = request.args.get("max_tenure", type=int)
+    return jsonify({"success": True, "kpis": AnalyticsService.get_kpis(**_analytics_filters())})
 
-    kpis = AnalyticsService.get_kpis(
-        department=department,
-        job_role=job_role,
-        job_level=job_level,
-        location=location,
-        employment_type=employment_type,
-        min_tenure=min_tenure,
-        max_tenure=max_tenure
-    )
-    return jsonify({"success": True, "kpis": kpis})
 
 @analytics_bp.route("/api/analytics/charts")
 def get_analytics_charts():
-    department = request.args.get("department")
-    job_role = request.args.get("job_role")
-    job_level = request.args.get("job_level")
-    location = request.args.get("location")
-    employment_type = request.args.get("employment_type")
-    min_tenure = request.args.get("min_tenure", type=int)
-    max_tenure = request.args.get("max_tenure", type=int)
-
-    charts = AnalyticsService.get_department_charts_data(
-        department=department,
-        job_role=job_role,
-        job_level=job_level,
-        location=location,
-        employment_type=employment_type,
-        min_tenure=min_tenure,
-        max_tenure=max_tenure
-    )
+    charts = AnalyticsService.get_department_charts_data(**_analytics_filters())
     return jsonify({"success": True, "charts": charts})
+
 
 @analytics_bp.route("/api/analytics/filters")
 def get_filter_options():
-    filters = AnalyticsService.get_filter_options()
-    return jsonify({"success": True, "filters": filters})
+    return jsonify({"success": True, "filters": AnalyticsService.get_filter_options()})
+
 
 @analytics_bp.route("/api/analytics/employees")
 def get_employees_table():
-    department = request.args.get("department")
-    job_role = request.args.get("job_role")
-    job_level = request.args.get("job_level")
-    location = request.args.get("location")
-    employment_type = request.args.get("employment_type")
-    
-    min_tenure = request.args.get("min_tenure", type=int)
-    max_tenure = request.args.get("max_tenure", type=int)
-    search_query = request.args.get("search")
-    
-    page = request.args.get("page", default=1, type=int)
-    page_size = request.args.get("page_size", default=10, type=int)
-    sort_by = request.args.get("sort_by", default="Employee_ID")
-    ascending = request.args.get("ascending", default="true").lower() == "true"
-
+    filters = _analytics_filters()
     result = AnalyticsService.filter_and_paginate_employees(
-        department=department,
-        job_role=job_role,
-        job_level=job_level,
-        location=location,
-        employment_type=employment_type,
-        min_tenure=min_tenure,
-        max_tenure=max_tenure,
-        search_query=search_query,
-        page=page,
-        page_size=page_size,
-        sort_by=sort_by,
-        ascending=ascending
+        department=filters["department"],
+        job_role=filters["job_role"],
+        job_level=filters["job_level"],
+        location=filters["location"],
+        employment_type=filters["employment_type"],
+        min_tenure=filters["min_tenure"],
+        max_tenure=filters["max_tenure"],
+        search_query=request.args.get("search"),
+        page=request.args.get("page", default=1, type=int),
+        page_size=request.args.get("page_size", default=10, type=int),
+        sort_by=request.args.get("sort_by", default="Employee_ID"),
+        ascending=request.args.get("ascending", default="true").lower() == "true",
     )
-
     return jsonify({"success": True, **result})
+
 
 @analytics_bp.route("/api/analytics/compare")
 def compare_departments():

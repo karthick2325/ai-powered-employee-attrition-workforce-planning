@@ -45,6 +45,12 @@ def get_training_analytics():
     return jsonify({"success": True, "training": data})
 
 
+@recruitment_bp.route("/api/recruitment/hiring-by-department")
+def get_hiring_by_department():
+    data = RecruitmentService.get_department_hiring_performance()
+    return jsonify({"success": True, "hiring": data})
+
+
 @recruitment_bp.route("/api/recruitment/requisitions")
 def get_requisitions_table():
     req_df = ExcelService.get_sheet("Job_Requisitions")

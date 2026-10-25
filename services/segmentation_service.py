@@ -33,14 +33,38 @@ def _sanitize_csv_cell(val: Any) -> Any:
 
 
 def _safe_float(val: Any, default: Optional[float] = None) -> Optional[float]:
-    """Safely converts numeric value to float, converting NaN/inf to None."""
+    """Safely convert a value to a finite float."""
     try:
-        f = float(val)
-        if np.isnan(f) or np.isinf(f):
-            return default
-        return f
-    except (ValueError, TypeError):
+        number = float(val)
+        return number if np.isfinite(number) else default
+    except (ValueError, TypeError, OverflowError):
         return default
+
+
+def _safe_int(val: Any, default: int = 0) -> int:
+    """Safely convert a value to an integer."""
+    number = _safe_float(val)
+    return int(number) if number is not None else default
+
+
+def _validate_k(k: Optional[int], default: int = 5) -> int:
+    """Validate K without silently replacing invalid supplied values."""
+    if k is None:
+        return default
+    if isinstance(k, bool):
+        raise ValueError("K must be an integer between 2 and 10.")
+    try:
+        value = int(k)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("K must be an integer between 2 and 10.") from exc
+    if value != k or not 2 <= value <= 10:
+        raise ValueError("K must be an integer between 2 and 10.")
+    return value
+
+
+def _as_search_text(series: pd.Series) -> pd.Series:
+    """Normalize arbitrary pandas values for safe, case-insensitive search."""
+    return series.astype("string").fillna("").str.lower()
 
 
 class SegmentationService:
@@ -62,117 +86,161 @@ class SegmentationService:
         return cls._instance
 
     @classmethod
-    def get_pipeline(cls, k: Optional[int] = None, force_refit: bool = False) -> WorkforceSegmentation:
-        """Initializes or returns cached WorkforceSegmentation pipeline with thread safety."""
-        target_k = k or cls._current_k
+    def _sync_pipeline_cache(cls) -> None:
+        """Synchronize service-level caches with the active pipeline."""
+        pipeline = cls._pipeline
+        if pipeline is None:
+            return
+        cls._current_k = _validate_k(getattr(pipeline, "k", cls._current_k))
+        cls._cached_profiles = getattr(pipeline, "segment_profiles", None)
+        cls._cached_role_pressure = getattr(pipeline, "role_pressure_df", None)
+        cls._cached_anomalies = getattr(pipeline, "anomalies_df", None)
+        cls._cached_k_eval = getattr(pipeline, "k_evaluation_results", None)
+        cls._cached_benchmark = getattr(pipeline, "five_algorithm_benchmark", None)
+        cls._cached_pca = getattr(pipeline, "pca_projection_data", None)
+        cls._last_calculated_at = datetime.now(timezone.utc).isoformat()
+
+    @classmethod
+    def get_pipeline(
+        cls,
+        k: Optional[int] = None,
+        force_refit: bool = False
+    ) -> WorkforceSegmentation:
+        """Return the active pipeline, safely refitting when K or data changes."""
+        target_k = _validate_k(k, default=cls._current_k)
 
         with cls._pipeline_lock:
-            # First initialization or forced refit
             if cls._pipeline is None or force_refit:
-                logger.info(f"Initializing WorkforceSegmentation pipeline (K={target_k}, force_refit={force_refit})...")
-                cls._pipeline = WorkforceSegmentation(
+                logger.info(
+                    "Initializing WorkforceSegmentation pipeline (K=%s, force_refit=%s)",
+                    target_k, force_refit
+                )
+                pipeline = WorkforceSegmentation(
                     excel_path=config.EXCEL_FILE_PATH,
                     k=target_k,
                     random_state=42
                 )
-                cls._pipeline.run_pipeline()
-                cls._current_k = target_k
-                cls._cached_profiles = cls._pipeline.segment_profiles
-                cls._cached_role_pressure = cls._pipeline.role_pressure_df
-                cls._cached_anomalies = cls._pipeline.anomalies_df
-                cls._cached_k_eval = cls._pipeline.k_evaluation_results
-                cls._cached_benchmark = cls._pipeline.five_algorithm_benchmark
-                cls._cached_pca = cls._pipeline.pca_projection_data
-                cls._last_calculated_at = datetime.now(timezone.utc).isoformat()
-            elif k is not None and k != cls._current_k:
-                # Fast re-clustering without reloading workbook or re-evaluating candidate Ks
-                logger.info(f"Fast re-clustering workforce from K={cls._current_k} to K={target_k}...")
+                pipeline.run_pipeline()
+                cls._pipeline = pipeline
+                cls._sync_pipeline_cache()
+            elif target_k != cls._current_k:
+                logger.info(
+                    "Re-clustering workforce from K=%s to K=%s",
+                    cls._current_k, target_k
+                )
                 cls._pipeline.fast_refit(k=target_k)
-                cls._current_k = target_k
-                cls._cached_profiles = cls._pipeline.segment_profiles
-                cls._last_calculated_at = datetime.now(timezone.utc).isoformat()
-
+                # Results that contain cluster labels/summaries must not be
+                # reused after changing K. Preserve K-independent calculations
+                # only when the pipeline implementation leaves them valid.
+                if hasattr(cls._pipeline, "five_algorithm_benchmark"):
+                    cls._pipeline.five_algorithm_benchmark = None
+                if hasattr(cls._pipeline, "pca_projection_data"):
+                    cls._pipeline.pca_projection_data = None
+                cls._sync_pipeline_cache()
             return cls._pipeline
 
     @classmethod
     def get_overview_kpis(cls, k: Optional[int] = None) -> Dict[str, Any]:
-        """Calculates executive KPI cards for the Segmentation dashboard."""
+        """Calculate executive KPI cards from the active segmentation results."""
         pipeline = cls.get_pipeline(k=k)
-        profiles = pipeline.segment_profiles
-        roles = pipeline.role_pressure_df
-        anomalies = pipeline.anomalies_df
+        profiles = getattr(pipeline, "segment_profiles", None)
+        roles = getattr(pipeline, "role_pressure_df", None)
+        anomalies = getattr(pipeline, "anomalies_df", None)
 
-        if profiles is None or len(profiles) == 0:
+        if profiles is None or profiles.empty:
             return {}
 
-        total_employees = int(profiles["Headcount"].sum())
-        total_sim_exits = int(profiles["Simulated_Exits"].sum())
-        overall_attr_rate = round((total_sim_exits / max(1, total_employees)) * 100, 2)
+        profiles = profiles.copy()
+        total_employees = _safe_int(profiles.get("Headcount", pd.Series(dtype=float)).sum())
+        total_sim_exits = _safe_int(profiles.get("Simulated_Exits", pd.Series(dtype=float)).sum())
+        overall_attr_rate = round(total_sim_exits / max(1, total_employees) * 100, 2)
 
-        # Ensure rate column compatibility
-        rate_col = "Flight_Risk_Rate_Pct" if "Flight_Risk_Rate_Pct" in profiles.columns else "Simulated_Attrition_Pct"
+        if "Flight_Risk_Rate_Pct" in profiles.columns:
+            rate_col = "Flight_Risk_Rate_Pct"
+        elif "Simulated_Attrition_Pct" in profiles.columns:
+            rate_col = "Simulated_Attrition_Pct"
+        else:
+            rate_col = "_safe_rate"
+            profiles[rate_col] = 0.0
+        profiles[rate_col] = pd.to_numeric(profiles[rate_col], errors="coerce").fillna(0.0)
         highest_risk_seg = profiles.sort_values(rate_col, ascending=False).iloc[0]
         lowest_risk_seg = profiles.sort_values(rate_col, ascending=True).iloc[0]
+        crit_role = roles.iloc[0] if roles is not None and not roles.empty else None
 
-        # Top staffing pressure role
-        crit_role = roles.iloc[0] if roles is not None and len(roles) > 0 else None
-
-        # Replacement need across segments: notice exits (2,028) + simulated exits
-        total_notice_exits = len(pipeline.df_notice) if pipeline.df_notice is not None else 2028
+        notice_df = getattr(pipeline, "df_notice", None)
+        total_notice_exits = len(notice_df) if notice_df is not None else 0
         total_replacement_need = total_notice_exits + total_sim_exits
 
-        # Model evaluation metrics for current K
-        k_eval = pipeline.k_evaluation_results or []
-        curr_k_eval = next((r for r in k_eval if r.get("k") == pipeline.k), {})
+        k_eval = getattr(pipeline, "k_evaluation_results", None) or []
+        curr_k_eval = next((r for r in k_eval if _safe_int(r.get("k"), -1) == pipeline.k), {})
         sil_score = curr_k_eval.get("silhouette_score")
-
-        # Anomaly rate
         total_anomalies = len(anomalies) if anomalies is not None else 0
-        anomaly_pct = round((total_anomalies / max(1, total_employees)) * 100, 2)
+        anomaly_pct = round(total_anomalies / max(1, total_employees) * 100, 2)
+        highest_sim_rate = _safe_float(highest_risk_seg.get(rate_col), 0.0) or 0.0
 
-        highest_sim_rate = float(highest_risk_seg[rate_col])
+        # The active production pipeline is K-Means. Do not run the expensive
+        # multi-algorithm benchmark just to populate dashboard KPI cards.
+        best_algo = "K-Means"
+        segmented_df = getattr(pipeline, "df_segmented", None)
+        if segmented_df is not None and not segmented_df.empty and "Segment_ID" in segmented_df.columns:
+            segment_ids = pd.to_numeric(segmented_df["Segment_ID"], errors="coerce")
+            assigned_count = int(segment_ids.ge(0).sum())
+            noise_count = int(segment_ids.eq(-1).sum())
+        else:
+            assigned_count = total_employees
+            noise_count = 0
+        coverage_pct = round(assigned_count / max(1, len(getattr(pipeline, "df_population", []))) * 100, 2)
+        noise_pct = round(noise_count / max(1, len(getattr(pipeline, "df_population", []))) * 100, 2)
+        source_rows = cls._get_source_row_count(pipeline)
+        eligible_employees = len(getattr(pipeline, "df_population", []))
+        data_quality_status = (
+            f"{total_employees:,} employees assigned across "
+            f"{len(profiles)} clusters"
+        )
 
-        # Benchmark info
-        benchmark = cls.get_five_algorithm_benchmark(k=pipeline.k)
-        best_algo = benchmark.get("selected_algorithm", "K-Means")
+        def segment_payload(row: pd.Series, include_exits: bool = False) -> Dict[str, Any]:
+            payload = {
+                "segment_id": _safe_int(row.get("Segment_ID"), 0),
+                "archetype_name": str(row.get("Archetype_Name") or f"Segment {_safe_int(row.get('Segment_ID')) + 1}"),
+                "headcount": _safe_int(row.get("Headcount")),
+                "pct_workforce": _safe_float(row.get("Pct_Workforce"), 0.0) or 0.0,
+                "attrition_rate": _safe_float(row.get(rate_col), 0.0) or 0.0,
+                "predicted_risk_rate": _safe_float(row.get(rate_col), 0.0) or 0.0,
+            }
+            if include_exits:
+                payload["simulated_exits"] = _safe_int(row.get("Simulated_Exits"))
+                payload["method_used"] = "Post-hoc simulated validation and ML prediction integration"
+            return payload
+
+        role_payload = {
+            "job_role": str(crit_role.get("Job_Role", "N/A")),
+            "department": str(crit_role.get("Department", "N/A")),
+            "pressure_ratio": _safe_float(crit_role.get("Staffing_Pressure_Ratio"), 0.0) or 0.0,
+            "pressure_tier": str(crit_role.get("Pressure_Tier", "N/A")),
+            "headcount": _safe_int(crit_role.get("Headcount")),
+            "immediate_need": _safe_int(crit_role.get("Immediate_Staffing_Need", crit_role.get("Immediate_Need", 0))),
+            "notice_exits": _safe_int(crit_role.get("Notice_Exits")),
+            "positions_remaining": _safe_int(crit_role.get("Open_Requisitions", crit_role.get("Positions_Remaining", 0))),
+        } if crit_role is not None else {
+            "job_role": "N/A", "department": "N/A", "pressure_ratio": 0.0,
+            "pressure_tier": "N/A", "headcount": 0, "immediate_need": 0,
+            "notice_exits": 0, "positions_remaining": 0
+        }
 
         return {
             "current_k": pipeline.k,
             "total_clustered_employees": total_employees,
             "total_segments": len(profiles),
-            "eligible_employees": total_employees,
-            "source_rows": 50000,
+            "eligible_employees": eligible_employees or total_employees,
+            "source_rows": source_rows,
             "excluded_records": total_notice_exits,
             "silhouette_score": sil_score,
             "best_validated_algorithm": best_algo,
-            "highest_risk_segment": {
-                "segment_id": int(highest_risk_seg["Segment_ID"]),
-                "archetype_name": str(highest_risk_seg.get("Archetype_Name", f"Segment {int(highest_risk_seg['Segment_ID']) + 1}")),
-                "headcount": int(highest_risk_seg["Headcount"]),
-                "pct_workforce": float(highest_risk_seg["Pct_Workforce"]),
-                "attrition_rate": highest_sim_rate,
-                "predicted_risk_rate": highest_sim_rate,
-                "simulated_exits": int(highest_risk_seg["Simulated_Exits"]),
-                "method_used": "Post-hoc simulated validation & ML prediction integration"
-            },
-            "lowest_risk_segment": {
-                "segment_id": int(lowest_risk_seg["Segment_ID"]),
-                "archetype_name": str(lowest_risk_seg.get("Archetype_Name", f"Segment {int(lowest_risk_seg['Segment_ID']) + 1}")),
-                "headcount": int(lowest_risk_seg["Headcount"]),
-                "pct_workforce": float(lowest_risk_seg["Pct_Workforce"]),
-                "attrition_rate": float(lowest_risk_seg[rate_col]),
-                "predicted_risk_rate": float(lowest_risk_seg[rate_col])
-            },
-            "top_pressure_role": {
-                "job_role": str(crit_role["Job_Role"]) if crit_role is not None else "N/A",
-                "department": str(crit_role["Department"]) if crit_role is not None else "N/A",
-                "pressure_ratio": float(crit_role["Staffing_Pressure_Ratio"]) if crit_role is not None else 0.0,
-                "pressure_tier": str(crit_role["Pressure_Tier"]) if crit_role is not None else "N/A",
-                "headcount": int(crit_role["Headcount"]) if crit_role is not None else 0,
-                "immediate_need": int(crit_role.get("Immediate_Staffing_Need", crit_role.get("Immediate_Need", 0))) if crit_role is not None else 0,
-                "notice_exits": int(crit_role["Notice_Exits"]) if crit_role is not None else 0,
-                "positions_remaining": int(crit_role.get("Open_Requisitions", crit_role.get("Positions_Remaining", 0))) if crit_role is not None else 0
-            },
+            "clustering_coverage_pct": coverage_pct,
+            "unassigned_noise_pct": noise_pct,
+            "highest_risk_segment": segment_payload(highest_risk_seg, include_exits=True),
+            "lowest_risk_segment": segment_payload(lowest_risk_seg),
+            "top_pressure_role": role_payload,
             "total_anomalies_flagged": total_anomalies,
             "anomaly_percentage": anomaly_pct,
             "assessed_records": total_employees,
@@ -181,25 +249,43 @@ class SegmentationService:
             "confirmed_notice_exits": total_notice_exits,
             "simulated_additional_exits": total_sim_exits,
             "overall_simulated_attrition_rate": overall_attr_rate,
-            "data_quality_status": "Valid — 47,972 non-notice cohort clustered",
+            "data_quality_status": data_quality_status,
             "last_calculated_at": cls._last_calculated_at or datetime.now(timezone.utc).isoformat()
         }
+
+    @classmethod
+    def _get_source_row_count(cls, pipeline: WorkforceSegmentation) -> int:
+        """Use the loaded employee sheet when available; otherwise use cohort sizes."""
+        try:
+            if ExcelService.is_loaded():
+                employees = ExcelService.get_sheet("Employees")
+                if employees is not None:
+                    return int(len(employees))
+        except Exception:
+            logger.debug("Unable to read Employees sheet row count", exc_info=True)
+        population = getattr(pipeline, "df_population", None)
+        notice = getattr(pipeline, "df_notice", None)
+        return int(len(population) if population is not None else 0) + int(len(notice) if notice is not None else 0)
 
     @classmethod
     def get_five_algorithm_benchmark(cls, k: Optional[int] = None) -> Dict[str, Any]:
         """Returns the 5-algorithm unsupervised clustering benchmark results."""
         pipeline = cls.get_pipeline(k=k)
-        if pipeline.five_algorithm_benchmark is None:
+        if getattr(pipeline, "five_algorithm_benchmark", None) is None:
             pipeline.benchmark_five_algorithms(k=pipeline.k)
-        return pipeline.five_algorithm_benchmark
+            cls._cached_benchmark = getattr(pipeline, "five_algorithm_benchmark", None)
+        benchmark = getattr(pipeline, "five_algorithm_benchmark", None)
+        return benchmark if isinstance(benchmark, dict) else {"selected_algorithm": None, "candidates": []}
 
     @classmethod
-    def get_pca_projection(cls) -> Dict[str, Any]:
-        """Returns 2D PCA projection coordinates and explained-variance ratios."""
-        pipeline = cls.get_pipeline()
-        if pipeline.pca_projection_data is None:
+    def get_pca_projection(cls, k: Optional[int] = None) -> Dict[str, Any]:
+        """Return PCA coordinates for the requested/current K assignment."""
+        pipeline = cls.get_pipeline(k=k)
+        if getattr(pipeline, "pca_projection_data", None) is None:
             pipeline.compute_pca_projection()
-        return pipeline.pca_projection_data
+            cls._cached_pca = getattr(pipeline, "pca_projection_data", None)
+        result = getattr(pipeline, "pca_projection_data", None)
+        return result if isinstance(result, dict) else {"points": []}
 
     @classmethod
     def get_segment_profiles_data(cls, k: Optional[int] = None) -> List[Dict[str, Any]]:
@@ -209,9 +295,46 @@ class SegmentationService:
             pipeline.profile_segments()
 
         df = pipeline.segment_profiles.copy()
-        total_notice = len(pipeline.df_notice) if pipeline.df_notice is not None else 2028
+        total_notice = len(pipeline.df_notice) if pipeline.df_notice is not None else 0
         df["Allocated_Notice_Exits"] = ((df["Pct_Workforce"] / 100.0) * total_notice).round(0).astype(int)
         df["Total_Replacement_Need"] = df["Allocated_Notice_Exits"] + df["Simulated_Exits"]
+
+        # Add verified gender counts per cluster from the exact employee rows
+        # assigned by the active model. Never infer gender from names.
+        segmented = getattr(pipeline, "df_segmented", None)
+        gender_available = (
+            segmented is not None
+            and not segmented.empty
+            and "Segment_ID" in segmented.columns
+            and "Gender" in segmented.columns
+        )
+        gender_counts = {}
+        if gender_available:
+            gender_values = segmented["Gender"].astype("string").fillna("").str.strip().str.casefold()
+            gender_source = segmented[["Segment_ID"]].copy()
+            gender_source["_gender_norm"] = gender_values
+            for segment_id, group in gender_source.groupby("Segment_ID", dropna=False):
+                normalized = group["_gender_norm"]
+                male_count = int(normalized.isin(["male", "m", "man"]).sum())
+                female_count = int(normalized.isin(["female", "f", "woman"]).sum())
+                other_count = int(len(group) - male_count - female_count)
+                gender_counts[int(segment_id)] = {
+                    "Gender_Counts_Available": True,
+                    "Gender_Male_Count": male_count,
+                    "Gender_Female_Count": female_count,
+                    "Gender_Other_Count": other_count,
+                }
+
+        df["Gender_Counts_Available"] = bool(gender_available)
+        df["Gender_Male_Count"] = None
+        df["Gender_Female_Count"] = None
+        df["Gender_Other_Count"] = None
+        if gender_available:
+            for row_index, row in df.iterrows():
+                counts = gender_counts.get(int(row["Segment_ID"]))
+                if counts:
+                    for field, value in counts.items():
+                        df.at[row_index, field] = value
 
         # Ensure both alias column names exist
         if "Flight_Risk_Rate_Pct" in df.columns and "Simulated_Attrition_Pct" not in df.columns:
@@ -227,12 +350,15 @@ class SegmentationService:
         return df.to_dict(orient="records")
 
     @classmethod
-    def get_k_evaluation_data(cls) -> List[Dict[str, Any]]:
-        """Returns candidate K evaluation metrics."""
-        pipeline = cls.get_pipeline()
-        if not pipeline.k_evaluation_results:
-            pipeline.evaluate_k_candidates(range(3, 8))
-        return pipeline.k_evaluation_results
+    def get_k_evaluation_data(cls, selected_k: Optional[int] = None) -> List[Dict[str, Any]]:
+        """Return evaluation metrics for candidate K values (not only selected K)."""
+        pipeline = cls.get_pipeline(k=selected_k)
+        results = getattr(pipeline, "k_evaluation_results", None)
+        if not results:
+            pipeline.evaluate_k_candidates(range(2, 11))
+            results = getattr(pipeline, "k_evaluation_results", None)
+        cls._cached_k_eval = results or []
+        return cls._cached_k_eval
 
     @classmethod
     def get_role_pressure_data(cls, department: Optional[str] = None, pressure_tier: Optional[str] = None) -> List[Dict[str, Any]]:
@@ -268,10 +394,16 @@ class SegmentationService:
         if pipeline.anomalies_df is None:
             pipeline.detect_workload_pay_anomalies()
 
-        df = pipeline.anomalies_df.copy()
+        source_df = getattr(pipeline, "anomalies_df", None)
+        df = source_df.copy() if source_df is not None else pd.DataFrame()
+        if df.empty:
+            return {"records": [], "total_records": 0, "page": 1, "page_size": max(1, min(_safe_int(page_size, 10), 100)), "total_pages": 1, "anomaly_types": []}
 
-        # Check column name (Anomaly_Category vs Anomaly_Type)
+        # Support both supported anomaly category field names.
         cat_col = "Anomaly_Category" if "Anomaly_Category" in df.columns else "Anomaly_Type"
+        if cat_col not in df.columns:
+            df["Anomaly_Type"] = "Unknown"
+            cat_col = "Anomaly_Type"
         if "Anomaly_Type" not in df.columns:
             df["Anomaly_Type"] = df[cat_col]
 
@@ -280,14 +412,14 @@ class SegmentationService:
 
         if search_query:
             q = str(search_query).strip().lower()
-            mask = (
-                df["Employee_ID"].str.lower().str.contains(q, na=False) |
-                df["Department"].str.lower().str.contains(q, na=False) |
-                df["Job_Role"].str.lower().str.contains(q, na=False) |
-                df[cat_col].str.lower().str.contains(q, na=False)
-            )
+            mask = pd.Series(False, index=df.index)
+            for column in ("Employee_ID", "Department", "Job_Role", cat_col):
+                if column in df.columns:
+                    mask |= _as_search_text(df[column]).str.contains(q, na=False, regex=False)
             df = df[mask]
 
+        page_size = max(1, min(_safe_int(page_size, 10), 100))
+        page = max(1, _safe_int(page, 1))
         total_records = len(df)
         total_pages = max(1, (total_records + page_size - 1) // page_size)
         page = max(1, min(page, total_pages))
@@ -313,11 +445,16 @@ class SegmentationService:
         job_role: Optional[str] = None,
         search: Optional[str] = None,
         page: int = 1,
-        page_size: int = 10
+        page_size: int = 10,
+        k: Optional[int] = None
     ) -> Dict[str, Any]:
-        """Returns searchable and paginated employee cluster assignments."""
-        pipeline = cls.get_pipeline()
-        df = pipeline.df_segmented.copy()
+        """Returns searchable and paginated employee cluster assignments for selected K."""
+        pipeline = cls.get_pipeline(k=k)
+        source_df = getattr(pipeline, "df_segmented", None)
+        df = source_df.copy() if source_df is not None else pd.DataFrame()
+        if df.empty:
+            page_size = max(1, min(_safe_int(page_size, 10), 100))
+            return {"records": [], "total_records": 0, "page": 1, "page_size": page_size, "total_pages": 1}
 
         # Ensure Employee_Name is present and joined from authoritative source
         if "Employee_Name" not in df.columns or df["Employee_Name"].isnull().any():
@@ -334,15 +471,14 @@ class SegmentationService:
             df = df[df["Job_Role"] == job_role]
         if search:
             q = str(search).strip().lower()
-            mask = (
-                df["Employee_ID"].str.lower().str.contains(q, na=False) |
-                df["Department"].str.lower().str.contains(q, na=False) |
-                df["Job_Role"].str.lower().str.contains(q, na=False)
-            )
-            if "Employee_Name" in df.columns:
-                mask = mask | df["Employee_Name"].str.lower().str.contains(q, na=False)
+            mask = pd.Series(False, index=df.index)
+            for column in ("Employee_ID", "Department", "Job_Role", "Employee_Name"):
+                if column in df.columns:
+                    mask |= _as_search_text(df[column]).str.contains(q, na=False, regex=False)
             df = df[mask]
 
+        page_size = max(1, min(_safe_int(page_size, 10), 100))
+        page = max(1, _safe_int(page, 1))
         total_records = len(df)
         total_pages = max(1, (total_records + page_size - 1) // page_size)
         page = max(1, min(page, total_pages))
@@ -370,26 +506,58 @@ class SegmentationService:
 
     @classmethod
     def get_data_quality_summary(cls) -> Dict[str, Any]:
-        """Returns comprehensive data quality metrics for the segmentation pipeline."""
+        """Calculate data quality and coverage metrics from available pipeline data."""
         pipeline = cls.get_pipeline()
-        total_source = 50000
-        notice_count = len(pipeline.df_notice) if pipeline.df_notice is not None else 2028
-        eligible_count = len(pipeline.df_population) if pipeline.df_population is not None else 47972
-        clustered_count = len(pipeline.df_segmented) if pipeline.df_segmented is not None else eligible_count
+        population = getattr(pipeline, "df_population", None)
+        notice = getattr(pipeline, "df_notice", None)
+        segmented = getattr(pipeline, "df_segmented", None)
+        anomalies = getattr(pipeline, "anomalies_df", None)
+        transformed = getattr(pipeline, "X_transformed", None)
+
+        source_rows = cls._get_source_row_count(pipeline)
+        notice_count = len(notice) if notice is not None else 0
+        eligible_count = len(population) if population is not None else max(0, source_rows - notice_count)
+        clustered_count = len(segmented) if segmented is not None else 0
+        coverage_pct = round(clustered_count / max(1, eligible_count) * 100, 2)
+
+        employee_ids = None
+        try:
+            if ExcelService.is_loaded():
+                employee_df = ExcelService.get_sheet("Employees")
+                if employee_df is not None and "Employee_ID" in employee_df.columns:
+                    employee_ids = employee_df["Employee_ID"]
+        except Exception:
+            logger.debug("Unable to inspect Employee_ID data quality", exc_info=True)
+        duplicate_ids = int(employee_ids.duplicated().sum()) if employee_ids is not None else 0
+
+        feature_names = getattr(pipeline, "NUMERIC_FEATURES", []) or []
+        categorical_names = getattr(pipeline, "CATEGORICAL_FEATURES", []) or []
+        try:
+            feature_count = len(feature_names) + len(categorical_names)
+        except TypeError:
+            feature_count = 0
+        transformed_dimensions = int(transformed.shape[1]) if transformed is not None and hasattr(transformed, "shape") and len(transformed.shape) > 1 else 0
+        anomaly_count = len(anomalies) if anomalies is not None else 0
+
+        missing_critical = 0
+        if population is not None and not population.empty:
+            critical_columns = [c for c in (list(feature_names) + list(categorical_names)) if c in population.columns]
+            if critical_columns:
+                missing_critical = int(population[critical_columns].isna().any(axis=1).sum())
 
         return {
-            "source_row_count": total_source,
+            "source_row_count": source_rows,
             "eligible_employee_count": eligible_count,
             "excluded_record_count": notice_count,
             "exclusion_reason": "Employees currently serving contractual notice periods as of snapshot date",
-            "duplicate_employee_ids": 0,
-            "missing_critical_features": 0,
-            "raw_feature_count": len(pipeline.NUMERIC_FEATURES) + len(pipeline.CATEGORICAL_FEATURES),
-            "transformed_feature_dimensions": pipeline.X_transformed.shape[1] if pipeline.X_transformed is not None else 26,
+            "duplicate_employee_ids": duplicate_ids,
+            "missing_critical_features": missing_critical,
+            "raw_feature_count": feature_count,
+            "transformed_feature_dimensions": transformed_dimensions,
             "successfully_clustered_count": clustered_count,
-            "clustering_coverage_pct": 100.0,
+            "clustering_coverage_pct": coverage_pct,
             "anomalies_assessed_count": eligible_count,
-            "anomalies_flagged_count": len(pipeline.anomalies_df) if pipeline.anomalies_df is not None else 960,
+            "anomalies_flagged_count": anomaly_count,
             "anomaly_contamination_setting": "2.0%",
             "fairness_demographics_excluded_from_clustering": ["Age", "Gender"],
             "target_labels_excluded_from_clustering": ["Attrition_Within_6M"]
@@ -443,8 +611,7 @@ class SegmentationService:
     @classmethod
     def refit_k(cls, k: int) -> Dict[str, Any]:
         """Dynamically and rapidly reclusters workforce with a newly requested K value."""
-        if k < 2 or k > 10:
-            raise ValueError("K must be between 2 and 10.")
+        k = _validate_k(k)
         pipeline = cls.get_pipeline(k=k, force_refit=False)
         return {
             "success": True,
@@ -510,12 +677,12 @@ class SegmentationService:
 
                 # Metadata sheet
                 meta_records = [
-                    {"Parameter": "Algorithm Selected", "Value": "K-Means (Evaluated against 5 Algorithms)"},
+                    {"Parameter": "Algorithm Selected", "Value": (getattr(pipeline, "five_algorithm_benchmark", None) or {}).get("selected_algorithm") or "Not evaluated"},
                     {"Parameter": "Cluster Count (K)", "Value": target_k},
                     {"Parameter": "Random State", "Value": pipeline.random_state},
-                    {"Parameter": "Eligible Clustered Population", "Value": len(pipeline.df_population) if pipeline.df_population is not None else 47972},
-                    {"Parameter": "Notice Exclusions", "Value": len(pipeline.df_notice) if pipeline.df_notice is not None else 2028},
-                    {"Parameter": "Total Source Records", "Value": 50000},
+                    {"Parameter": "Eligible Clustered Population", "Value": len(pipeline.df_population) if pipeline.df_population is not None else 0},
+                    {"Parameter": "Notice Exclusions", "Value": len(pipeline.df_notice) if pipeline.df_notice is not None else 0},
+                    {"Parameter": "Total Source Records", "Value": cls._get_source_row_count(pipeline)},
                     {"Parameter": "Generated At (UTC)", "Value": datetime.now(timezone.utc).isoformat()},
                     {"Parameter": "Synthetic Notice", "Value": config.DISCLAIMER_TEXT}
                 ]

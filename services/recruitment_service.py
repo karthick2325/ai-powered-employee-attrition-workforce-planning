@@ -138,6 +138,52 @@ class RecruitmentService:
             }
         }
 
+
+    @classmethod
+    def get_department_hiring_performance(cls) -> Dict[str, Any]:
+        """Department-level hiring demand, completed hires, vacancies and fill rate."""
+        req_df = ExcelService.get_sheet("Job_Requisitions").copy()
+        required = ["Department", "Positions_Requested", "Hires_Made", "Positions_Remaining"]
+        missing = [column for column in required if column not in req_df.columns]
+        if missing:
+            logger.warning("Job_Requisitions missing columns for hiring chart: %s", missing)
+            return {"departments": [], "positions_requested": [], "hires_made": [], "positions_remaining": [], "fill_rate_pct": [], "records": 0, "available": False, "message": "Hiring data is missing required columns: " + ", ".join(missing)}
+
+        req_df["Department"] = req_df["Department"].astype("string").str.strip()
+        req_df = req_df[req_df["Department"].notna() & req_df["Department"].ne("")].copy()
+        for column in ["Positions_Requested", "Hires_Made", "Positions_Remaining"]:
+            req_df[column] = pd.to_numeric(req_df[column], errors="coerce")
+        req_df = req_df.dropna(subset=["Positions_Requested", "Hires_Made", "Positions_Remaining"])
+        if req_df.empty:
+            return {"departments": [], "positions_requested": [], "hires_made": [], "positions_remaining": [], "fill_rate_pct": [], "records": 0, "available": False, "message": "No valid hiring records are available for the selected data."}
+
+        # Keep open vacancies semantically consistent with the Open Positions KPI.
+        if "Requisition_Status_As_Of_Prediction" in req_df.columns:
+            status = req_df["Requisition_Status_As_Of_Prediction"].astype("string").str.strip().str.casefold()
+            req_df["_open_positions"] = req_df["Positions_Remaining"].where(status.eq("open"), 0)
+        else:
+            req_df["_open_positions"] = req_df["Positions_Remaining"]
+
+        grouped = req_df.groupby("Department", as_index=False).agg(
+            positions_requested=("Positions_Requested", "sum"),
+            hires_made=("Hires_Made", "sum"),
+            positions_remaining=("_open_positions", "sum"),
+            requisitions=("Department", "size")
+        )
+        grouped["fill_rate_pct"] = (grouped["hires_made"] / grouped["positions_requested"].replace(0, pd.NA) * 100).fillna(0).round(1)
+        grouped = grouped.sort_values("positions_requested", ascending=False)
+        return {
+            "departments": grouped["Department"].astype(str).tolist(),
+            "positions_requested": grouped["positions_requested"].round(0).astype(int).tolist(),
+            "hires_made": grouped["hires_made"].round(0).astype(int).tolist(),
+            "positions_remaining": grouped["positions_remaining"].round(0).astype(int).tolist(),
+            "fill_rate_pct": grouped["fill_rate_pct"].tolist(),
+            "requisitions": grouped["requisitions"].astype(int).tolist(),
+            "records": int(len(req_df)),
+            "available": True,
+            "message": ""
+        }
+
     @classmethod
     def get_training_analytics(cls) -> Dict[str, Any]:
         """
@@ -146,22 +192,47 @@ class RecruitmentService:
         """
         emp_df = ExcelService.get_sheet("Employees")
         
-        total_hours = float(emp_df["Training_Hours_Last_12M"].sum())
-        avg_hours = round(float(emp_df["Training_Hours_Last_12M"].mean()), 1)
-        med_hours = float(emp_df["Training_Hours_Last_12M"].median())
+        if "Training_Hours_Last_12M" not in emp_df.columns:
+            return {
+                "total_training_hours": 0, "average_training_hours_per_employee": None,
+                "median_training_hours": None,
+                "department_breakdown": {"departments": [], "average_hours": [], "total_hours": []},
+                "level_breakdown": {"levels": [], "average_hours": [], "headcount": []},
+                "financial_note": "Training hours column is unavailable in the employee workbook."
+            }
+        emp_df = emp_df.copy()
+        emp_df["Training_Hours_Last_12M"] = pd.to_numeric(emp_df["Training_Hours_Last_12M"], errors="coerce")
+        valid_hours = emp_df.dropna(subset=["Training_Hours_Last_12M"])
+        total_hours = float(valid_hours["Training_Hours_Last_12M"].sum()) if not valid_hours.empty else 0.0
+        avg_hours = round(float(valid_hours["Training_Hours_Last_12M"].mean()), 1) if not valid_hours.empty else None
+        med_value = valid_hours["Training_Hours_Last_12M"].median() if not valid_hours.empty else None
+        med_hours = round(float(med_value), 1) if pd.notna(med_value) else None
 
-        # Department-wise training
-        dept_train = emp_df.groupby("Department")["Training_Hours_Last_12M"].agg(["mean", "median", "sum"]).reset_index()
-        dept_train["mean"] = dept_train["mean"].round(1)
+        # Department-wise training; exclude blank categories and invalid measurements.
+        dept_source = valid_hours.dropna(subset=["Department"]).copy() if "Department" in valid_hours.columns else pd.DataFrame()
+        if not dept_source.empty:
+            dept_source["Department"] = dept_source["Department"].astype(str).str.strip()
+            dept_source = dept_source[dept_source["Department"].ne("")]
+            dept_train = dept_source.groupby("Department")["Training_Hours_Last_12M"].agg(["mean", "median", "sum"]).reset_index()
+            dept_train["mean"] = dept_train["mean"].round(1)
+            dept_train["sum"] = dept_train["sum"].round(0).astype(int)
+        else:
+            dept_train = pd.DataFrame(columns=["Department", "mean", "median", "sum"])
 
-        # Job Level training
-        level_train = emp_df.groupby("Job_Level")["Training_Hours_Last_12M"].agg(["mean", "median", "count"]).reset_index()
-        level_train["mean"] = level_train["mean"].round(1)
+        # Job-level training; exclude missing labels and invalid measurements.
+        level_source = valid_hours.dropna(subset=["Job_Level"]).copy() if "Job_Level" in valid_hours.columns else pd.DataFrame()
+        if not level_source.empty:
+            level_source["Job_Level"] = level_source["Job_Level"].astype(str).str.strip()
+            level_source = level_source[level_source["Job_Level"].ne("")]
+            level_train = level_source.groupby("Job_Level")["Training_Hours_Last_12M"].agg(["mean", "median", "count"]).reset_index()
+            level_train["mean"] = level_train["mean"].round(1)
+        else:
+            level_train = pd.DataFrame(columns=["Job_Level", "mean", "median", "count"])
 
         return {
             "total_training_hours": int(total_hours),
             "average_training_hours_per_employee": avg_hours,
-            "median_training_hours": int(med_hours),
+            "median_training_hours": med_hours,
             "department_breakdown": {
                 "departments": dept_train["Department"].tolist(),
                 "average_hours": dept_train["mean"].tolist(),

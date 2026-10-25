@@ -1776,3 +1776,48 @@ body:has(#wfHeadcountChart) .chart-container canvas {
 }
 
 
+
+
+/* Employee Analytics: compact four-chart layout and mixed-chart sizing */
+body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
+}
+
+body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid > .card {
+    min-width: 0;
+    margin: 0;
+}
+
+body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid .chart-container {
+    height: 300px;
+    min-height: 260px;
+}
+
+body:has(#chartDeptHeadcountAttrition) .analytics-combo-chart {
+    height: 320px;
+}
+
+@media (max-width: 1100px) {
+    body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+@media (max-width: 700px) {
+    body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body:has(#chartDeptHeadcountAttrition) .analytics-charts-grid .chart-container,
+    body:has(#chartDeptHeadcountAttrition) .analytics-combo-chart {
+        height: 280px;
+        min-height: 250px;
+    }
+}
+
+

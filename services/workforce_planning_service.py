@@ -28,6 +28,7 @@ class WorkforcePlanningService:
         current_headcount = len(emp_df)
         serving_notice = len(notice_df)
         active_headcount = max(0, current_headcount - serving_notice)
+
         predicted_exits = pred_kpis["predicted_high_risk"]
         historical_actual_exits = int(outcomes_df["Attrition_Within_6M"].sum())
         
@@ -66,18 +67,66 @@ class WorkforcePlanningService:
 
     @classmethod
     def get_headcount_analysis_by_department(cls) -> Dict[str, Any]:
-        """Provides current vs target headcount by department for bar chart."""
-        wp_df = ExcelService.get_sheet("Workforce_Planning")
-        depts = wp_df["Department"].tolist()
-        current = wp_df["Total_Employees_In_Snapshot"].tolist()
-        target = wp_df["Target_Headcount_Illustrative"].tolist()
-        gap = wp_df["Planning_Gap_After_Open_Requisition_Estimate"].tolist()
+        """Return department headcount/target and verified gender counts from Employees."""
+        wp_df = ExcelService.get_sheet("Workforce_Planning").copy()
+        emp_df = ExcelService.get_sheet("Employees").copy()
+
+        # Normalize column names once; the source workbook may contain whitespace/case variations.
+        wp_cols = {str(col).strip().casefold(): col for col in wp_df.columns}
+        emp_cols = {str(col).strip().casefold(): col for col in emp_df.columns}
+        required_wp = ["department", "total_employees_in_snapshot", "target_headcount_illustrative"]
+        missing_wp = [name for name in required_wp if name not in wp_cols]
+        if missing_wp:
+            raise KeyError(f"Workforce_Planning missing required columns: {missing_wp}")
+
+        depts = wp_df[wp_cols["department"]].fillna("Unknown").astype(str).str.strip().tolist()
+        current = pd.to_numeric(wp_df[wp_cols["total_employees_in_snapshot"]], errors="coerce").fillna(0).astype(int).tolist()
+        target = pd.to_numeric(wp_df[wp_cols["target_headcount_illustrative"]], errors="coerce").fillna(0).astype(int).tolist()
+        gap_col = wp_cols.get("planning_gap_after_open_requisition_estimate")
+        if gap_col:
+            gap = pd.to_numeric(wp_df[gap_col], errors="coerce").fillna(0).astype(int).tolist()
+        else:
+            gap = [max(0, t-c) for c, t in zip(current, target)]
+
+        gender_col = emp_cols.get("gender")
+        department_col = emp_cols.get("department")
+        gender_available = gender_col is not None and department_col is not None
+        male_by_department = []
+        female_by_department = []
+        non_disclosed_by_department = []
+
+        if gender_available:
+            emp_df["__department_key"] = emp_df[department_col].fillna("").astype(str).str.strip().str.casefold()
+            gender_values = emp_df[gender_col].fillna("").astype(str).str.strip().str.casefold()
+            male_mask = gender_values.isin({"m", "male", "man"})
+            female_mask = gender_values.isin({"f", "female", "woman"})
+            # Blank/missing gender is not counted as non-disclosed; explicit non-disclosed values are.
+            undisclosed_mask = gender_values.isin({"non-disclosed", "non disclosed", "undisclosed", "not disclosed", "other", "prefer not to say", "prefer_not_to_say"})
+            emp_df["__male"] = male_mask.astype(int)
+            emp_df["__female"] = female_mask.astype(int)
+            emp_df["__non_disclosed"] = undisclosed_mask.astype(int)
+            grouped = emp_df.groupby("__department_key", dropna=False)[["__male", "__female", "__non_disclosed"]].sum()
+            for dept in depts:
+                key = str(dept).strip().casefold()
+                if key in grouped.index:
+                    male_by_department.append(int(grouped.loc[key, "__male"]))
+                    female_by_department.append(int(grouped.loc[key, "__female"]))
+                    non_disclosed_by_department.append(int(grouped.loc[key, "__non_disclosed"]))
+                else:
+                    male_by_department.append(0)
+                    female_by_department.append(0)
+                    non_disclosed_by_department.append(0)
 
         return {
             "departments": depts,
             "current_headcount": current,
             "target_headcount": target,
-            "gap_after_open": gap
+            "gap_after_open": gap,
+            "male_by_department": male_by_department if gender_available else None,
+            "female_by_department": female_by_department if gender_available else None,
+            "non_disclosed_by_department": non_disclosed_by_department if gender_available else None,
+            "gender_breakdown_available": gender_available,
+            "gender_source_column": str(gender_col) if gender_available else None,
         }
 
     @classmethod

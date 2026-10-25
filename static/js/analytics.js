@@ -106,133 +106,169 @@ async function loadDepartmentCharts() {
         const filters = getAnalyticsFilters();
         const res = await API.get('/api/analytics/charts', filters);
         if (reqId !== chartsRequestId || !res.success) return;
-        const c = res.charts;
 
-        // 1. Headcount
-        renderChart('chartDeptHeadcount', {
-            type: 'bar',
-            data: {
-                labels: c.headcount.departments,
-                datasets: [{
-                    label: 'Headcount',
-                    data: c.headcount.values,
-                    backgroundColor: '#0D63F3',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#F1F5F9' } }, x: { grid: { display: false } } }
-            }
+        const c = res.charts || {};
+        const headcount = c.headcount || {};
+        const departments = headcount.departments || [];
+        const values = (series, expectedLength = departments.length) => {
+            const source = Array.isArray(series) ? series : [];
+            return Array.from({ length: expectedLength }, (_, i) => {
+                const value = source[i];
+                if (value === null || value === undefined || value === '' || !Number.isFinite(Number(value))) return null;
+                return Number(value);
+            });
+        };
+        const byDepartment = (series, targetDepartments = departments) => {
+            const sourceDepartments = series?.departments || [];
+            const sourceValues = Array.isArray(series?.values) ? series.values : [];
+            const lookup = new Map(sourceDepartments.map((dept, i) => [dept, sourceValues[i]]));
+            return targetDepartments.map(dept => {
+                const value = lookup.get(dept);
+                return value === null || value === undefined || value === '' || !Number.isFinite(Number(value)) ? null : Number(value);
+            });
+        };
+        const aligned = c.attrition_rate_aligned || {};
+        const attritionMap = new Map((c.attrition_rate?.departments || []).map((dept, i) => [dept, c.attrition_rate?.rates?.[i]]));
+        const attritionValues = departments.map((dept, i) => {
+            const raw = aligned.departments?.length ? aligned.rates?.[i] : attritionMap.get(dept);
+            return raw === null || raw === undefined || raw === '' || !Number.isFinite(Number(raw)) ? null : Number(raw);
         });
+        const gender = c.gender_by_department || { available: false };
+        const numberText = value => value === null || value === undefined || !Number.isFinite(Number(value))
+            ? 'N/A' : Number(value).toLocaleString(undefined, { maximumFractionDigits: 1 });
+        const scoreText = value => value === null || value === undefined || !Number.isFinite(Number(value))
+            ? 'N/A' : `${Number(value).toFixed(1)} / 5`;
 
-        // 2. Attrition Rate
-        renderChart('chartDeptAttrition', {
-            type: 'bar',
-            data: {
-                labels: c.attrition_rate.departments,
-                datasets: [{
-                    label: 'Attrition Rate (%)',
-                    data: c.attrition_rate.rates,
-                    backgroundColor: '#F87171',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, ticks: { callback: v => `${v}%` }, grid: { color: '#F1F5F9' } },
-                    x: { grid: { display: false } }
+        const emptyStatePlugin = {
+            id: 'analyticsEmptyState',
+            afterDraw(chart) {
+                const labels = chart.data?.labels || [];
+                const hasValues = (chart.data?.datasets || []).some(ds => (ds.data || []).some(v => v !== null && v !== undefined && Number.isFinite(Number(v))));
+                if (labels.length && hasValues) return;
+                const { ctx, chartArea } = chart;
+                if (!chartArea) return;
+                ctx.save();
+                ctx.fillStyle = '#64748B';
+                ctx.font = '500 13px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('No data for the selected filters', (chartArea.left + chartArea.right) / 2, (chartArea.top + chartArea.bottom) / 2);
+                ctx.restore();
+            }
+        };
+        const sharedOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: true, position: 'top', labels: { usePointStyle: true, boxWidth: 9, padding: 12 } },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: context => {
+                            const raw = context.parsed?.y ?? context.raw;
+                            const label = context.dataset.label || '';
+                            if (raw === null || raw === undefined || !Number.isFinite(Number(raw))) return `${label}: N/A`;
+                            const val = Number(raw).toLocaleString(undefined, { maximumFractionDigits: 1 });
+                            return `${label}: ${val}${label.includes('(%)') ? '%' : ''}`;
+                        }
+                    }
                 }
-            }
-        });
-
-        // 3. Tenure
-        renderChart('chartDeptTenure', {
-            type: 'bar',
-            data: {
-                labels: c.tenure.departments,
-                datasets: [{
-                    label: 'Avg. Tenure (Months)',
-                    data: c.tenure.values,
-                    backgroundColor: '#10B981',
-                    borderRadius: 6
-                }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#F1F5F9' } }, x: { grid: { display: false } } }
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#64748B', maxRotation: 30, minRotation: 0 } },
+                y: { beginAtZero: true, grid: { color: '#F1F5F9' }, ticks: { color: '#64748B' } }
             }
-        });
+        };
+        const plugins = [emptyStatePlugin];
 
-        // 4. Satisfaction
-        renderChart('chartDeptSatisfaction', {
+        // 1. Department headcount columns + attrition line. Gender is shown only in this chart's tooltip.
+        renderChart('chartDeptHeadcountAttrition', {
             type: 'bar',
-            data: {
-                labels: c.satisfaction.departments,
-                datasets: [{
-                    label: 'Avg. Satisfaction',
-                    data: c.satisfaction.values,
-                    backgroundColor: '#FFA726',
-                    borderRadius: 6
-                }]
-            },
+            data: { labels: departments, datasets: [
+                { type: 'bar', label: 'Headcount (employees)', data: values(headcount.values), yAxisID: 'y', backgroundColor: '#397FF5', borderColor: '#397FF5', borderRadius: 5, maxBarThickness: 38, order: 2 },
+                { type: 'line', label: 'Attrition Rate (6M, %)', data: attritionValues, yAxisID: 'y1', borderColor: '#E34B65', backgroundColor: '#E34B65', pointBackgroundColor: '#E34B65', pointBorderColor: '#FFFFFF', pointBorderWidth: 2, pointRadius: 4, pointHoverRadius: 6, borderWidth: 3, tension: 0.25, fill: false, spanGaps: false, order: 1 }
+            ] },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                ...sharedOptions, plugins: { ...sharedOptions.plugins, tooltip: { ...sharedOptions.plugins.tooltip, callbacks: {
+                    ...sharedOptions.plugins.tooltip.callbacks,
+                    afterBody: items => {
+                        if (!items?.length) return [];
+                        const idx = items[0].dataIndex;
+                        if (!gender.available) return ['Gender breakdown: N/A (Gender column unavailable)'];
+                        return [
+                            `Male employees: ${numberText(gender.male?.[idx])}`,
+                            `Female employees: ${numberText(gender.female?.[idx])}`,
+                            `Non-disclosed / other: ${numberText(gender.non_disclosed?.[idx])}`,
+                            ...(Number(gender.unknown?.[idx] || 0) > 0 ? [`Unknown / missing: ${numberText(gender.unknown[idx])}`] : [])
+                        ];
+                    }
+                } } },
                 scales: {
-                    y: { beginAtZero: true, max: 5, grid: { color: '#F1F5F9' } },
-                    x: { grid: { display: false } }
+                    ...sharedOptions.scales,
+                    y: { ...sharedOptions.scales.y, position: 'left', title: { display: true, text: 'Employees' }, ticks: { color: '#397FF5', callback: v => Number(v).toLocaleString() } },
+                    y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Attrition rate (%)' }, ticks: { color: '#E34B65', callback: v => `${v}%` } }
                 }
-            }
+            }, plugins
         });
 
-        // 5. Overtime
-        renderChart('chartDeptOvertime', {
-            type: 'bar',
-            data: {
-                labels: c.overtime.departments,
-                datasets: [{
-                    label: 'Avg. Overtime (Hours)',
-                    data: c.overtime.values,
-                    backgroundColor: '#8547F5',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#F1F5F9' } }, x: { grid: { display: false } } }
-            }
+        // 2. Performance and satisfaction share the same 1–5 scale; WLB is in the tooltip.
+        const performanceValues = byDepartment(c.performance);
+        const satisfactionValues = byDepartment(c.satisfaction);
+        const wlbValues = byDepartment(c.work_life_balance);
+        renderChart('chartDeptPerformanceSatisfaction', {
+            type: 'bar', data: { labels: departments, datasets: [
+                { label: 'Performance Rating (out of 5)', data: performanceValues, backgroundColor: '#397FF5', borderRadius: 5, maxBarThickness: 26 },
+                { label: 'Job Satisfaction (out of 5)', data: satisfactionValues, backgroundColor: '#FFA726', borderRadius: 5, maxBarThickness: 26 }
+            ] },
+            options: { ...sharedOptions, plugins: { ...sharedOptions.plugins, tooltip: { ...sharedOptions.plugins.tooltip, callbacks: {
+                ...sharedOptions.plugins.tooltip.callbacks,
+                afterBody: items => items?.length ? [`Work-life balance: ${scoreText(wlbValues[items[0].dataIndex])}`] : []
+            } } }, scales: { ...sharedOptions.scales, y: { ...sharedOptions.scales.y, min: 0, max: 5, ticks: { stepSize: 1 }, title: { display: true, text: 'Average score (1–5)' } } } }, plugins
         });
 
-        // 6. Training Hours
-        renderChart('chartDeptTraining', {
-            type: 'bar',
-            data: {
-                labels: c.training.departments,
-                datasets: [{
-                    label: 'Training Hours',
-                    data: c.training.values,
-                    backgroundColor: '#00B4D8',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#F1F5F9' } }, x: { grid: { display: false } } }
-            }
+        // 3. Overtime and satisfaction trend helps flag a possible workload association, not causation.
+        const overtimeValues = byDepartment(c.overtime);
+        renderChart('chartDeptOvertimeSatisfaction', {
+            type: 'bar', data: { labels: departments, datasets: [
+                { type: 'bar', label: 'Overtime (hours/month)', data: overtimeValues, yAxisID: 'y', backgroundColor: '#8547F5', borderRadius: 5, maxBarThickness: 38, order: 2 },
+                { type: 'line', label: 'Job Satisfaction (out of 5)', data: satisfactionValues, yAxisID: 'y1', borderColor: '#E34B65', backgroundColor: '#E34B65', pointBackgroundColor: '#E34B65', pointBorderColor: '#FFFFFF', pointBorderWidth: 2, pointRadius: 4, borderWidth: 3, tension: 0.25, fill: false, order: 1 }
+            ] },
+            options: { ...sharedOptions, plugins: { ...sharedOptions.plugins, tooltip: { ...sharedOptions.plugins.tooltip, callbacks: {
+                ...sharedOptions.plugins.tooltip.callbacks,
+                afterBody: items => items?.length ? [
+                    `Performance rating: ${scoreText(performanceValues[items[0].dataIndex])}`,
+                    `Work-life balance: ${scoreText(wlbValues[items[0].dataIndex])}`,
+                    `Training hours (last 12M): ${numberText(byDepartment(c.training)[items[0].dataIndex])}`
+                ] : []
+            } } }, scales: {
+                ...sharedOptions.scales,
+                y: { ...sharedOptions.scales.y, position: 'left', title: { display: true, text: 'Overtime hours / month' } },
+                y1: { beginAtZero: true, min: 0, max: 5, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Satisfaction (1–5)' }, ticks: { stepSize: 1, color: '#E34B65' } }
+            } }, plugins
         });
+
+        // 4. Training and tenure, each with its own clearly labelled axis.
+        const trainingValues = byDepartment(c.training);
+        const tenureValues = byDepartment(c.tenure);
+        renderChart('chartDeptTrainingTenure', {
+            type: 'bar', data: { labels: departments, datasets: [
+                { type: 'bar', label: 'Training (hours / last 12M)', data: trainingValues, yAxisID: 'y', backgroundColor: '#00A6C7', borderRadius: 5, maxBarThickness: 38, order: 2 },
+                { type: 'line', label: 'Average Tenure (months)', data: tenureValues, yAxisID: 'y1', borderColor: '#10B981', backgroundColor: '#10B981', pointBackgroundColor: '#10B981', pointBorderColor: '#FFFFFF', pointBorderWidth: 2, pointRadius: 4, borderWidth: 3, tension: 0.25, fill: false, order: 1 }
+            ] },
+            options: { ...sharedOptions, plugins: { ...sharedOptions.plugins, tooltip: { ...sharedOptions.plugins.tooltip, callbacks: {
+                ...sharedOptions.plugins.tooltip.callbacks,
+                afterBody: items => items?.length ? [
+                    `Performance rating: ${scoreText(performanceValues[items[0].dataIndex])}`,
+                    `Job satisfaction: ${scoreText(satisfactionValues[items[0].dataIndex])}`
+                ] : []
+            } } }, scales: {
+                ...sharedOptions.scales,
+                y: { ...sharedOptions.scales.y, position: 'left', title: { display: true, text: 'Training hours / last 12 months' } },
+                y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Average tenure (months)' }, ticks: { color: '#10B981' } }
+            } }, plugins
+        });
+
     } catch (err) {
         console.error('Error loading department charts:', err);
     }
@@ -388,7 +424,7 @@ function setupEventHandlers() {
     });
 
     document.getElementById('filterTenure')?.addEventListener('input', (e) => {
-        document.getElementById('tenureValDisplay').textContent = `0 - ${e.target.value}`;
+        document.getElementById('tenureValDisplay').textContent = `${document.getElementById('filterTenure')?.min || 0} - ${e.target.value}`;
     });
 
     document.getElementById('employeeSearchInput')?.addEventListener('input', () => {

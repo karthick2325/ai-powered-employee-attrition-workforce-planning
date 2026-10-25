@@ -650,6 +650,7 @@ class WorkforceSegmentation:
         pop_compa_mean = df["Compa_Ratio"].mean()
 
         profiles = []
+        used_archetype_names = set()
         for seg_id in sorted(df["Segment_ID"].unique()):
             seg_data = df[df["Segment_ID"] == seg_id]
             headcount = len(seg_data)
@@ -680,6 +681,24 @@ class WorkforceSegmentation:
             archetype_name, action = self._derive_archetype_and_action(
                 avg_tenure, avg_compa, avg_sat, avg_wlb, avg_ot, dom_level, exit_rate
             )
+
+            # Make each cluster label distinct and grounded in its own profile.
+            # Base archetypes may repeat when two clusters share the same broad
+            # pattern, so enrich labels with dominant department, role and tenure.
+            dept_short = str(dom_dept).strip() or "Mixed Department"
+            role_short = str(dom_role).strip() or "Mixed Role"
+            candidate_name = f"{archetype_name} — {dept_short} / {role_short}"
+            if candidate_name.casefold() in used_archetype_names:
+                candidate_name = f"{candidate_name} · {round(avg_tenure)} mo tenure"
+            if candidate_name.casefold() in used_archetype_names:
+                candidate_name = f"{candidate_name} · Cohort {int(seg_id) + 1}"
+            suffix_index = 2
+            unique_candidate = candidate_name
+            while unique_candidate.casefold() in used_archetype_names:
+                unique_candidate = f"{candidate_name} ({suffix_index})"
+                suffix_index += 1
+            archetype_name = unique_candidate
+            used_archetype_names.add(archetype_name.casefold())
 
             profiles.append({
                 "Segment_ID": seg_id,

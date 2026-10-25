@@ -28,7 +28,7 @@ def get_dashboard_overview():
         emp_df = ExcelService.get_sheet("Employees")
         outcomes_df = ExcelService.get_sheet("Attrition_Outcomes")
         notice_df = ExcelService.get_sheet("Notice_Period")
-        
+
         # 1. Top 6 KPIs
         total_employees = len(emp_df)
         historical_attrition = int(outcomes_df["Attrition_Within_6M"].sum())
@@ -58,7 +58,7 @@ def get_dashboard_overview():
 
         # 2. Charts Data
         dept_charts = AnalyticsService.get_department_charts_data()
-        
+
         # Attrition outcome distribution (Doughnut)
         stayed_count = total_eligible - historical_attrition
         attrition_distribution = {
@@ -128,6 +128,7 @@ def get_dashboard_overview():
             "headcount_by_department": dept_charts["headcount"],
             "attrition_outcome_distribution": attrition_distribution,
             "attrition_rate_by_department": dept_charts["attrition_rate"],
+            "attrition_rate_by_department_aligned": dept_charts["attrition_rate_aligned"],
             "risk_distribution": risk_distribution,
             "notice_monthly_exits": monthly_exits,
             "workforce_target_comparison": headcount_comparison,
