@@ -1,0 +1,42 @@
+/* Append to the end of the existing main stylesheet. */
+.chart-period-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 10px;
+}
+.chart-period-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: 1px solid #dbe7f7;
+    border-radius: 6px;
+    background: #f5f8ff;
+    color: #52627a;
+    font-size: 11px;
+    line-height: 1.35;
+}
+.chart-period-chip > span {
+    color: #19345b;
+    font-weight: 600;
+}
+.kpi-period {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 10px;
+    line-height: 1.35;
+}
+.dashboard-reading-note {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 14px;
+    padding: 9px 12px;
+    border: 1px solid #dbe7f7;
+    border-radius: 8px;
+    background: #f8fbff;
+    color: #52627a;
+    font-size: 11px;
+    line-height: 1.4;
+}
