@@ -6,6 +6,8 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     let currentK = 5;
+    let currentProfiles = [];
+    let segmentNameById = new Map();
     let segEmpPage = 1;
     let segEmpPageSize = 10;
     let segEmpSearch = "";
@@ -21,8 +23,36 @@ document.addEventListener("DOMContentLoaded", function () {
         loadAllData(currentK);
     }
 
+
+    function setText(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value == null ? "—" : String(value);
+    }
+
+    function formatCount(value) {
+        const number = Number(value);
+        return value == null || !Number.isFinite(number) ? "—" : number.toLocaleString();
+    }
+
     function setupEventListeners() {
-        // K Selector Buttons
+        // K selector (2-10 segments). Backend endpoints must accept the selected k.
+        const kSelect = document.getElementById("segmentationKSelect");
+        if (kSelect) {
+            kSelect.value = String(currentK);
+            kSelect.addEventListener("change", function () {
+                const selectedK = Number.parseInt(this.value, 10);
+                if (Number.isInteger(selectedK) && selectedK >= 2 && selectedK <= 10 && selectedK !== currentK) {
+                    currentK = selectedK;
+                    segEmpPage = 1;
+                    segEmpFilterSegment = -1;
+                    const filter = document.getElementById("segFilterSegment");
+                    if (filter) filter.value = "-1";
+                    handleKChange(selectedK);
+                }
+            });
+        }
+
+        // Backward compatibility for existing .k-btn controls, if present.
         const kBtns = document.querySelectorAll(".k-btn");
         kBtns.forEach(btn => {
             btn.addEventListener("click", function () {
@@ -93,9 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function loadAllData(k) {
         loadOverviewKpis(k);
-        loadBenchmarkData(false);
-        loadPcaScatter();
-        loadOptimizationCurves();
+        loadPcaScatter(k);
         loadSegmentProfiles(k);
         loadSegmentEmployees();
         loadRolePressureData();
@@ -105,8 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleKChange(k) {
         loadOverviewKpis(k);
         loadSegmentProfiles(k);
-        loadOptimizationCurves();
-        loadPcaScatter();
+        loadPcaScatter(k);
         loadSegmentEmployees();
     }
 
@@ -114,24 +141,48 @@ document.addEventListener("DOMContentLoaded", function () {
     // 1. Executive KPIs
     // -------------------------------------------------------------
     function loadOverviewKpis(k) {
-        fetch(`/api/segmentation/overview?k=${k}`)
-            .then(res => res.json())
+        fetch(`/api/segmentation/overview?k=${encodeURIComponent(k)}`)
+            .then(async response => {
+                const body = await response.json();
+                if (!response.ok || body.success === false) {
+                    throw new Error(body.error || `Overview API failed (${response.status})`);
+                }
+                return body;
+            })
             .then(res => {
                 if (res.success && res.data) {
                     const d = res.data;
-                    document.getElementById("kpiTotalClustered").textContent = (d.total_clustered_employees || 47972).toLocaleString();
-                    document.getElementById("kpiSegmentCountBadge").textContent = `K = ${d.current_k || k} Segments`;
-                    document.getElementById("kpiBestModel").textContent = d.best_validated_algorithm || "K-Means";
-                    document.getElementById("kpiBestModelMetric").textContent = `Silhouette: ${d.silhouette_score || '0.0602'}`;
-                    document.getElementById("kpiTotalAnomalies").textContent = (d.total_anomalies_flagged || 960).toLocaleString();
-                    
-                    if (d.top_pressure_role) {
-                        document.getElementById("kpiTopPressureRatio").textContent = d.top_pressure_role.pressure_ratio.toFixed(3);
-                        document.getElementById("kpiTopPressureRole").textContent = `Top: ${d.top_pressure_role.job_role}`;
-                    }
+                    // Display only values returned by the backend; do not invent fallback metrics.
+                    setText("kpiTotalClustered", formatCount(d.total_clustered_employees));
+                    setText("kpiSegmentCountBadge", `K = ${d.current_k ?? k} Segments`);
+                    setText("kpiBestModel", d.best_validated_algorithm || "K-Means");
+                    const silhouette = d.silhouette_score == null ? null : Number(d.silhouette_score);
+                    setText("kpiBestModelMetric", silhouette == null || !Number.isFinite(silhouette)
+                        ? "Cluster separation: unavailable"
+                        : silhouette < 0.20
+                            ? `Low separation (silhouette: ${silhouette.toFixed(4)})`
+                            : `Silhouette score: ${silhouette.toFixed(4)}`);
+                    setText("kpiSegmentCoverage", d.clustering_coverage_pct == null
+                        ? "—" : `${Number(d.clustering_coverage_pct).toFixed(1)}%`);
+                    setText("kpiNoiseRate", d.unassigned_noise_pct == null
+                        ? "—" : `${Number(d.unassigned_noise_pct).toFixed(1)}%`);
+                    setText("kpiTotalAnomalies", formatCount(d.total_anomalies_flagged));
+                    setText("kpiTopPressureRatio", d.top_pressure_role?.pressure_ratio == null
+                        ? "—" : Number(d.top_pressure_role.pressure_ratio).toFixed(3));
+                    setText("kpiTopPressureRole", d.top_pressure_role?.job_role
+                        ? `Top: ${d.top_pressure_role.job_role}` : "No role-pressure data");
                 }
             })
-            .catch(err => console.error("Error loading KPIs:", err));
+            .catch(err => {
+                console.error("Error loading KPIs:", err);
+                setText("kpiTotalClustered", "Unavailable");
+                setText("kpiSegmentCoverage", "Unavailable");
+                setText("kpiNoiseRate", "Unavailable");
+                setText("kpiTopPressureRatio", "Unavailable");
+                setText("kpiTotalAnomalies", "Unavailable");
+                setText("kpiBestModelMetric", `Could not load KPI data: ${String(err.message || err)}`);
+                setText("segmentationStatus", "Some segmentation KPIs could not load. Check the backend API and application log.");
+            });
     }
 
     // -------------------------------------------------------------
@@ -140,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadBenchmarkData(forceRerun) {
         const tbody = document.getElementById("benchmarkTbody");
         if (!tbody) return;
+
         if (forceRerun) {
             tbody.innerHTML = `<tr><td colspan="11" class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary"></div> Running 5-algorithm benchmark...</td></tr>`;
         }
@@ -149,12 +201,21 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => {
                 if (res.success && res.data) {
                     const b = res.data;
-                    document.getElementById("benchmarkTimestampBadge").textContent = `Evaluated: ${b.dataset_records.toLocaleString()} Active Records`;
-                    
+                    setText("benchmarkTimestampBadge", b.dataset_records == null
+                        ? "Benchmark evaluated" : `Evaluated: ${formatCount(b.dataset_records)} Active Records`);
+                    const winner = Array.isArray(b.candidates)
+                        ? b.candidates.find(candidate => candidate.name === b.selected_algorithm) : null;
+                    setText("kpiSegmentCoverage", winner?.coverage_percentage == null
+                        ? "—" : `${Number(winner.coverage_percentage).toFixed(1)}%`);
+                    setText("kpiNoiseRate", winner?.noise_percentage == null
+                        ? "—" : `${Number(winner.noise_percentage).toFixed(1)}%`);
+
                     // Rationale banner
                     const alertEl = document.getElementById("selectionRationaleText");
                     if (alertEl) {
-                        alertEl.innerHTML = `<strong>Recommended Model: ${b.selected_algorithm}</strong> &mdash; ${b.selection_rationale}`;
+                        alertEl.textContent = b.selected_algorithm
+                            ? `Recommended Model: ${b.selected_algorithm} — ${b.selection_rationale || "No selection rationale was returned."}`
+                            : "No validated algorithm recommendation is available.";
                     }
 
                     // Render Table
@@ -162,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     b.candidates.forEach(c => {
                         const tr = document.createElement("tr");
                         const isWinner = c.name === b.selected_algorithm;
+
                         if (isWinner) {
                             tr.style.backgroundColor = "#F0FDF4";
                             tr.style.fontWeight = "600";
@@ -199,20 +261,51 @@ document.addEventListener("DOMContentLoaded", function () {
     // -------------------------------------------------------------
     // 3. 2D PCA Dimensionality Projection Scatter Chart
     // -------------------------------------------------------------
-    function loadPcaScatter() {
-        fetch(`/api/segmentation/pca`)
+    function loadPcaScatter(k = currentK) {
+        fetch(`/api/segmentation/pca?k=${encodeURIComponent(k)}`)
             .then(res => res.json())
             .then(res => {
                 if (res.success && res.data) {
                     const pca = res.data;
-                    document.getElementById("pcaVarianceBadge").textContent = `PC1: ${pca.pc1_explained_variance_pct}% | PC2: ${pca.pc2_explained_variance_pct}% | Total: ${pca.total_explained_variance_pct}%`;
-                    renderPcaChart(pca.points);
+                    const badge = document.getElementById("pcaVarianceBadge");
+                    if (badge) badge.textContent = pca.total_explained_variance_pct == null
+                        ? "PCA variance unavailable"
+                        : `PC1: ${pca.pc1_explained_variance_pct}% | PC2: ${pca.pc2_explained_variance_pct}% | Total: ${pca.total_explained_variance_pct}%`;
+                    if (Array.isArray(pca.points) && pca.points.length) renderPcaChart(pca.points);
+                    else showChartMessage("chartPcaScatter", "No PCA points are available for this selection.");
+                } else {
+                    showChartMessage("chartPcaScatter", "PCA data is unavailable for this selection.");
                 }
             })
-            .catch(err => console.error("Error loading PCA:", err));
+            .catch(err => {
+                console.error("Error loading PCA:", err);
+                showChartMessage("chartPcaScatter", "Could not load PCA data. Check the backend API.");
+            });
+    }
+
+    function showChartMessage(canvasId, message) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        if (canvas._emptyMessageNode) canvas._emptyMessageNode.remove();
+        canvas.style.display = "none";
+        const note = document.createElement("div");
+        note.className = "text-muted text-center py-5";
+        note.setAttribute("role", "status");
+        note.textContent = message;
+        canvas.parentElement.appendChild(note);
+        canvas._emptyMessageNode = note;
+    }
+
+    function clearChartMessage(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        if (canvas._emptyMessageNode) canvas._emptyMessageNode.remove();
+        canvas._emptyMessageNode = null;
+        canvas.style.display = "block";
     }
 
     function renderPcaChart(points) {
+        clearChartMessage("chartPcaScatter");
         const ctx = document.getElementById("chartPcaScatter");
         if (!ctx) return;
 
@@ -277,8 +370,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // -------------------------------------------------------------
     // 4. Cluster Optimization & Separation Curves
     // -------------------------------------------------------------
-    function loadOptimizationCurves() {
-        fetch(`/api/segmentation/k-evaluation`)
+    function loadOptimizationCurves(k = currentK) {
+        fetch(`/api/segmentation/k-evaluation?selected_k=${encodeURIComponent(k)}`)
             .then(res => res.json())
             .then(res => {
                 if (res.success && res.data) {
@@ -352,18 +445,149 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // -------------------------------------------------------------
+    // Segment naming helpers
+    // Prefer backend-generated names. If names are blank/duplicated,
+    // create distinct descriptive fallback names from each cluster profile.
+    // These are descriptive labels, not attrition predictions.
+    // -------------------------------------------------------------
+    function safeNumber(value) {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : null;
+    }
+
+    function getProfileMetric(p, keys) {
+        for (const key of keys) {
+            const value = safeNumber(p[key]);
+            if (value !== null) return value;
+        }
+        return null;
+    }
+
+    function buildUniqueSegmentNames(profiles) {
+        const used = new Set();
+        const nameMap = new Map();
+
+        // First preserve names that are already unique.
+        const normalized = profiles.map(p => ({
+            ...p,
+            _baseName: String(p.Archetype_Name || "").trim()
+        }));
+
+        const counts = new Map();
+        normalized.forEach(p => {
+            const key = p._baseName.toLowerCase();
+            if (key) counts.set(key, (counts.get(key) || 0) + 1);
+        });
+
+        normalized.forEach(p => {
+            const id = Number(p.Segment_ID);
+            const base = p._baseName;
+            let name = base;
+
+            if (!base || counts.get(base.toLowerCase()) > 1) {
+                const tenure = getProfileMetric(p, ["Avg_Tenure_Months", "Avg_Tenure"]);
+                const compa = getProfileMetric(p, ["Avg_Compa_Ratio", "Avg_Compa"]);
+                const satisfaction = getProfileMetric(p, ["Avg_Job_Satisfaction", "Satisfaction"]);
+                const overtime = getProfileMetric(p, ["Avg_Overtime_Hours", "Avg_Overtime"]);
+                const wlb = getProfileMetric(p, ["Avg_Work_Life_Balance", "Avg_WLB"]);
+
+                if (compa !== null && compa < 0.90) {
+                    name = "Compensation Review Cohort";
+                } else if (tenure !== null && tenure >= 72) {
+                    name = "Experienced Core Workforce";
+                } else if (overtime !== null && overtime >= 10) {
+                    name = "Workload Review Cohort";
+                } else if (satisfaction !== null && satisfaction < 3.2) {
+                    name = "Employee Support Priority Group";
+                } else if (wlb !== null && wlb < 3.0) {
+                    name = "Work-Life Balance Support Group";
+                } else if (tenure !== null && tenure < 40) {
+                    name = "Developing Workforce";
+                } else if (compa !== null && compa >= 1.10) {
+                    name = "Market-Aligned Specialist Cohort";
+                } else {
+                    name = "Established Operational Workforce";
+                }
+            }
+
+            // Guarantee uniqueness even when two clusters have similar profiles.
+            if (used.has(name.toLowerCase())) {
+                const tenure = getProfileMetric(p, ["Avg_Tenure_Months", "Avg_Tenure"]);
+                const suffix = tenure !== null ? ` (${Math.round(tenure)} mo tenure)` : ` (Cluster ${id + 1})`;
+                name = `${name}${suffix}`;
+            }
+
+            let candidate = name;
+            let counter = 2;
+            while (used.has(candidate.toLowerCase())) {
+                candidate = `${name} ${counter++}`;
+            }
+
+            name = candidate;
+            used.add(name.toLowerCase());
+            nameMap.set(id, name);
+        });
+
+        return nameMap;
+    }
+
+    function getSegmentDisplayName(segmentId) {
+        const id = Number(segmentId);
+        return segmentNameById.get(id) || `Segment ${id + 1}`;
+    }
+
+    function populateSegmentFilter(profiles) {
+        const select = document.getElementById("segFilterSegment");
+        if (!select) return;
+
+        const previous = select.value;
+        select.innerHTML = '<option value="-1">All Segments</option>';
+
+        profiles.forEach(p => {
+            const option = document.createElement("option");
+            option.value = String(p.Segment_ID);
+            option.textContent = `Segment ${Number(p.Segment_ID) + 1} — ${getSegmentDisplayName(p.Segment_ID)}`;
+            select.appendChild(option);
+        });
+
+        if ([...select.options].some(o => o.value === previous)) {
+            select.value = previous;
+        } else {
+            select.value = "-1";
+            segEmpFilterSegment = -1;
+        }
+    }
+
+    // -------------------------------------------------------------
     // 5. Segment Archetype Cards & Comparison Table
     // -------------------------------------------------------------
     function loadSegmentProfiles(k) {
         const cardsGrid = document.getElementById("segmentCardsGrid");
         const tbody = document.getElementById("segmentProfilesTbody");
 
-        fetch(`/api/segmentation/profiles?k=${k}`)
-            .then(res => res.json())
+        fetch(`/api/segmentation/profiles?k=${encodeURIComponent(k)}`)
+            .then(async response => {
+                const body = await response.json();
+                if (!response.ok || body.success === false) {
+                    throw new Error(body.error || `Profile API failed (${response.status})`);
+                }
+                return body;
+            })
             .then(res => {
-                if (res.success && res.data) {
+                if (res.success && Array.isArray(res.data)) {
                     const profiles = res.data;
+                    if (!profiles.length) {
+                        showChartMessage("chartSegmentDistribution", "No segment profile data is available for this K value.");
+                        throw new Error("No segment profiles were returned for the selected K.");
+                    }
+                    currentProfiles = profiles;
+                    segmentNameById = buildUniqueSegmentNames(profiles);
+                    populateSegmentFilter(profiles);
+
                     document.getElementById("segmentTableCountBadge").textContent = `K = ${profiles.length} Archetypes`;
+
+                    const kSelect = document.getElementById("segmentationKSelect");
+                    if (kSelect) kSelect.value = String(k);
 
                     // Render Cards
                     cardsGrid.innerHTML = "";
@@ -376,7 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span style="font-size:12px; font-weight:700; color:var(--primary-blue);">${p.Pct_Workforce}% Share</span>
                             </div>
                             <h4 style="font-size:15px; font-weight:700; color:var(--navy-text); margin:8px 0 4px;">
-                                ${p.Archetype_Name}
+                                ${getSegmentDisplayName(p.Segment_ID)}
                             </h4>
                             <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
                                 <strong>Headcount:</strong> ${p.Headcount.toLocaleString()} employees | <strong>Dominant:</strong> ${p.Dominant_Department}
@@ -403,7 +627,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const tr = document.createElement("tr");
                         tr.innerHTML = `
                             <td><b>${p.Segment_ID + 1}</b></td>
-                            <td><b>${p.Archetype_Name}</b></td>
+                            <td><b>${getSegmentDisplayName(p.Segment_ID)}</b></td>
                             <td>${p.Headcount.toLocaleString()}</td>
                             <td>${p.Pct_Workforce}%</td>
                             <td>${p.Dominant_Department}</td>
@@ -418,39 +642,144 @@ document.addEventListener("DOMContentLoaded", function () {
                         tbody.appendChild(tr);
                     });
 
-                    // Render Segment Distribution Donut Chart if element exists
+                    // Render an HR-focused mixed chart: gender headcount stacked columns
+                    // plus average job satisfaction on a separate 1–5 axis.
                     const distCanvas = document.getElementById("chartSegmentDistribution");
                     if (distCanvas) {
-                        const palette = ["#0D63F3", "#22B573", "#FFA726", "#8B5CF6", "#EC4899", "#14B8A6"];
+                        clearChartMessage("chartSegmentDistribution");
                         if (window.segmentDistChartInstance) {
                             window.segmentDistChartInstance.destroy();
                         }
+
+                        const genderReady = profiles.every(p => p.Gender_Counts_Available === true
+                            && p.Gender_Male_Count != null
+                            && p.Gender_Female_Count != null
+                            && p.Gender_Other_Count != null);
+                        const safeMetric = (value, decimals = 1) => {
+                            const n = Number(value);
+                            return value == null || value === "" || !Number.isFinite(n)
+                                ? "N/A" : n.toFixed(decimals);
+                        };
+                        const safeCount = value => {
+                            const n = Number(value);
+                            return value == null || value === "" || !Number.isFinite(n)
+                                ? "N/A" : Math.round(n).toLocaleString();
+                        };
+                        const palette = ["#0D63F3", "#22B573", "#FFA726", "#8B5CF6", "#EC4899", "#14B8A6"];
+                        const chartData = {
+                            labels: profiles.map(p => `Segment ${Number(p.Segment_ID) + 1}`),
+                            datasets: []
+                        };
+
+                        if (genderReady) {
+                            chartData.datasets.push(
+                                {
+                                    type: "bar", label: "Male employees", stack: "gender",
+                                    data: profiles.map(p => Number(p.Gender_Male_Count)),
+                                    backgroundColor: "#397FF5", borderRadius: 4, yAxisID: "yHeadcount"
+                                },
+                                {
+                                    type: "bar", label: "Female employees", stack: "gender",
+                                    data: profiles.map(p => Number(p.Gender_Female_Count)),
+                                    backgroundColor: "#20B486", borderRadius: 4, yAxisID: "yHeadcount"
+                                },
+                                {
+                                    type: "bar", label: "Other / non-disclosed", stack: "gender",
+                                    data: profiles.map(p => Number(p.Gender_Other_Count)),
+                                    backgroundColor: "#F5A623", borderRadius: 4, yAxisID: "yHeadcount"
+                                }
+                            );
+                        } else {
+                            chartData.datasets.push({
+                                type: "bar", label: "Segment headcount", stack: "gender",
+                                data: profiles.map(p => Number(p.Headcount) || 0),
+                                backgroundColor: profiles.map((p, idx) => palette[idx % palette.length]),
+                                borderRadius: 4, yAxisID: "yHeadcount"
+                            });
+                        }
+
+                        chartData.datasets.push({
+                            type: "line",
+                            label: "Average job satisfaction (1–5)",
+                            data: profiles.map(p => {
+                                const value = Number(p.Avg_Job_Satisfaction);
+                                return p.Avg_Job_Satisfaction == null || !Number.isFinite(value) ? null : value;
+                            }),
+                            yAxisID: "ySatisfaction",
+                            borderColor: "#E34B65",
+                            backgroundColor: "#E34B65",
+                            pointBackgroundColor: "#E34B65",
+                            pointBorderColor: "#FFFFFF",
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 3,
+                            tension: 0.25,
+                            spanGaps: false
+                        });
+
                         const ctx = distCanvas.getContext("2d");
                         window.segmentDistChartInstance = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: profiles.map(p => `${p.Archetype_Name} (${p.Pct_Workforce}%)`),
-                                datasets: [{
-                                    data: profiles.map(p => p.Headcount),
-                                    backgroundColor: profiles.map((p, idx) => palette[idx % palette.length]),
-                                    borderWidth: 2,
-                                    borderColor: '#ffffff'
-                                }]
-                            },
+                            type: "bar",
+                            data: chartData,
                             options: {
                                 responsive: true,
                                 maintainAspectRatio: false,
-                                cutout: '65%',
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: { boxWidth: 12, font: { size: 11 } }
+                                interaction: { mode: "index", intersect: false },
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        grid: { display: false },
+                                        ticks: { color: "#64748B", maxRotation: 0, minRotation: 0 }
                                     },
+                                    yHeadcount: {
+                                        type: "linear", position: "left", stacked: true, beginAtZero: true,
+                                        title: { display: true, text: "Employees" },
+                                        ticks: { callback: value => Number(value).toLocaleString() },
+                                        grid: { color: "#EEF2F7" }
+                                    },
+                                    ySatisfaction: {
+                                        type: "linear", position: "right", min: 1, max: 5,
+                                        title: { display: true, text: "Average satisfaction (1–5)" },
+                                        grid: { drawOnChartArea: false },
+                                        ticks: { stepSize: 1 }
+                                    }
+                                },
+                                plugins: {
+                                    legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true, font: { size: 11 } } },
                                     tooltip: {
                                         callbacks: {
-                                            label: function (ctx) {
-                                                const p = profiles[ctx.dataIndex];
-                                                return ` ${p.Archetype_Name}: ${p.Headcount.toLocaleString()} (${p.Pct_Workforce}%)`;
+                                            title: items => {
+                                                const p = profiles[items[0]?.dataIndex];
+                                                return p ? `Segment ${Number(p.Segment_ID) + 1} — ${getSegmentDisplayName(p.Segment_ID)}` : "Segment details";
+                                            },
+                                            label: context => {
+                                                const p = profiles[context.dataIndex];
+                                                if (!p) return `${context.dataset.label}: N/A`;
+                                                if (context.dataset.label === "Male employees") return `Male employees: ${safeCount(p.Gender_Male_Count)}`;
+                                                if (context.dataset.label === "Female employees") return `Female employees: ${safeCount(p.Gender_Female_Count)}`;
+                                                if (context.dataset.label === "Other / non-disclosed") return `Other / non-disclosed: ${safeCount(p.Gender_Other_Count)}`;
+                                                if (context.dataset.label === "Segment headcount") return `Headcount: ${safeCount(p.Headcount)}`;
+                                                if (context.dataset.label === "Average job satisfaction (1–5)") return `Average satisfaction: ${safeMetric(p.Avg_Job_Satisfaction, 2)} / 5`;
+                                                return `${context.dataset.label}: ${safeCount(context.raw)}`;
+                                            },
+                                            afterBody: items => {
+                                                const p = profiles[items[0]?.dataIndex];
+                                                if (!p) return [];
+                                                const genderLines = p.Gender_Counts_Available === true
+                                                    ? [`Total gender-counted employees: ${safeCount(Number(p.Gender_Male_Count) + Number(p.Gender_Female_Count) + Number(p.Gender_Other_Count))}`]
+                                                    : ["Gender counts: unavailable in source data"];
+                                                return [
+                                                    `Workforce share: ${safeMetric(p.Pct_Workforce, 2)}%`,
+                                                    ...genderLines,
+                                                    `Average tenure: ${safeMetric(p.Avg_Tenure_Months)} months`,
+                                                    `Median salary: ${p.Median_Salary_INR == null ? "N/A" : "₹ " + safeCount(p.Median_Salary_INR)}`,
+                                                    `Compa-ratio: ${safeMetric(p.Avg_Compa_Ratio, 3)}x`,
+                                                    `Average overtime: ${safeMetric(p.Avg_Overtime_Hours)} hrs/month`,
+                                                    `Average training: ${safeMetric(p.Avg_Training_Hours)} hrs/12 months`,
+                                                    `Work-life balance: ${safeMetric(p.Avg_Work_Life_Balance, 2)} / 5`,
+                                                    `Observed 6-month outcome rate: ${safeMetric(p.Flight_Risk_Rate_Pct ?? p.Simulated_Attrition_Pct, 2)}%`
+                                                ];
                                             }
                                         }
                                     }
@@ -458,9 +787,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         });
                     }
+                } else {
+                    throw new Error("The profiles API returned an unexpected response format.");
                 }
             })
-            .catch(err => console.error("Error loading segment profiles:", err));
+            .catch(err => {
+                console.error("Error loading segment profiles:", err);
+                if (cardsGrid) cardsGrid.innerHTML = `<div class="text-danger">Could not load segment profiles: ${String(err.message || err)}</div>`;
+                if (tbody) tbody.innerHTML = `<tr><td colspan="12" class="text-center py-4 text-danger">Could not load profiles: ${String(err.message || err)}</td></tr>`;
+                showChartMessage("chartSegmentDistribution", "Segment chart data is unavailable. Check the profiles API.");
+                setText("segmentCardCountBadge", "Profiles unavailable");
+                setText("segmentTableCountBadge", "Profiles unavailable");
+            });
     }
 
     // -------------------------------------------------------------
@@ -470,21 +808,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const tbody = document.getElementById("segmentEmployeesTbody");
         tbody.innerHTML = `<tr><td colspan="12" class="text-center py-4 text-muted">Loading employees...</td></tr>`;
 
-        let url = `/api/segmentation/employees?page=${segEmpPage}&page_size=${segEmpPageSize}`;
+        let url = `/api/segmentation/employees?page=${segEmpPage}&page_size=${segEmpPageSize}&k=${encodeURIComponent(currentK)}`;
         if (segEmpFilterSegment >= 0) url += `&segment_id=${segEmpFilterSegment}`;
         if (segEmpSearch) url += `&search=${encodeURIComponent(segEmpSearch)}`;
 
         fetch(url)
             .then(res => res.json())
             .then(res => {
-                if (res.success && res.records) {
+                const payload = res && res.data ? res.data : res;
+                if (res.success && payload && Array.isArray(payload.records)) {
                     tbody.innerHTML = "";
-                    if (res.records.length === 0) {
+
+                    if (payload.records.length === 0) {
                         tbody.innerHTML = `<tr><td colspan="12" class="text-center py-4 text-muted">No employees found matching filter.</td></tr>`;
+                        const pageInfo = document.getElementById("segEmployeesPageInfo");
+                        if (pageInfo) pageInfo.textContent = "No matching employees";
                         return;
                     }
 
-                    res.records.forEach(emp => {
+                    payload.records.forEach(emp => {
                         const tr = document.createElement("tr");
                         const nameDisplay = emp.Employee_Name && emp.Employee_Name !== emp.Employee_ID
                             ? `<b>${emp.Employee_Name}</b>`
@@ -496,7 +838,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>${emp.Department}</td>
                             <td>${emp.Job_Role}</td>
                             <td>${emp.Job_Level}</td>
-                            <td><span class="badge-neutral">Segment ${emp.Segment_ID + 1}</span></td>
+                            <td><span class="badge-neutral" title="${getSegmentDisplayName(emp.Segment_ID)}">Segment ${emp.Segment_ID + 1}: ${getSegmentDisplayName(emp.Segment_ID)}</span></td>
                             <td>${emp.Tenure_Months_At_Prediction}</td>
                             <td>₹ ${emp.Annual_Salary_INR.toLocaleString()}</td>
                             <td>${emp.Compa_Ratio}x</td>
@@ -512,9 +854,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Update pagination
-                    document.getElementById("segEmpPageInfo")?.innerText || (document.getElementById("segEmployeesPageInfo").textContent = `Showing page ${res.page} of ${res.total_pages} (${res.total_records.toLocaleString()} total)`);
-                    document.getElementById("btnPrevSegEmp").disabled = (res.page <= 1);
-                    document.getElementById("btnNextSegEmp").disabled = (res.page >= res.total_pages);
+                    const pageInfo = document.getElementById("segEmployeesPageInfo");
+                    if (pageInfo) {
+                        pageInfo.textContent = `Showing page ${payload.page} of ${payload.total_pages} (${formatCount(payload.total_records)} total)`;
+                    }
+                    const previousButton = document.getElementById("btnPrevSegEmp");
+                    const nextButton = document.getElementById("btnNextSegEmp");
+                    if (previousButton) previousButton.disabled = (payload.page <= 1);
+                    if (nextButton) nextButton.disabled = (payload.page >= payload.total_pages);
 
                     // Attach inspect listener
                     document.querySelectorAll(".view-emp-btn").forEach(b => {
@@ -525,6 +872,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         });
                     });
+                } else {
+                    throw new Error(res.error || "Employee API returned an unexpected response format.");
                 }
             })
             .catch(err => {

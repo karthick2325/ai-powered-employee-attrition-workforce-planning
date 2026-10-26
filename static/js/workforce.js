@@ -65,37 +65,39 @@ async function loadWorkforceCharts() {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } },
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12 } },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                afterBody: (items) => {
+                                    const index = items && items.length ? items[0].dataIndex : -1;
+                                    if (index < 0) return [];
+                                    const male = Array.isArray(d.male_by_department) ? d.male_by_department[index] : null;
+                                    const female = Array.isArray(d.female_by_department) ? d.female_by_department[index] : null;
+                                    const undisclosed = Array.isArray(d.non_disclosed_by_department) ? d.non_disclosed_by_department[index] : null;
+                                    if (male === null || male === undefined || female === null || female === undefined) {
+                                        return ['Gender counts unavailable: check Employees.Gender in the workbook.'];
+                                    }
+                                    const lines = [
+                                        `Male employees: ${formatNumber(male)}`,
+                                        `Female employees: ${formatNumber(female)}`
+                                    ];
+                                    if (undisclosed !== null && undisclosed !== undefined) {
+                                        lines.push(`Non-disclosed / other: ${formatNumber(undisclosed)}`);
+                                    }
+                                    return lines;
+                                }
+                            }
+                        }
+                    },
                     scales: { y: { beginAtZero: true, grid: { color: '#F1F5F9' } }, x: { grid: { display: false } } }
                 }
             });
         }
 
-        // 2. Expected Exits Donut
-        const exitsRes = await API.get('/api/workforce/expected-exits-breakdown');
-        if (exitsRes.success && exitsRes.data) {
-            const d = exitsRes.data;
-            renderChart('wfExpectedExitsDonut', {
-                type: 'doughnut',
-                data: {
-                    labels: d.categories.map(c => `${c.label} (${c.pct}%)`),
-                    datasets: [{
-                        data: d.categories.map(c => c.count),
-                        backgroundColor: d.categories.map(c => c.color),
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
-                }
-            });
-        }
-
-        // 3. Monthly Expected Exits (Stacked Bar)
+        // 2. Monthly Expected Exits (Stacked Bar)
         const mRes = await API.get('/api/workforce/monthly-exits');
         if (mRes.success && mRes.data) {
             const d = mRes.data;
@@ -120,7 +122,7 @@ async function loadWorkforceCharts() {
             });
         }
 
-        // 4. Open Job Requisitions by Department
+        // 3. Open Job Requisitions by Department
         const reqRes = await API.get('/api/workforce/open-requisitions');
         if (reqRes.success && reqRes.data) {
             const d = reqRes.data;
