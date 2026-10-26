@@ -95,7 +95,7 @@
             <span class="badge-neutral">Where candidates progress or drop off</span>
         </div>
         <div class="card-body">
-            <p class="text-muted small mb-3">Compare the candidate volume reaching each stage. Values are based on the current recorded pipeline stages.</p>
+            <div class="recruitment-snapshot-row"><span class="recruitment-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container"><canvas id="chartCandidateFunnel" aria-label="Candidate pipeline conversion chart"></canvas></div>
         </div>
     </div>
@@ -109,7 +109,7 @@
             <span class="badge-neutral">Requested · Hired · Open positions · Fill rate</span>
         </div>
         <div class="card-body">
-            <p class="text-muted small mb-3">Which departments have the largest hiring demand, and where do vacancies remain? The line shows fill rate on a separate percentage axis.</p>
+            <div class="recruitment-snapshot-row"><span class="recruitment-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container"><canvas id="chartHiringByDepartment" aria-label="Hiring demand and fulfilment by department"></canvas></div>
         </div>
     </div>
@@ -125,7 +125,7 @@
             <span class="badge-neutral">INR · Itemized spend</span>
         </div>
         <div class="card-body">
-            <p class="text-muted small mb-3">See which recruitment activities account for the largest share of hiring expenditure.</p>
+            <div class="recruitment-snapshot-row"><span class="recruitment-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container"><canvas id="chartRecruitmentCosts" aria-label="Recruitment cost allocation chart"></canvas></div>
         </div>
     </div>
@@ -142,7 +142,7 @@
             </div>
         </div>
         <div class="card-body">
-            <p id="trainingChartDescription" class="text-muted small mb-3">Compare average training hours per employee across departments over the past 12 months.</p>
+            <div class="recruitment-snapshot-row"><span class="recruitment-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container"><canvas id="chartTrainingComparison" aria-label="Training hours comparison chart"></canvas></div>
         </div>
     </div>

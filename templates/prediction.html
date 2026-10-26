@@ -55,6 +55,7 @@
             <div class="kpi-title">Historical Baseline (6M)</div>
             <div class="kpi-value" id="kpiHistoricalBaseline">5.79%</div>
             <div class="kpi-subtitle">2,779 exits &bull; Threshold &ge; 60%</div>
+            <div class="kpi-period-chip">Duration: Last 6 months</div>
             <span id="kpiModelUsed" style="display:none;">Random Forest</span>
         </div>
     </div>
@@ -192,6 +193,10 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">View: Current risk estimate</span>
+                <span class="chart-period-chip">As of: <span class="prediction-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="predRiskDistChart"></canvas>
             </div>
@@ -207,6 +212,10 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">View: Current model estimate</span>
+                <span class="chart-period-chip">As of: <span class="prediction-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="predDeptRiskChart"></canvas>
             </div>
@@ -222,6 +231,9 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">View: Trained model features</span>
+            </div>
             <div class="chart-container">
                 <canvas id="predFeatureImportanceChart"></canvas>
             </div>

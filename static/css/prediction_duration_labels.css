@@ -1,0 +1,29 @@
+/* Append this block to the existing main stylesheet. */
+.chart-period-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 10px;
+}
+.chart-period-chip,
+.kpi-period-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: 1px solid #dbe7f7;
+    border-radius: 6px;
+    background: #f5f8ff;
+    color: #52627a;
+    font-size: 11px;
+    line-height: 1.35;
+}
+.chart-period-chip > span {
+    color: #19345b;
+    font-weight: 600;
+}
+.kpi-period-chip {
+    margin-top: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+}

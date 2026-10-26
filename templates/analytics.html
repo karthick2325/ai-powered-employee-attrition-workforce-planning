@@ -147,7 +147,7 @@
             </div>
         </div>
         <div class="card-body">
-            <p class="analytics-chart-help">Compare workforce size with attrition rate. Hover or tap a department to see Male, Female and Non-disclosed counts.</p>
+            <div class="analytics-snapshot-row"><span class="analytics-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container analytics-combo-chart">
                 <canvas id="chartDeptHeadcountAttrition" aria-label="Department headcount columns, attrition rate line, and gender counts in tooltip"></canvas>
             </div>
@@ -162,7 +162,7 @@
             </div>
         </div>
         <div class="card-body">
-            <p class="analytics-chart-help">Both scores use a 1–5 scale. Lower values can flag teams that may need support; hover for work-life balance context.</p>
+            <div class="analytics-snapshot-row"><span class="analytics-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container">
                 <canvas id="chartDeptPerformanceSatisfaction" aria-label="Department average performance rating and job satisfaction on a five-point scale"></canvas>
             </div>
@@ -177,7 +177,7 @@
             </div>
         </div>
         <div class="card-body">
-            <p class="analytics-chart-help">Compare monthly overtime with satisfaction to spot possible workload pressure. This is an association, not proof that overtime causes dissatisfaction.</p>
+            <div class="analytics-snapshot-row"><span class="analytics-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container analytics-combo-chart">
                 <canvas id="chartDeptOvertimeSatisfaction" aria-label="Department overtime hours per month and job satisfaction score"></canvas>
             </div>
@@ -192,7 +192,7 @@
             </div>
         </div>
         <div class="card-body">
-            <p class="analytics-chart-help">Compare training investment over the last 12 months with average employee tenure. The two measures use separate axes.</p>
+            <div class="analytics-snapshot-row"><span class="analytics-snapshot-chip">Snapshot: {{ snapshot_date }}</span></div>
             <div class="chart-container analytics-combo-chart">
                 <canvas id="chartDeptTrainingTenure" aria-label="Department training hours over twelve months and average tenure in months"></canvas>
             </div>

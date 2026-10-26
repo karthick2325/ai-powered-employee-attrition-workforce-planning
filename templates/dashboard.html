@@ -22,6 +22,7 @@
             <div class="kpi-title">Historical Attrition (6M)</div>
             <div class="kpi-value" id="kpiHistoricalAttrition">-</div>
             <div class="kpi-subtitle" id="kpiHistoricalAttritionPct">-</div>
+            <div class="kpi-period" id="kpiHistoricalPeriod">Duration: Last 6 months</div>
         </div>
     </div>
 
@@ -44,6 +45,7 @@
             <div class="kpi-title">Predicted High-Risk</div>
             <div class="kpi-value" id="kpiPredictedHighRisk">-</div>
             <div class="kpi-subtitle" id="kpiPredictedHighRiskPct">-</div>
+            <div class="kpi-period">Current model estimate</div>
         </div>
     </div>
 
@@ -82,6 +84,10 @@
             <span class="card-badge" id="headcountTotalBadge">Total: -</span>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">Duration: Last 6 months</span>
+                <span class="chart-period-chip">As of: <span class="dashboard-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="departmentWorkforceComboChart"
                         role="img"
@@ -100,6 +106,10 @@
             <span class="card-badge" id="attritionCohortBadge">From 47,972 records</span>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">Duration: Historical records</span>
+                <span class="chart-period-chip">Records: 47,972</span>
+            </div>
             <div class="chart-container">
                 <canvas id="attritionOutcomeChart"></canvas>
             </div>
@@ -119,6 +129,10 @@
             <span class="card-badge">Total Active</span>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">View: Current risk estimate</span>
+                <span class="chart-period-chip">As of: <span class="dashboard-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="employeeRiskChart"></canvas>
             </div>
@@ -134,6 +148,10 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">Duration: By expected exit month</span>
+                <span class="chart-period-chip">As of: <span class="dashboard-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="noticeExitsChart"></canvas>
             </div>
@@ -149,6 +167,10 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">View: Current vs target</span>
+                <span class="chart-period-chip">As of: <span class="dashboard-snapshot-date">Snapshot date</span></span>
+            </div>
             <div class="chart-container">
                 <canvas id="wfTargetComparisonChart"></canvas>
             </div>
@@ -167,6 +189,9 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">Duration: Current pipeline snapshot</span>
+            </div>
             <div class="chart-container">
                 <canvas id="recruitmentFunnelChart"></canvas>
             </div>
@@ -182,6 +207,10 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="chart-period-row">
+                <span class="chart-period-chip">Duration: Available recruitment records</span>
+                <span class="chart-period-chip">Currency: INR</span>
+            </div>
             <div style="display:flex; gap:12px; margin-bottom:16px;">
                 <div style="flex:1; background:#F8FAFD; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:12px;">
                     <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Total Recruitment Cost</div>
@@ -254,6 +283,10 @@
             </div>
         </div>
     </div>
+</div>
+<div class="dashboard-reading-note">
+    <span>Historical figures = past records.</span>
+    <span>Risk figures = current model estimates.</span>
 </div>
 {% endblock %}
 

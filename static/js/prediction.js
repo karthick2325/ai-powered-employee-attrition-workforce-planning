@@ -18,7 +18,22 @@ function getPredictionFilters() {
     };
 }
 
+// Populate compact chart date chips from the existing header snapshot date.
+function setPredictionSnapshotContext() {
+    const leafTexts = Array.from(document.querySelectorAll('body *'))
+        .filter((el) => el.children.length === 0)
+        .map((el) => (el.textContent || '').trim());
+    const dateText = leafTexts.find((text) =>
+        /^\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4}$/.test(text)
+    );
+    const snapshot = dateText || 'Snapshot date';
+    document.querySelectorAll('.prediction-snapshot-date').forEach((el) => {
+        el.textContent = snapshot;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    setPredictionSnapshotContext();
     await initFilterOptions();
     await loadPredictionKPIs();
     await loadPredictionCharts();

@@ -83,7 +83,8 @@
         </div>
         <div class="card-body">
             <div class="chart-container">
-                <canvas id="wfHeadcountChart"></canvas>
+                <div class="workforce-chart-meta"><span class="workforce-meta-chip">Duration: Current workforce snapshot</span><span class="workforce-meta-chip">Snapshot: {{ snapshot_date }}</span></div>
+            <canvas id="wfHeadcountChart"></canvas>
             </div>
         </div>
     </div>
@@ -98,7 +99,8 @@
         </div>
         <div class="card-body">
             <div class="chart-container">
-                <canvas id="wfMonthlyExitsChart"></canvas>
+                <div class="workforce-chart-meta"><span class="workforce-meta-chip">Duration: Expected exit months</span><span class="workforce-meta-chip">Snapshot: {{ snapshot_date }}</span></div>
+            <canvas id="wfMonthlyExitsChart"></canvas>
             </div>
         </div>
     </div>
@@ -283,7 +285,8 @@
         </div>
         <div class="card-body" style="gap:16px;">
             <div class="chart-container" style="height:240px; min-height:240px; max-height:240px; flex:0 0 240px;">
-                <canvas id="wfNoticeDistChart"></canvas>
+                <div class="workforce-chart-meta"><span class="workforce-meta-chip">Duration: Current notice-period snapshot</span><span class="workforce-meta-chip">Snapshot: {{ snapshot_date }}</span></div>
+            <canvas id="wfNoticeDistChart"></canvas>
             </div>
 
             <div style="border-top:1px solid var(--border-subtle); padding-top:14px;">

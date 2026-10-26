@@ -1,0 +1,19 @@
+/* Append to the end of static/css/style.css */
+.workforce-chart-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 10px;
+}
+.workforce-meta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid #dbe7f7;
+    border-radius: 6px;
+    background: #f5f8ff;
+    color: #52627a;
+    font-size: 11px;
+    line-height: 1.35;
+    white-space: nowrap;
+}

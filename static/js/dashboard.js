@@ -1,7 +1,28 @@
 /**
  * Workforce Intelligence — Dashboard Overview Controller
  */
+function setDashboardDateContext() {
+    const dateBadge = document.querySelector('[data-snapshot-date], .snapshot-date-value');
+    const headerText = Array.from(document.querySelectorAll('body *'))
+        .filter(el => el.children.length === 0)
+        .map(el => (el.textContent || '').trim())
+        .find(text => /^\\d{1,2}\\s+[A-Za-z]{3,9}\\s+\\d{4}$/.test(text));
+    const snapshotDate = (dateBadge && dateBadge.textContent.trim()) || headerText || 'the available snapshot date';
+    document.querySelectorAll('.dashboard-snapshot-date').forEach(el => {
+        el.textContent = snapshotDate;
+    });
+    const period = document.getElementById('kpiHistoricalPeriod');
+    if (period) period.textContent = `Six months ending ${snapshotDate}`;
+}
+
+function addCountAndPercentTooltips(chartConfig) {
+    // Intentionally left as a small shared helper point for future chart-specific formatting.
+    return chartConfig;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    setDashboardDateContext();
+
     try {
         const data = await API.get('/api/dashboard/overview');
         if (!data.success) {
@@ -60,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     },
                     {
                         type: 'line',
-                        label: 'Attrition Rate (6 Months)',
+                        label: 'Attrition Rate (6 Months ending snapshot date)',
                         data: alignedAttritionRates,
                         yAxisID: 'y1',
                         borderColor: '#E34B65',
@@ -155,8 +176,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             type: 'doughnut',
             data: {
                 labels: [
-                    `Stayed (${aDist.stayed_pct}%)`,
-                    `Attrition (${aDist.attrition_pct}%)`
+                    `Stayed: ${formatNumber(aDist.stayed_count)} (${aDist.stayed_pct}%)`,
+                    `Attrition: ${formatNumber(aDist.attrition_count)} (${aDist.attrition_pct}%)`
                 ],
                 datasets: [{
                     data: [aDist.stayed_count, aDist.attrition_count],
@@ -214,9 +235,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: (ctx) => ` Expected exits: ${formatNumber(ctx.parsed.y)}` } }
+                },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#F1F5F9' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Employees' }, grid: { color: '#F1F5F9' } },
                     x: { grid: { display: false } }
                 }
             }

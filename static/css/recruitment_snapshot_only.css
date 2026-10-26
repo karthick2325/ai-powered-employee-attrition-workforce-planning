@@ -1,0 +1,18 @@
+/* Append to the end of static/css/style.css */
+.recruitment-snapshot-row {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 8px;
+}
+.recruitment-snapshot-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid #dbe7f7;
+    border-radius: 6px;
+    background: #f5f8ff;
+    color: #52627a;
+    font-size: 11px;
+    line-height: 1.35;
+    white-space: nowrap;
+}
